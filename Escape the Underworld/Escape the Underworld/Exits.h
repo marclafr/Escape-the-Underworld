@@ -8,7 +8,8 @@ class Exits{
 public:
 	
 	Exits();
-	void Exit(Rooms* rooms);
+	void Exit(Rooms* rooms, char command);
+	bool WayClear(Rooms* room, char command);
 	~Exits();
 
 };

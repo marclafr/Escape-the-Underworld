@@ -14,5 +14,3 @@ Rooms::Rooms(){
 Rooms::~Rooms(){
 
 }
-
-//Rooms::Rooms(char name[20], char description[250]){}

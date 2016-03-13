@@ -8,10 +8,8 @@ int main(){
 
 	World my_world;
 
-	
-	
 	my_world.CreateWorld();
-
+	
 
 	getchar();
 	return 0;
