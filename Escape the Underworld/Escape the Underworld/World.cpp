@@ -42,9 +42,11 @@ void World::CreateWorld()const{
 	Player player;
 	Exits exit;
 	char command;
+	int position = 0;
 	do{
 		command = player.ReceiveCommand();
-		exit.Exit(rooms, command);
+		
+		exit.Exit(rooms, command, position);
 	} while (command != 'q');
 }
 

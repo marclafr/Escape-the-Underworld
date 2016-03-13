@@ -4,7 +4,7 @@
 #include "Rooms.h"
 #include "World.h"
 #include <string.h>
-#include <iostream>
+
 
 Player::Player(){
 	
@@ -14,9 +14,9 @@ Player::~Player(){
 }
 
 char Player::ReceiveCommand(){
-	char command[10]="go east";
+	char command[10];
 	char CommandLetter;
-//	scanf_s("%s", &command[0]);
+	gets_s(command, 10);
 	printf("%s", command);
 	getchar();
 
