@@ -15,6 +15,7 @@ public:
 	Room* origin;
 	Room* destination;
 	dir direction;
+	int blocked;
 	bool ClosedRooms(int BlockElm, int BlockPalace, char command, int position);
 
 	int Exits(char command, int position);

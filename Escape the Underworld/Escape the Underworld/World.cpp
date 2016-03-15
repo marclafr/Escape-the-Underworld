@@ -48,12 +48,14 @@ void World::CreateWorld(){
 	(exit + 0)->origin = (rooms + 0);
 	(exit + 0)->destination = (rooms + 1);
 	(exit + 0)->direction = South;
+	(exit + 0)->blocked = 0; //This exit has a door that can be opened/closed, it starts closed.
 	(exit + 1)->origin = (rooms + 0);
 	(exit + 1)->destination = (rooms + 2);
 	(exit + 1)->direction = North;
 	(exit + 2)->origin = (rooms + 1);
 	(exit + 2)->destination = (rooms + 0);
 	(exit + 2)->direction = North;
+	(exit + 2)->blocked = 0; //This exit has a door that can be opened/closed, it starts closed.
 	(exit + 3)->origin = (rooms + 2);
 	(exit + 3)->destination = (rooms + 0);
 	(exit + 3)->direction = South;
@@ -102,9 +104,11 @@ void World::CreateWorld(){
 	(exit + 18)->origin = (rooms + 9);
 	(exit + 18)->destination = (rooms + 10);
 	(exit + 18)->direction = South;
+	(exit + 18)->blocked = 0; //This exit has a door that can be opened/closed, it starts closed.
 	(exit + 19)->origin = (rooms + 10);
 	(exit + 19)->destination = (rooms + 9);
 	(exit + 19)->direction = North;
+	(exit + 19)->blocked = 0; //This exit has a door that can be opened/closed, it starts closed.
 	(exit + 20)->origin = (rooms + 9);
 	(exit + 20)->destination = (rooms + 11);
 	(exit + 20)->direction = West;
@@ -205,16 +209,26 @@ int World::GetDirection(char command){
 	else { return - 1; }
 }
 
+bool World::WayClear(int i){
+	if (exit[i].blocked == 0){ 
+		printf("Gate locked.\n");
+		return false;
+	}
+	else { return true; }
+}
+
 void World::Move(int CommandDir){
-	bool done = false;
+	bool done = false; //makes a path stop as soon as he finds another room.
 	for (int i = 0; i < 24; i++){
-		if (0 == strcmp(exit[i].origin->name, player->position->name)){
-			if (CommandDir == exit[i].direction) {
-				player->position = exit[i].destination;
-				printf("%s\n", player->position->name);
-				printf("%s\n", player->position->description);
-				done = true;
-				break;
+		if (0 == strcmp(exit[i].origin->name, player->position->name)){ //Compares if the position of the player and the origin of the exit is the same.
+			if (CommandDir == exit[i].direction) {//compares if the direction of the exit and the direction of the command is the same.
+				if (World::WayClear(i) == true){ //Looks if the path is looked or not.
+					player->position = exit[i].destination;
+					printf("%s\n", player->position->name);
+					printf("%s\n", player->position->description);
+					done = true;
+					break;
+				}
 			}
 		}
 	}

@@ -9,6 +9,7 @@ public:
 	World();
 	char ReceiveCommand();
 	int GetDirection(char command);
+	bool WayClear(int i);
 	void Move(int CommandDir);
 	void LookDirection(int CommandDir);
 	void CreateWorld();
