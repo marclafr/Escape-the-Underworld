@@ -10,11 +10,9 @@ public:
 	char ReceiveCommand();
 	int GetDirection(char command);
 	void Move(int CommandDir);
+	void LookDirection(int CommandDir);
 	void CreateWorld();
 	~World();
-
 };
-
-
 
 #endif //WORLD

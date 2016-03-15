@@ -15,10 +15,6 @@ World::World(){
 	exit = new Exit[24];
 }
 
-char* PositionName[NUM_ROOMS] = { "Entrance", "The Elm from which False Dreams cling", "Marsh", "Left side of river Styx", "Tartarus", "Phelgethon", "Right side of river Styx", "River Lethe", "Elysian Fields", "Fire Forest", "Palace of Hades", "Vale of Mourning", "Exit" };
-
-
-
 void World::CreateWorld(){
 	//Name and description from all the rooms in the game:
 	char* names[] = { "Entrance", "The Elm from which False Dreams cling", "Marsh", "Left side of river Styx", "Tartarus", "Phelgethon", "Right side of river Styx", "River Lethe", "Elysian Fields", "Fire Forest", "Palace of Hades", "Vale of Mourning", "Exit" };
@@ -123,18 +119,37 @@ void World::CreateWorld(){
 	(exit + 23)->direction = East;
 
 
-	
-	//int BlockElm = 1;
-	//int BlockPalace = 1;
+	//First place name and description
+	printf("%s\n", player->position->name);
+	printf("%s\n", player->position->description);
+	//--
+
 	do{
 		command = World::ReceiveCommand();
 
 		int CommandDir = World::GetDirection(command);
 		if (CommandDir == -1){
-			
+			//look 
+			if (command == 'l'){
+				printf("%s", player->position->description);
+			}
+			//--
+
+
+
+			//help menu
+			else if (command == 'h'){
+				printf("Help menu: \nTo move north, introduce north, n or go north.\nTo move south, introduce south, s or go south.\nTo move east, introduce east, e or go east.\nTo move west, introduce west, w or go west.\n\nThere are also those other commands: look:descrives the place you are in.\nlook + (direction): describe the path you want to take.\nOpen/Close: Opens or closes a door if it is possible.\nQuit: quits the game.");
+			}
+			//--
+
 			//printf("Wrong direction.\n");
 		}
-		else if (CommandDir == 0 || CommandDir == 1 || CommandDir == 2 || CommandDir==3) { World::Move(CommandDir); }
+
+		else if (CommandDir == 0 || CommandDir == 1 || CommandDir == 2 || CommandDir==3) { 
+			if (command == 'n' || command == 's' || command == 'e' || command == 'w'){ World::Move(CommandDir); } //Move Commands Function
+			else if (command == 'N' || command == 'S' || command == 'E' || command == 'W'){ World::LookDirection(CommandDir); } //Look Directions Commands Function
+		}
 		
 
 
@@ -148,7 +163,7 @@ void World::CreateWorld(){
 
 	} while (command != 'q');
 }
-
+	
 char World::ReceiveCommand(){
 	char command[15];
 	char CommandLetter;
@@ -167,14 +182,15 @@ char World::ReceiveCommand(){
 	else if ((strcmp(command, "west") == 0) || (strcmp(command, "w") == 0) || (strcmp(command, "go west") == 0)){
 		CommandLetter = 'w';
 	}
-	//else if (strcmp(command, "look north") == 0){ CommandLetter = 'N'; }
+	else if (strcmp(command, "look north") == 0){ CommandLetter = 'N'; }
+	else if (strcmp(command, "look south") == 0){ CommandLetter = 'S'; }
+	else if (strcmp(command, "look east") == 0){ CommandLetter = 'E'; }
+	else if (strcmp(command, "look west") == 0){ CommandLetter = 'W'; }
 	else if (strcmp(command, "look") == 0){ CommandLetter = 'l'; }
 	else if (strcmp(command, "open") == 0){ CommandLetter = 'o'; }
 	else if (strcmp(command, "close") == 0){ CommandLetter = 'c'; }
 	else if (strcmp(command, "quit") == 0){ CommandLetter = 'q'; }
-	else if (strcmp(command, "help") == 0){
-		CommandLetter = 'h';//Introduce Help command
-	}
+	else if (strcmp(command, "help") == 0){	CommandLetter = 'h'; }
 	else{ printf("What?\n"); }
 	//--
 
@@ -182,10 +198,10 @@ char World::ReceiveCommand(){
 }
 
 int World::GetDirection(char command){
-	if (command == 'n' ){ return 0; }
-	else if (command == 's'){ return 1; }
-	else if (command == 'e'){ return 2; }
-	else if (command == 'w'){ return 3; }
+	if (command == 'n' || command == 'N'){ return 0; }
+	else if (command == 's' || command == 'S'){ return 1; }
+	else if (command == 'e' || command == 'E'){ return 2; }
+	else if (command == 'w' || command == 'W'){ return 3; }
 	else { return - 1; }
 }
 
@@ -196,19 +212,28 @@ void World::Move(int CommandDir){
 			if (CommandDir == exit[i].direction) {
 				player->position = exit[i].destination;
 				printf("%s\n", player->position->name);
+				printf("%s\n", player->position->description);
 				done = true;
 				break;
 			}
 		}
-		
-
 	}
-	
 }
 
+void World::LookDirection(int CommandDir){
+	bool done = false;
+	for (int i = 0; i < 24; i++){
+		if (0 == strcmp(exit[i].origin->name, player->position->name)){
+			if (CommandDir == exit[i].direction) {
+				printf("%s\n", exit[i].destination->description);
+				done = true;
+				break;
+			}
+		}
+	}
+}
 
 World::~World(){
-	
 	delete[]exit;
 	delete player;
 	delete[]rooms;
