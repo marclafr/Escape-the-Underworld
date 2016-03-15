@@ -1,17 +1,26 @@
 #ifndef EXITS
 #define EXITS
 
-class Rooms;
+class Room;
 class Player;
 
-class Exits{
+enum dir{North, South, East, West};
+
+class Exit{
 public:
 	
-	Exits();
-	void Exit(Rooms* rooms, char command, int position);
-	bool WayClear(Rooms* room, char command, int position);
-	int NewPosition(char command, int position);
-	~Exits();
+	Exit();
+	char name[39];
+	char description[250];
+	Room* origin;
+	Room* destination;
+	dir direction;
+	bool ClosedRooms(int BlockElm, int BlockPalace, char command, int position);
+
+	int Exits(char command, int position);
+	bool WayClear(char command, int position);
+
+	~Exit();
 
 };
 

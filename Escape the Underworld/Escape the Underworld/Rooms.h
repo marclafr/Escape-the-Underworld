@@ -3,15 +3,12 @@
 
 
 
-class Rooms{
+class Room{
 public:
+	Room();
 	char name[39];
-	char description[250];	
-	Rooms();
-	~Rooms();
-	Rooms *position;
-	Rooms *origin;
-	Rooms *destination;
+	char description[250];
+	~Room();
 };
 
 #endif //ROOMS

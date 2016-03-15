@@ -11,6 +11,6 @@ int main(){
 	my_world.CreateWorld();
 	
 
-	getchar();
+
 	return 0;
 }

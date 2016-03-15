@@ -7,10 +7,12 @@
 
 
 
-Rooms::Rooms(){
-	Rooms *origin;
-	Rooms *destination;
+Room::Room(){
+
 }
-Rooms::~Rooms(){
+
+
+
+Room::~Room(){
 
 }

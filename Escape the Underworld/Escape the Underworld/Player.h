@@ -5,8 +5,9 @@
 class Player{
 public:
 	Player();
+	Room* position;
 	~Player();
-	char ReceiveCommand();
+	
 
 };
 

@@ -3,12 +3,14 @@
 
 class World{
 public:
-	Rooms* rooms = nullptr;
+	Room* rooms = nullptr;
 	Player* player = nullptr;
-	Exits* exits = nullptr;
+	Exit* exit = nullptr;
 	World();
-	
-	void CreateWorld()const;
+	char ReceiveCommand();
+	int GetDirection(char command);
+	void Move(int CommandDir);
+	void CreateWorld();
 	~World();
 
 };
