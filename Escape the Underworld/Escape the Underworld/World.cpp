@@ -130,8 +130,8 @@ void World::CreateWorld(){
 
 	do{
 		command = World::ReceiveCommand();
-
 		int CommandDir = World::GetDirection(command);
+
 		if (CommandDir == -1){
 			//look 
 			if (command == 'l'){
@@ -152,14 +152,15 @@ void World::CreateWorld(){
 
 		else if (CommandDir == 0 || CommandDir == 1 || CommandDir == 2 || CommandDir==3) { 
 			if (command == 'n' || command == 's' || command == 'e' || command == 'w'){ World::Move(CommandDir); } //Move Commands Function
+			//Open commands:
+			else if (command == 'o'){ World::OpenGate(CommandDir); }
+			//--
 			else if (command == 'N' || command == 'S' || command == 'E' || command == 'W'){ World::LookDirection(CommandDir); } //Look Directions Commands Function
 		}
 		
 
 
-		//Open commands:
 
-		//--
 
 		//Close commands:
 
@@ -206,7 +207,41 @@ int World::GetDirection(char command){
 	else if (command == 's' || command == 'S'){ return 1; }
 	else if (command == 'e' || command == 'E'){ return 2; }
 	else if (command == 'w' || command == 'W'){ return 3; }
+	//Open Command: Asks where to open.
+	else if (command == 'o'){ 
+		char OpenDirection[15];
+		printf("Open where?\n");
+		gets_s(OpenDirection, 15);
+		if ((strcmp(OpenDirection, "north") == 0) || (strcmp(OpenDirection, "n") == 0)){
+			return 0;
+		}
+		else if ((strcmp(OpenDirection, "south") == 0) || (strcmp(OpenDirection, "s") == 0)){
+			return 1;
+		}
+		else if ((strcmp(OpenDirection, "east") == 0) || (strcmp(OpenDirection, "e") == 0)){
+			return 2;
+		}
+		else if ((strcmp(OpenDirection, "west") == 0) || (strcmp(OpenDirection, "w") == 0)){
+			return 3;
+		}
+	}
+	//--
 	else { return - 1; }
+}
+
+void World::OpenGate(int CommandDir){
+	
+	for (int i = 0; i < 24; i++){
+		if (0 == strcmp(exit[i].origin->name, player->position->name)){
+			if (CommandDir == exit[i].direction) {
+				if (exit[i].destination == (rooms + 10) || exit[i].destination == (rooms + 1)){
+					(exit + i)->blocked = 1;
+					printf("The path to %s has been opened.\n", exit[i].destination->name);
+				}
+				else{ printf("This door can't be opened.\n"); }
+			}
+		}
+	}
 }
 
 bool World::WayClear(int i){
@@ -229,6 +264,10 @@ void World::Move(int CommandDir){
 					done = true;
 					break;
 				}
+			}
+			else{
+				printf("You can't go that way.\n");
+				break;
 			}
 		}
 	}
