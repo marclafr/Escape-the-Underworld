@@ -31,7 +31,7 @@ Instructions to play the game:
 
 Author: Marc Latorre, https://github.com/marclafr
 
-Github link to repository: https://github.com/marclafr/Escape-the-Underworld/tree/master/Escape%20the%20Underworld/Escape%20the%20Underworld
+Github link to repository: https://github.com/marclafr/Escape-the-Underworld
 
 link to wiki: https://github.com/marclafr/Escape-the-Underworld/wiki
 
