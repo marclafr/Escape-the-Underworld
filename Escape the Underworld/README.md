@@ -1,4 +1,6 @@
 
+There was an error when I run the game in relase OUTSIDE the visual, so I uploaded the debug aplication, which works correctly.
+
 Instructions to play the game:
 
 	MOVEMENT INSTRUCTIONS:
