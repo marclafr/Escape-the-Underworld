@@ -16,7 +16,7 @@ private:
 	void CloseGate(int CommandDir)const;
 	bool WayClear(int i)const;
 	int Move(int CommandDir)const;
-	void LookDirection(int CommandDir)const;
+	int LookDirection(int CommandDir)const;
 };
 
 #endif //WORLD

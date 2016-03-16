@@ -148,14 +148,17 @@ void World::CreateWorld()const{
 			}
 			//--
 		}
-		else if (CommandDir == 0 || CommandDir == 1 || CommandDir == 2 || CommandDir == 3) { 
-			if (command == 'n' || command == 's' || command == 'e' || command == 'w'){ 
+		else if (CommandDir == 0 || CommandDir == 1 || CommandDir == 2 || CommandDir == 3) {
+			if (command == 'n' || command == 's' || command == 'e' || command == 'w'){
 				int a = World::Move(CommandDir);//Move Commands Function
 				if (a == 0){ printf("You can't go that way.\n"); }
-			} 
+			}
 			else if (command == 'o'){ World::OpenGate(CommandDir); } //Open function
 			else if (command == 'c'){ World::CloseGate(CommandDir); } //Close function
-			else if (command == 'N' || command == 'S' || command == 'E' || command == 'W'){ World::LookDirection(CommandDir); } //Look Directions Commands Function
+			else if (command == 'N' || command == 'S' || command == 'E' || command == 'W'){
+				int a = World::LookDirection(CommandDir); //Look Directions Commands Function
+				if (a == 0){ printf("Nothing to see here...\n"); }
+			}
 		}
 	} while (command != 'q');
 }
@@ -317,7 +320,7 @@ int World::Move(int CommandDir)const{
 //--
 
 //Looks other rooms
-void World::LookDirection(int CommandDir)const{
+int World::LookDirection(int CommandDir)const{
 	bool done = false;
 	for (int i = 0; i < NUM_EXITS; i++){
 		if (0 == strcmp(exit[i].origin->name, player->position->name)){
@@ -325,12 +328,14 @@ void World::LookDirection(int CommandDir)const{
 				if (World::WayClear(i) == true){
 					printf("%s\n", exit[i].destination->description);
 					done = true;
+					return 1;
 					break;
 				}
 				else{ printf("Before look what is inside you must open the gate.\n"); }
 			}
 		}
 	}
+	return 0;
 }
 //--
 
