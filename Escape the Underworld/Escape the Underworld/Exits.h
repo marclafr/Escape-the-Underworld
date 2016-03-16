@@ -11,13 +11,10 @@ public:
 	Exit();
 	char name[39];
 	char description[250];
-	Room* origin;
-	Room* destination;
+	const Room* origin;
+	const Room* destination;
 	dir direction;
 	int blocked;
-	bool ClosedRooms(int BlockElm, int BlockPalace, char command, int position);
-	int Exits(char command, int position);
-	bool WayClear(char command, int position);
 	~Exit();
 };
 

@@ -7,15 +7,16 @@ public:
 	Player* player = nullptr;
 	Exit* exit = nullptr;
 	World();
-	char ReceiveCommand();
-	int GetDirection(char command);
-	void OpenGate(int CommandDir);
-	void CloseGate(int CommandDir);
-	bool WayClear(int i);
-	void Move(int CommandDir);
-	void LookDirection(int CommandDir);
-	void CreateWorld();
+	void CreateWorld()const;
 	~World();
+private:
+	char ReceiveCommand()const;
+	int GetDirection(char command)const;
+	void OpenGate(int CommandDir)const;
+	void CloseGate(int CommandDir)const;
+	bool WayClear(int i)const;
+	int Move(int CommandDir)const;
+	void LookDirection(int CommandDir)const;
 };
 
 #endif //WORLD

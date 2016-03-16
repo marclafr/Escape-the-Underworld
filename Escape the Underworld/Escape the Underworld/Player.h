@@ -5,10 +5,8 @@
 class Player{
 public:
 	Player();
-	Room* position;
+	const Room* position;
 	~Player();
-	
-
 };
 
 #endif //PLAYER

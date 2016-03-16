@@ -6,14 +6,15 @@
 #include <string.h>
 
 #define NUM_ROOMS 13
+#define NUM_EXITS 24
 
 World::World(){
 	rooms = new Room[NUM_ROOMS];
 	player = new Player;
-	exit = new Exit[24];
+	exit = new Exit[NUM_EXITS];
 }
 
-void World::CreateWorld(){
+void World::CreateWorld()const{
 
 	char command;
 	player->position = (rooms + 0); //Initializes the position in the Entrance.
@@ -28,15 +29,15 @@ void World::CreateWorld(){
 	strcpy_s((rooms + 3)->name, "Left side of river Styx");
 	strcpy_s((rooms + 3)->description, "After Charon take you here you only see one path, but you feel it is a dangerous place.\n");
 	strcpy_s((rooms + 4)->name, "Tartarus");
-	strcpy_s((rooms + 4)->description, "You ear insane spirits being tortured, there is a powerful light at your right.\n");
+	strcpy_s((rooms + 4)->description, "You ear insane spirits being tortured, there is a powerful light in the right.\n");
 	strcpy_s((rooms + 5)->name, "Phelgethon");
 	strcpy_s((rooms + 5)->description, "The river is not of water, but fire.\n There is no way to cross it.\n ");
 	strcpy_s((rooms + 6)->name, "Right side of river Styx");
-	strcpy_s((rooms + 6)->description, "Charon makes a stop before entering the following river: Lethe, you get out from the boat and see a lot of undead.\n");
+	strcpy_s((rooms + 6)->description, "This river is full of undead.\n");
 	strcpy_s((rooms + 7)->name, "River Lethe");
-	strcpy_s((rooms + 7)->description, "After crossing Lethe you see more undead near this river, but they seem different from the ones before...\n");
+	strcpy_s((rooms + 7)->description, "In the border of the river  Lethe you see more undead near this river, but they seem different from the ones before...\n");
 	strcpy_s((rooms + 8)->name, "Elysian Fields");
-	strcpy_s((rooms + 8)->description, "Just as you enter you feel a different sensation in this zone from all the ones before. You see some silhouettes in the distance.\n");
+	strcpy_s((rooms + 8)->description, "You feel a different sensation in this zone from all the ones before. You see some silhouettes in the distance.\n");
 	strcpy_s((rooms + 9)->name, "Fire Forest");
 	strcpy_s((rooms + 9)->description, "You see a big forest burning, but the light from the fire is strange.\n ");
 	strcpy_s((rooms + 10)->name, "Palace of Hades");
@@ -143,12 +144,15 @@ void World::CreateWorld(){
 
 			//help menu
 			else if (command == 'h'){
-				printf("Help menu: \nTo move north, introduce north, n or go north.\nTo move south, introduce south, s or go south.\nTo move east, introduce east, e or go east.\nTo move west, introduce west, w or go west.\n\nThere are also those other commands: look:descrives the place you are in.\nlook + (direction): describe the path you want to take.\nOpen/Close: Opens or closes a door if it is possible.\nQuit: quits the game.");
+				printf("Help menu: \nTo move north, introduce north, n or go north.\nTo move south, introduce south, s or go south.\nTo move east, introduce east, e or go east.\nTo move west, introduce west, w or go west.\n\nThere are also those other commands: \nlook:descrives the place you are in.\nlook + (direction): describe the path you want to take.\nopen/close: Opens or closes a door if it is possible, then the game will ask you the direction the door is.\nNOTICE: if you type, for example, open north directly it won't work!\n\nQuit: quits the game.\n");
 			}
 			//--
 		}
 		else if (CommandDir == 0 || CommandDir == 1 || CommandDir == 2 || CommandDir == 3) { 
-			if (command == 'n' || command == 's' || command == 'e' || command == 'w'){ World::Move(CommandDir); } //Move Commands Function
+			if (command == 'n' || command == 's' || command == 'e' || command == 'w'){ 
+				int a = World::Move(CommandDir);//Move Commands Function
+				if (a == 0){ printf("You can't go that way.\n"); }
+			} 
 			else if (command == 'o'){ World::OpenGate(CommandDir); } //Open function
 			else if (command == 'c'){ World::CloseGate(CommandDir); } //Close function
 			else if (command == 'N' || command == 'S' || command == 'E' || command == 'W'){ World::LookDirection(CommandDir); } //Look Directions Commands Function
@@ -158,7 +162,7 @@ void World::CreateWorld(){
 
 
 //Gets all the commands
-char World::ReceiveCommand(){
+char World::ReceiveCommand()const{
 	char command[15];
 	char CommandLetter;
 	gets_s(command, 15);
@@ -185,6 +189,7 @@ char World::ReceiveCommand(){
 	else if (strcmp(command, "close") == 0){ CommandLetter = 'c'; }
 	else if (strcmp(command, "quit") == 0){ CommandLetter = 'q'; }
 	else if (strcmp(command, "help") == 0){	CommandLetter = 'h'; }
+	else if (strcmp(command, "go") == 0){ printf("I need a direction :)\n"); }
 	else{ printf("What?\n"); }
 	//--
 	return CommandLetter;
@@ -192,7 +197,7 @@ char World::ReceiveCommand(){
 //--
 
 //Transforms the char fro direction to an int in order to compare it with the direction(which is an enum)
-int World::GetDirection(char command){
+int World::GetDirection(char command)const{
 	if (command == 'n' || command == 'N'){ return 0; }
 	else if (command == 's' || command == 'S'){ return 1; }
 	else if (command == 'e' || command == 'E'){ return 2; }
@@ -241,8 +246,8 @@ int World::GetDirection(char command){
 //--
 
 //Open
-void World::OpenGate(int CommandDir){
-	for (int i = 0; i < 24; i++){
+void World::OpenGate(int CommandDir)const{
+	for (int i = 0; i < NUM_EXITS; i++){
 		if (0 == strcmp(exit[i].origin->name, player->position->name)){
 			if (CommandDir == exit[i].direction) {
 				if (exit[i].destination == (rooms + 10) || exit[i].destination == (rooms + 1) || exit[i].destination == (rooms + 9) || exit[i].destination == (rooms + 0)){
@@ -253,7 +258,6 @@ void World::OpenGate(int CommandDir){
 						printf("The path to %s has been opened.\n", exit[i].destination->name);
 					}
 				}
-
 				else{ printf("I don't see any door to open...\n"); }
 			}
 		}
@@ -262,8 +266,8 @@ void World::OpenGate(int CommandDir){
 //--
 
 //Close
-void World::CloseGate(int CommandDir){
-	for (int i = 0; i < 24; i++){
+void World::CloseGate(int CommandDir)const{
+	for (int i = 0; i < NUM_EXITS; i++){
 		if (0 == strcmp(exit[i].origin->name, player->position->name)){
 			if (CommandDir == exit[i].direction) {
 				if (exit[i].destination == (rooms + 10) || exit[i].destination == (rooms + 1) || exit[i].destination == (rooms + 9) || exit[i].destination == (rooms + 0)){
@@ -282,7 +286,7 @@ void World::CloseGate(int CommandDir){
 //--
 
 //Comproving if tha path is closed
-bool World::WayClear(int i){
+bool World::WayClear(int i)const{
 	if (exit[i].blocked == 0){ 
 		printf("Gate locked.\n");
 		return false;
@@ -291,10 +295,10 @@ bool World::WayClear(int i){
 }
 //--
 
-//--Movement
-void World::Move(int CommandDir){
+//Movement
+int World::Move(int CommandDir)const{
 	bool done = false; //makes a path stop as soon as he finds another room.
-	for (int i = 0; i < 24; i++){
+	for (int i = 0; i < NUM_EXITS; i++){
 		if (0 == strcmp(exit[i].origin->name, player->position->name)){ //Compares if the position of the player and the origin of the exit is the same.
 			if (CommandDir == exit[i].direction) {//compares if the direction of the exit and the direction of the command is the same.
 				if (World::WayClear(i) == true){ //Looks if the path is looked or not.
@@ -302,18 +306,20 @@ void World::Move(int CommandDir){
 					printf("%s\n", player->position->name);
 					printf("%s\n", player->position->description);
 					done = true;
+					return 1;
 					break;
 				}
 			}
 		}
 	}
+	return 0;
 }
 //--
 
 //Looks other rooms
-void World::LookDirection(int CommandDir){
+void World::LookDirection(int CommandDir)const{
 	bool done = false;
-	for (int i = 0; i < 24; i++){
+	for (int i = 0; i < NUM_EXITS; i++){
 		if (0 == strcmp(exit[i].origin->name, player->position->name)){
 			if (CommandDir == exit[i].direction) {
 				if (World::WayClear(i) == true){
