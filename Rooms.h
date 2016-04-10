@@ -1,13 +1,11 @@
+#include "Entity.h"
+
 #ifndef ROOMS
 #define ROOMS
 
-
-
-class Room{
+class Room:public Entity{
 public:
 	Room();
-	char name[39];
-	char description[250];
 	~Room();
 };
 

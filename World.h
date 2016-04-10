@@ -1,5 +1,14 @@
+
+
 #ifndef WORLD
 #define WORLD
+
+#include <stdio.h>
+#include "Exits.h"
+#include "Player.h"
+#include "Rooms.h"
+#include "Chain.h"
+#include "Entity.h"
 
 class World{
 public:
@@ -8,15 +17,13 @@ public:
 	Exit* exit = nullptr;
 	World();
 	void CreateWorld()const;
+	char* command = nullptr;
+	bool ExitGame()const;
+	bool Move(int CommandDir);
+	bool LookDirection(int CommandDir)const;
 	~World();
-private:
-	char ReceiveCommand()const;
-	int GetDirection(char command)const;
-	void OpenGate(int CommandDir)const;
-	void CloseGate(int CommandDir)const;
-	bool WayClear(int i)const;
-	int Move(int CommandDir)const;
-	int LookDirection(int CommandDir)const;
+private:	
+	bool WayClear(int i)const;	
 };
 
 #endif //WORLD
