@@ -3,18 +3,8 @@
 #include "World.h"
 
 
-Player::Player(){
-}
-
-Player::~Player(){}
-
-/*void Player::ReceiveCommand()const{
-	World my_world;
-	gets_s(my_world.command, 50);
-}*/
-
 //Commands that implies direction, else return -1
-int Player::GetDirection(char* command)const{
+int Player::GetDirection(String command)const{
 	if (command == "n" || command == "north" || command == "go north"){ return 0; }
 	else if (command == "s" || command == "south" || command == "go south"){ return 1; }
 	else if (command == "e" || command == "east" || command == "go east"){ return 2; }
@@ -60,3 +50,8 @@ int Player::GetDirection(char* command)const{
 	else { return -1; }
 }
 //--
+
+void Player::Look()const{
+	
+	printf("%s\n", description);
+}

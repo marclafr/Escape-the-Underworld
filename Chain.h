@@ -1,4 +1,5 @@
 #include <string.h>
+#include <stdio.h>
 
 #ifndef _CHAIN_
 #define _CHAIN_
@@ -48,6 +49,10 @@ public:
 	const void Clear(){
 		buffer[0] = '\0';
 	}
+	//write string
+	void GetString(){
+		gets_s(buffer, max_size);
+	}
 	//operator ==
 	bool operator==(const String& string)const{
 		return (strcmp(buffer, string.buffer) == 0);
@@ -56,6 +61,7 @@ public:
 		return (strcmp(buffer, string) == 0);
 	}
 	//--
+
 	//operator =
 	void operator=(const String& string){
 		unsigned int len = strlen(string.buffer) + 1;

@@ -14,12 +14,13 @@ int main(){
 	Exit my_exit;
 
 	my_world.CreateWorld();
+	my_world.command.GetString();
+
+	if (my_world.command == "look"){
+		my_player.Look();
+	}
 	do{
-		/*for (int i = 0; i < NUM_ROOMS; i++){
-			printf("%s\n", (my_world.rooms[i].name));
-			printf("%s\n\n", (my_world.rooms[i].description));
-			}*/
-		gets_s(my_world.command, 50);
+		my_world.command.GetString();
 		int CommandDir = my_player.GetDirection(my_world.command);
 		if (CommandDir == -1){
 			if (my_world.command == "look"){ printf("%s\n", my_player.position->description); }

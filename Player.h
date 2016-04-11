@@ -8,11 +8,9 @@
 
 class Player:public Entity{
 public:
-	Player();
-	const Room* position;
-	int GetDirection(char* command)const;
-	//void ReceiveCommand()const;
-	~Player();
+	Room* position;
+	void Look()const;
+	int GetDirection(String command)const;
 };
 
 #endif //PLAYER

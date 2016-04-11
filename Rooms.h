@@ -5,8 +5,7 @@
 
 class Room:public Entity{
 public:
-	Room();
-	~Room();
+
 };
 
 #endif //ROOMS

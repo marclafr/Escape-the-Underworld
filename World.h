@@ -10,20 +10,22 @@
 #include "Chain.h"
 #include "Entity.h"
 
-class World{
+class World:public Entity{
 public:
 	Room* rooms = nullptr;
 	Player* player = nullptr;
 	Exit* exit = nullptr;
+	String command;
+	char* item;
 	World();
 	void CreateWorld()const;
-	char* command = nullptr;
 	bool ExitGame()const;
 	bool Move(int CommandDir);
 	bool LookDirection(int CommandDir)const;
 	~World();
 private:	
-	bool WayClear(int i)const;	
+	bool WayClear(int i)const;
+	enum items{coin, stick, sword, axe};
 };
 
 #endif //WORLD

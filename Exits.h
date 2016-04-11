@@ -14,10 +14,8 @@ enum dir{ North, South, East, West };
 class Exit:public Entity{
 public:
 	Exit();
-	char name[50];
-	char description[250];
-	const Room* origin;
-	const Room* destination;
+	Room* origin;
+	Room* destination;
 	dir direction;
 	int blocked;
 	void OpenGate(int CommandDir)const;

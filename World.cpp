@@ -1,16 +1,15 @@
 #include "World.h"
+#include "Chain.h"
 
 
 World::World(){
 	rooms = new Room[NUM_ROOMS];
 	player = new Player;
 	exit = new Exit[NUM_EXITS];
-	command = new char[50];
+	item = new char[name.capacity()];
 }
 
 void World::CreateWorld()const{
-	player->position = (rooms + 0); //Initializes the position in the Entrance.
-
 	//Name and description from all the rooms in the game:
 	(rooms + 0)->name = "Entrance";
 	(rooms + 0)->description = "You are back in the entrance, you see a big door in the south and a path in the north.\n";
@@ -117,7 +116,11 @@ void World::CreateWorld()const{
 	(exit + 23)->origin = (rooms + 12);
 	(exit + 23)->destination = (rooms + 11);
 	(exit + 23)->direction = East;
-	
+
+	//Initializes the position in the Entrance.
+	player->position = (rooms + 0);
+	player->description = (rooms + 0)->description;
+
 	//First place name and description
 	printf("%s\n", player->position->name);
 	printf("After crossing the portal you lose your vision for a few seconds, you feel strange in here. \nOnce you recover you see a big door in the south and a path in the north.\n"); //Different description once you return in the entrance.
@@ -181,8 +184,8 @@ bool World::ExitGame()const{
 //--
 
 World::~World(){
+	delete[] item;
 	delete[]exit;
 	delete player;
-	delete[]rooms;
-	delete[]command;
+	delete[]rooms;	
 }
