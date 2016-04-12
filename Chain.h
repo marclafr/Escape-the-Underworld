@@ -53,6 +53,16 @@ public:
 	void GetString(){
 		gets_s(buffer, max_size);
 	}
+	//string into string
+	bool ContainsString(const String& string)const{
+		return strstr(string.buffer, buffer) != nullptr;
+	}
+
+	bool ContainsString(const char* string)const{
+		return strstr(buffer, string) != nullptr;
+	}
+	//--
+	
 	//operator ==
 	bool operator==(const String& string)const{
 		return (strcmp(buffer, string.buffer) == 0);

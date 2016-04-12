@@ -29,6 +29,11 @@ Instructions to play the game:
 
 	EXIT THE GAME:
 		Just introduce the command "quit".
+____________
+NEW VERSION
+____________
+Now you can pick and drop items, look inventory.
+
 
 
 Author: Marc Latorre, https://github.com/marclafr

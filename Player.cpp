@@ -51,7 +51,3 @@ int Player::GetDirection(String command)const{
 }
 //--
 
-void Player::Look()const{
-	
-	printf("%s\n", description);
-}

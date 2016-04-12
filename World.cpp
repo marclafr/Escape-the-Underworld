@@ -2,14 +2,16 @@
 #include "Chain.h"
 
 
+
 World::World(){
 	rooms = new Room[NUM_ROOMS];
 	player = new Player;
 	exit = new Exit[NUM_EXITS];
-	item = new char[name.capacity()];
+	item = new Item[NUM_ITEMS];
 }
 
 void World::CreateWorld()const{
+	
 	//Name and description from all the rooms in the game:
 	(rooms + 0)->name = "Entrance";
 	(rooms + 0)->description = "You are back in the entrance, you see a big door in the south and a path in the north.\n";
@@ -117,14 +119,73 @@ void World::CreateWorld()const{
 	(exit + 23)->destination = (rooms + 11);
 	(exit + 23)->direction = East;
 
+	//Items in each room
+	(rooms + 0)->item_description;
+
 	//Initializes the position in the Entrance.
 	player->position = (rooms + 0);
-	player->description = (rooms + 0)->description;
 
 	//First place name and description
 	printf("%s\n", player->position->name);
 	printf("After crossing the portal you lose your vision for a few seconds, you feel strange in here. \nOnce you recover you see a big door in the south and a path in the north.\n"); //Different description once you return in the entrance.
 	//--
+}
+
+void World::create_items()const{
+	(item + 0)->name = ("stick");
+	(item + 0)->description = ("\nJust a regulat stick.\nDamage:10.\n");
+	(item + 0)->value = 10;
+	(item + 0)->item_type = WEAPON;
+	(item + 0)->item_position = (rooms + 0);
+	(item + 0)->item_place = FLOOR; //<--inventory won't exist "physically"
+	(item + 1)->name = ("sword");
+	(item + 1)->description = ("\nA shiny sword.\nDamage:69.\n");
+	(item + 1)->value = 69;
+	(item + 1)->item_type = WEAPON;
+	(item + 1)->item_position = (rooms + 0);
+	(item + 1)->item_place = FLOOR;
+}
+
+bool World::PickItem()const{
+	for (int i = 0; i < NUM_ITEMS; i++){
+		if ((item + i)->name.ContainsString(command) == true){
+			if ((item + i)->item_position->name == player->position->name){
+				printf("%s picked up.\n", (item + i)->name);
+				(item + i)->item_place = INVENTORY;
+				return true;
+			}
+		}		
+	}
+	return false;
+}
+
+bool World::LookInventory()const{
+	int empty_inventory = 0;
+	for (int i = 0; i < NUM_ITEMS; i++){
+		if ((item + i)->item_place == EQUIPPED){
+			printf("%s:  %s <-- Equipped\n", (item + i)->name.c_str(), (item + i)->description.c_str());
+			empty_inventory = 1;
+		}
+		if ((item + i)->item_place == INVENTORY){
+			printf("%s:  %s\n", (item + i)->name.c_str(), (item + i)->description.c_str());
+			empty_inventory = 1;
+		}
+	}
+	if (empty_inventory == 1){ return true; }
+	else{ return false; }
+}
+
+bool World::DropItem()const{
+	for (int i = 0; i < NUM_ITEMS; i++){
+		if ((item + i)->name.ContainsString(command) == true){
+			if ((item + i)->item_place == INVENTORY){
+				printf("%s dropped on the floor.\n", (item + i)->name);
+				(item + i)->item_place = FLOOR;
+				return true;
+			}
+		}
+	}
+	return false;
 }
 
 bool World::Move(int CommandDir){
@@ -159,8 +220,10 @@ bool World::WayClear(int i)const{
 //Looks other rooms
 bool World::LookDirection(int CommandDir)const{
 	bool done = false;
+	Player my_player;
 	for (int i = 0; i < NUM_EXITS; i++){
 		if (exit[i].origin->name == player->position->name){
+			CommandDir = my_player.GetDirection(command);
 			if (CommandDir == exit[i].direction) {
 				if (World::WayClear(i) == true){
 					printf("%s\n", exit[i].destination->description);
@@ -168,11 +231,20 @@ bool World::LookDirection(int CommandDir)const{
 					return 1;
 					break;
 				}
-				else{ printf("Before look what is inside you must open the gate.\n"); }
+				else{
+				printf("Before look what is inside you must open the gate.\n");
+				}
 			}
 		}
 	}
 	return 0;
+}
+//--
+
+//Look
+void World::Look()const{
+	printf("%s\n", player->position->name.c_str());
+	printf("%s\n", player->position->description.c_str());
 }
 //--
 
@@ -184,7 +256,7 @@ bool World::ExitGame()const{
 //--
 
 World::~World(){
-	delete[] item;
+	delete[]item;
 	delete[]exit;
 	delete player;
 	delete[]rooms;	

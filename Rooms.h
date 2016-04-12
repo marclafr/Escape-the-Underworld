@@ -5,7 +5,7 @@
 
 class Room:public Entity{
 public:
-
+	String item_description;
 };
 
 #endif //ROOMS

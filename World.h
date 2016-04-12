@@ -9,6 +9,7 @@
 #include "Rooms.h"
 #include "Chain.h"
 #include "Entity.h"
+#include "Items.h"
 
 class World:public Entity{
 public:
@@ -16,16 +17,21 @@ public:
 	Player* player = nullptr;
 	Exit* exit = nullptr;
 	String command;
-	char* item;
+	Item* item;
 	World();
 	void CreateWorld()const;
 	bool ExitGame()const;
 	bool Move(int CommandDir);
 	bool LookDirection(int CommandDir)const;
+	void Look()const;
+	void create_items()const;
+	bool PickItem()const;
+	bool LookInventory()const;
+	bool DropItem()const;
 	~World();
 private:	
 	bool WayClear(int i)const;
-	enum items{coin, stick, sword, axe};
+	
 };
 
 #endif //WORLD

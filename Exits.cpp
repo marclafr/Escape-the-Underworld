@@ -9,7 +9,7 @@ Player my_player;
 //Open
 void Exit::OpenGate(int CommandDir)const{
 	for (int i = 0; i < NUM_EXITS; i++){
-		if (my_world.exit[i].origin->name == my_player.position->name){
+		if (my_world.exit[i].origin->name.c_str() == my_player.position->name.c_str()){
 			if (CommandDir == my_world.exit[i].direction) {
 				if (my_world.exit[i].destination == (my_world.rooms + 10) || my_world.exit[i].destination == (my_world.rooms + 1) || my_world.exit[i].destination == (my_world.rooms + 9) || my_world.exit[i].destination == (my_world.rooms + 0)){
 					if ((my_world.exit + i)->blocked == 1){ printf("This door had been already opened dude.\n"); }

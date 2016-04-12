@@ -8,8 +8,7 @@
 
 class Player:public Entity{
 public:
-	Room* position;
-	void Look()const;
+	Room* position = nullptr;
 	int GetDirection(String command)const;
 };
 
