@@ -1,0 +1,78 @@
+#include <stdio.h>
+#include <assert.h>
+
+#ifndef DYNAMIC_ARRAYS
+#define DYNAMIC_ARRAYS
+
+template <class TYPE>
+class Vector{
+private:
+	TYPE* vector;
+	unsigned int capacity = 2;
+	unsigned int num_elements = 0;
+public:
+	Vector(){
+		vector = new TYPE[capacity];
+	}
+	Vector(const Vector &v){
+		num_elements = v.num_elements;
+		capacity = v.num_elements;
+		vector = new TYPE[capacity];
+		for (unsigned int i = 0; i < num_elements, ++i){
+			*(vector + i) = *(v.vector + i);
+		}
+		//memcpy en vez del for
+	}
+	~Vector(){
+		delete[]vector;
+	}
+	//push_back() (afegir elements al final) && push_front() (afegeix element al principi de l'array)
+	void PushBack(const TYPE &element){
+		if (capacity == num_elements)
+		{
+			TYPE *temp = nullptr;
+			capacity += 5;
+			temp = new TYPE[capacity];
+			for (int i = 0; i < num_elements; i++){
+				*(temp + i) = *(vector + i);
+			}
+			delete[] vector;
+			vector = temp;
+		}
+
+		*(vector + num_elements++) = element;
+	}
+
+	void PushFront(const TYPE &element){
+		if (capacity == num_elements)
+		{
+			TYPE *temp = nullptr;
+			capacity += 5;
+			temp = new TYPE[capacity];
+
+			for (int i = 0; i < num_elements; i++)
+			{
+				*(temp + i) = *(vector + i);
+			}
+			delete[] vector;
+			vector = temp;
+		}
+		else{
+			for (int i = num_elements - 1; i >= 0; i--){
+				*(vector + i) = *(vector + i - 1);
+			}
+			*(vector + 0) = element;
+			num_elements++;
+		}
+	}
+
+	const TYPE &operator[](const unsigned int &index) const
+	{
+		assert(index >= 0 && index < num_elements);
+		return vector[index];
+	}	
+};
+// empty, chain, size, capacity, pop_back (elimina el ultimo), shrink_to_fit //
+
+
+#endif //DYNAMIC_ARRAYS

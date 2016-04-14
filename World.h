@@ -10,25 +10,30 @@
 #include "Chain.h"
 #include "Entity.h"
 #include "Items.h"
+#include "Vector.h"
 
-class World:public Entity{
+class World{
 public:
-	Room* rooms = nullptr;
-	Player* player = nullptr;
-	Exit* exit = nullptr;
+	//Room* rooms = nullptr;
+	//Player* player = nullptr;
+	//Exit* exit = nullptr;
 	String command;
-	Item* item;
-	World();
-	void CreateWorld()const;
+	//Item* item;
+	Vector <Room*> rooms;
+	Vector<Item*> items;
+	Vector<Exit*> exits;
+	Player player;
+	void CreateWorld();
 	bool ExitGame()const;
 	bool Move(int CommandDir);
 	bool LookDirection(int CommandDir)const;
 	void Look()const;
-	void create_items()const;
 	bool PickItem()const;
 	bool LookInventory()const;
 	bool DropItem()const;
-	~World();
+	int GetDirection(String command)const;
+	void CloseGate(int CommandDir)const;
+	void OpenGate(int CommandDir)const;
 private:	
 	bool WayClear(int i)const;
 	

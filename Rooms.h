@@ -5,6 +5,7 @@
 
 class Room:public Entity{
 public:
+	Room(const char* n, const char* d):Entity(n, d){}
 	String item_description;
 };
 

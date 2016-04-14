@@ -8,8 +8,12 @@
 
 class Player:public Entity{
 public:
+	Player(){}
+	~Player(){}
 	Room* position = nullptr;
-	int GetDirection(String command)const;
+	Player(const char* n, const char* d, Room* pos) :Entity(n, d){
+		position = pos;
+	}	
 };
 
 #endif //PLAYER

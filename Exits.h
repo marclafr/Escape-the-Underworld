@@ -9,18 +9,26 @@ class Room;
 class Player;
 
 
-enum dir{ North, South, East, West };
+enum dir{ 
+	NORTH,
+	SOUTH,
+	EAST,
+	WEST
+};
 
 class Exit:public Entity{
 public:
-	Exit();
 	Room* origin;
 	Room* destination;
 	dir direction;
 	int blocked;
-	void OpenGate(int CommandDir)const;
-	void CloseGate(int CommandDir)const;
-	~Exit();
+	Exit(const char* n, const char* d, Room* ori, Room* dest, dir direc, int block) :Entity(n, d){
+		origin = ori;
+		destination = dest;
+		direction = direc;
+		blocked = block;
+	}
+
 };
 
 #endif //EXITS

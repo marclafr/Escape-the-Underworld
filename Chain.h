@@ -6,7 +6,7 @@
 
 class String{
 private:
-	char* buffer;
+	char* buffer = nullptr;
 	unsigned int max_size;
 public:
 	//Constructors & Destructor
@@ -146,6 +146,14 @@ public:
 		return new_str;
 	}
 	//--
+	/*
+	String::Tokemize("a"){
+		return Vector<String>;
+	}
+	Vector<String> tokens; //vector de strings
+	player_input.tokenize(" ", tokens); //player_input = command) // tokenize rep dos arguments: tipu de caracters (els que es consideren seperadors(espai)), i una referencia  a tokens
+	*/
+
 };
 
 #endif //_CHAIN_

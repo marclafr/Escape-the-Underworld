@@ -3,16 +3,11 @@
 
 int main(){
 	World my_world;
-	Player my_player;
-	Room my_room;
-	Exit my_exit;
 
 	my_world.CreateWorld();
-	my_world.create_items();
-
 	do{
 		my_world.command.GetString();
-		int CommandDir = my_player.GetDirection(my_world.command);
+		int CommandDir = my_world.GetDirection(my_world.command);
 		if (CommandDir == -1){
 			if (my_world.command == "look"){ my_world.Look(); }
 			else if (my_world.command == "help"){
@@ -51,8 +46,8 @@ int main(){
 					printf("You can't go that way.\n");
 				}
 			}
-			else if (my_world.command == "open"){ my_exit.OpenGate(CommandDir); } //Open function
-			else if (my_world.command == "close"){ my_exit.CloseGate(CommandDir); } //Close function			
+			else if (my_world.command == "open"){ my_world.OpenGate(CommandDir); } //Open function
+			else if (my_world.command == "close"){ my_world.CloseGate(CommandDir); } //Close function			
 		}
 	} while (my_world.ExitGame() == false);
 	return 0;

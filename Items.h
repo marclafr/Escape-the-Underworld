@@ -3,7 +3,7 @@
 #ifndef _ITEM_
 #define _ITEM_
 
-#define NUM_ITEMS 10
+#define NUM_ITEMS 2
 
 enum ItemType{
 	WEAPON,
@@ -18,11 +18,18 @@ enum ItemPlace{
 
 class Item :public Entity{
 public:
-	void Look();
-	int value;
+	//void Look();
+	Item(const char* n, const char* d, Room* position, int val, ItemType t, ItemPlace p) :Entity(n, d) {
+		item_position = position;
+		value = val;
+		type = t;
+		place = p;
+	}
 	Room* item_position = nullptr;
-	ItemType item_type;
-	ItemPlace item_place;
+	int value;
+	ItemType type;
+	ItemPlace place;
+
 };
 
 #endif //_ITEM_
