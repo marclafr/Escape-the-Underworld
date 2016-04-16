@@ -19,14 +19,16 @@ enum ItemPlace{
 class Item :public Entity{
 public:
 	Item(){}
-	Item(const char* n, const char* d, Room* position, int val, ItemType t, ItemPlace p) :Entity(n, d) {
+	Item(const char* n, const char* d, Room* position, int val, int b_chance, ItemType t, ItemPlace p) :Entity(n, d) {
 		item_position = position;
 		value = val;
+		block_chance = b_chance;
 		type = t;
 		place = p;
 	}
 	Room* item_position = nullptr;
 	int value;
+	int block_chance;
 	ItemType type;
 	ItemPlace place;
 

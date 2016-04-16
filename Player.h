@@ -12,6 +12,7 @@ public:
 	Room* position = nullptr;
 	unsigned int attack;
 	unsigned int defense;
+	unsigned int block_chance;
 	int hp;	
 	Player(const char* n, const char* d, Room* pos, unsigned int att, unsigned int def, unsigned int hitpoints) :Entity(n, d){
 		position = pos;
