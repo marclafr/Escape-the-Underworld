@@ -28,7 +28,7 @@ public:
 	bool LookInventory()const;
 	bool DropItem(Vector<String> tokens)const;
 	void LookItem(String item)const;
-	bool EquipItem()const;
+	bool EquipItem(Vector<String> tokens);
 	int GetDirection(String command, Vector<String> tokens)const;
 	void CloseGate(int CommandDir)const;
 	void OpenGate(int CommandDir)const;

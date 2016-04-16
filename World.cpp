@@ -238,8 +238,22 @@ void World::LookItem(String item)const{
 //--
 
 //Equip an item
-bool World::EquipItem()const{
-	return true;
+bool World::EquipItem(Vector<String> tokens){
+	for (int i = 0; i < NUM_ITEMS; i++){
+		if (tokens[1] == items[i]->name.c_str()){
+			if (items[i]->place == INVENTORY){
+				items[i]->place == EQUIPPED;
+				printf("%s equipped.\n", items[i]->name.c_str());
+				if (items[i]->type == WEAPON){ player.attack += items[i]->value; }
+				else if (items[i]->type == ARMOUR){ player.defense += items[i]->value; }
+				//else if (items[i]->type == OTHER){ player.hp += items[i]->value; }
+			}
+			else if (items[i]->place == EQUIPPED){ printf("Item already equipped dude.\n"); }
+			else if (items[i]->place == FLOOR) { printf("Item must be in the inventory in order to equip it.\n"); }
+			return true;
+		}
+	}
+	return false;
 }
 //--
 

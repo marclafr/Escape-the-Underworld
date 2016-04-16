@@ -41,7 +41,7 @@ int main(){
 				my_world.LookItem(tokens[1]);
 			}
 			else if (tokens[0] == "equip"){
-				if (my_world.EquipItem() == false){
+				if (my_world.EquipItem(tokens) == false){
 					printf("Item already equipped");
 				}
 			}
