@@ -18,7 +18,7 @@ enum ItemPlace{
 
 class Item :public Entity{
 public:
-	//void Look();
+	Item(){}
 	Item(const char* n, const char* d, Room* position, int val, ItemType t, ItemPlace p) :Entity(n, d) {
 		item_position = position;
 		value = val;

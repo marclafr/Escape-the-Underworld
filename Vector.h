@@ -8,7 +8,7 @@ template <class TYPE>
 class Vector{
 private:
 	TYPE* vector;
-	unsigned int capacity = 2;
+	unsigned int capacity = 1;
 	unsigned int num_elements = 0;
 public:
 	Vector(){
@@ -18,7 +18,7 @@ public:
 		num_elements = v.num_elements;
 		capacity = v.num_elements;
 		vector = new TYPE[capacity];
-		for (unsigned int i = 0; i < num_elements, ++i){
+		for (unsigned int i = 0; i < num_elements; ++i){
 			*(vector + i) = *(v.vector + i);
 		}
 		//memcpy en vez del for
@@ -26,12 +26,12 @@ public:
 	~Vector(){
 		delete[]vector;
 	}
-	//push_back() (afegir elements al final) && push_front() (afegeix element al principi de l'array)
+	
 	void PushBack(const TYPE &element){
 		if (capacity == num_elements)
 		{
 			TYPE *temp = nullptr;
-			capacity += 5;
+			capacity += 10;
 			temp = new TYPE[capacity];
 			for (int i = 0; i < num_elements; i++){
 				*(temp + i) = *(vector + i);
@@ -47,7 +47,7 @@ public:
 		if (capacity == num_elements)
 		{
 			TYPE *temp = nullptr;
-			capacity += 5;
+			capacity += 10;
 			temp = new TYPE[capacity];
 
 			for (int i = 0; i < num_elements; i++)
@@ -66,13 +66,49 @@ public:
 		}
 	}
 
-	const TYPE &operator[](const unsigned int &index) const
-	{
+	TYPE &operator[](unsigned int index){
 		assert(index >= 0 && index < num_elements);
 		return vector[index];
-	}	
+	}
+
+	TYPE operator[](unsigned int index)const{
+		assert(index >= 0 && index < num_elements);
+		return vector[index];
+	}
+	bool pop_back(TYPE &value){
+		if (num_elements > 0){
+			value = buffer[num_elements];
+			num_elements--;
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	bool Empty(){
+		return num_elements == 0;
+	}
+	void Clear(){
+		num_elements = 0;
+	}
+	unsigned int Size(){
+		return num_elements;
+	}
+	unsigned int Capacity(){
+		return capacity;
+	}
+	/*
+	void shrink_to_fit(){
+		capacity = num_elements;
+		TYPE* temp = new TYPE[capacity];
+		for (int i = 0; i < capacity; i++){
+			*(temp + i) = *(vector + i);
+		}
+		delete[] vector;
+		vector = temp;
+	}*/
 };
-// empty, chain, size, capacity, pop_back (elimina el ultimo), shrink_to_fit //
+// shrink_to_fit //
 
 
 #endif //DYNAMIC_ARRAYS

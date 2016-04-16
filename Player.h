@@ -9,9 +9,11 @@
 class Player:public Entity{
 public:
 	Player(){}
-	~Player(){}
 	Room* position = nullptr;
-	Player(const char* n, const char* d, Room* pos) :Entity(n, d){
+	unsigned int attack;
+	unsigned int defense;
+	int hp;	
+	Player(const char* n, const char* d, Room* pos, unsigned int att, unsigned int def, unsigned int hitpoints) :Entity(n, d){
 		position = pos;
 	}	
 };

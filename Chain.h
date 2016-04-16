@@ -1,5 +1,6 @@
 #include <string.h>
 #include <stdio.h>
+#include "Vector.h"
 
 #ifndef _CHAIN_
 #define _CHAIN_
@@ -153,6 +154,15 @@ public:
 	Vector<String> tokens; //vector de strings
 	player_input.tokenize(" ", tokens); //player_input = command) // tokenize rep dos arguments: tipu de caracters (els que es consideren seperadors(espai)), i una referencia  a tokens
 	*/
+	void Tokenize(const char* symbols, Vector<String> &tokens){  //, char* string
+		char* context = nullptr;
+		char* save = nullptr;
+		save = strtok_s(buffer, symbols, &context);
+		while (save != NULL){
+			tokens.PushBack(save);
+			save = strtok_s(NULL, symbols, &context);			
+		}		
+	}
 
 };
 

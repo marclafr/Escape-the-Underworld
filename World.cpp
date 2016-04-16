@@ -62,12 +62,17 @@ void World::CreateWorld(){
 	//exit.PushBack(new Exit("a", "b", rooms[0]));
 
 	//Items:
-	items.PushBack(new Item("stick", "Just a large stick.\nDamage:10.\n", Entrance, 10, WEAPON, FLOOR));
-	items.PushBack(new Item("sword", "A shiny sword\nDamage:69.\n", Marsh, 69, WEAPON, FLOOR));
+	Item* Stick;
+	Item* Sword;
+	items.PushBack(Stick = new Item("stick", "Just a large stick.\nDamage:10.\n", Entrance, 10, WEAPON, FLOOR));
+	items.PushBack(Sword = new Item("sword", "A shiny sword\nDamage:69.\n", Marsh, 69, WEAPON, FLOOR));
 	//--
 
 	//Player:
 	player.position = rooms[0];//Initializes the position in the Entrance.
+	player.attack = 45;
+	player.defense = 20;
+	player.hp = 420;
 	//--
 
 	//First place name and description
@@ -77,11 +82,11 @@ void World::CreateWorld(){
 }
 
 //Commands that implies direction, else return -1
-int World::GetDirection(String command)const{
-	if (command == "n" || command == "north" || command == "go north"){ return 0; }
-	else if (command == "s" || command == "south" || command == "go south"){ return 1; }
-	else if (command == "e" || command == "east" || command == "go east"){ return 2; }
-	else if (command == "w" || command == "west" || command == "go west"){ return 3; }
+int World::GetDirection(String commandm, Vector<String> tokens)const{
+	if (command == "n" || command == "north" || tokens[0] == ("go") && tokens[1] == ("north")){ return 0; }
+	else if (command == "s" || command == "south" || tokens[0] == ("go") && tokens[1] == ("south")){ return 1; }
+	else if (command == "e" || command == "east" || tokens[0] == ("go") && tokens[1] == ("east")){ return 2; }
+	else if (command == "w" || command == "west" || tokens[0] == ("go") && tokens[1] == ("west")){ return 3; }
 	//Open Command: Asks where to open.
 	else if (command == "open"){
 		printf("Open where?\n");
@@ -165,16 +170,19 @@ void World::CloseGate(int CommandDir)const{
 //--
 
 //Pick items
-bool World::PickItem()const{
+bool World::PickItem(Vector<String> tokens)const{
 	for (int i = 0; i < NUM_ITEMS; i++){
-		if (items[i]->name.ContainsString(command) == true){
+		if (tokens[1] == items[i]->name.c_str()){
 			if (items[i]->item_position->name == player.position->name){
 				if (items[i]->place == FLOOR){
 					printf("%s picked up.\n", items[i]->name.c_str());
 					items[i]->place = INVENTORY;
 					return true;
 				}
-				else{ printf("Item already in the inventory.\n"); }
+				else{
+					printf("Item already in the inventory.\n");
+					return true;
+				}
 			}
 		}		
 	}
@@ -201,9 +209,9 @@ bool World::LookInventory()const{
 //--
 
 //Drop an item
-bool World::DropItem()const{
+bool World::DropItem(Vector<String> tokens)const{
 	for (int i = 0; i < NUM_ITEMS; i++){
-		if (items[i]->name.ContainsString(command) == true){
+		if (tokens[1] == items[i]->name.c_str()){
 			if (items[i]->place == INVENTORY){
 				printf("%s dropped on the floor.\n", items[i]->name.c_str());
 				items[i]->place = FLOOR;
@@ -212,6 +220,26 @@ bool World::DropItem()const{
 		}
 	}
 	return false;
+}
+//--
+
+//Look an item description
+void World::LookItem(String item)const{
+	for (int i = 0; i < NUM_ITEMS; i++){
+		if (items[i]->name == item.c_str()){
+			if (items[i]->place == INVENTORY || items[i]->place == EQUIPPED){
+				printf("%s\n%s\n", items[i]->name.c_str(), items[i]->description.c_str());
+			}
+			else{ printf("This item isn't in your inventory or equipped.\n"); }
+		}
+	}
+
+}
+//--
+
+//Equip an item
+bool World::EquipItem()const{
+	return true;
 }
 //--
 
@@ -247,11 +275,11 @@ bool World::WayClear(int i)const{
 //--
 
 //Looks other rooms
-bool World::LookDirection(int CommandDir)const{
+bool World::LookDirection(int CommandDir, Vector<String> tokens)const{
 	bool done = false;
 	for (int i = 0; i < NUM_EXITS; i++){
 		if (exits[i]->origin->name == player.position->name){
-			CommandDir = GetDirection(command);
+			CommandDir = GetDirection(command, tokens);
 			if (CommandDir == exits[i]->direction) {
 				if (World::WayClear(i) == true){
 					printf("%s\n", exits[i]->destination->description);
@@ -275,6 +303,14 @@ void World::Look()const{
 	printf("%s\n", player.position->description.c_str());
 }
 //--
+
+//Player stats
+void World::Stats()const{
+	printf("Your stats are:\n");
+	printf("HP: %i\n", player.hp);
+	printf("Attack: %i\n", player.attack);
+	printf("Defense: %i\n", player.defense);
+}
 
 //Exits game
 bool World::ExitGame()const{

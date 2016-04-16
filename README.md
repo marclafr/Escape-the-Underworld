@@ -35,7 +35,6 @@ ____________
 Now you can pick and drop items, look inventory.
 
 
-
 Author: Marc Latorre, https://github.com/marclafr
 
 Github link to repository: https://github.com/marclafr/Escape-the-Underworld
