@@ -3,7 +3,9 @@
 #ifndef _ITEM_
 #define _ITEM_
 
-#define NUM_ITEMS 2
+#define NUM_ITEMS 6
+#define NUM_1_WORD_ITEMS 4
+#define NUM_2_WORD_ITEMS 2
 
 enum ItemType{
 	WEAPON,

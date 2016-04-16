@@ -58,20 +58,30 @@ void World::CreateWorld(){
 	exits.PushBack(new Exit("Vale of Mourning", "You feel the exit nearby, but there are more undead ahead.\n", ExitUnderworld, ValeMourning, EAST, 2));
 	//--
 
-	//	rooms[0]->
-	//exit.PushBack(new Exit("a", "b", rooms[0]));
-
 	//Items:
 	Item* Coins;
 	Item* Stick;
 	Item* Sword;
-	Item* FireBow;
 	Item* Arrows;
+	Item* FireBow;
+	Item* IceBow;
 	items.PushBack(Coins = new Item("coins", "Coins needed to cross the river.\n", Elm, 0, 0, OTHER, FLOOR));
 	items.PushBack(Stick = new Item("stick", "Just a large stick.\nDamage: 10.\nBlock chance: 5.\n", Entrance, 10, 5, WEAPON, FLOOR));
-	items.PushBack(Sword = new Item("sword", "A shiny sword\nDamage: 70.\nBlock chance: 10.\n", Marsh, 70, 10, WEAPON, FLOOR));
-	items.PushBack(FireBow = new Item("fire bow", "A bow in flames? Yep you see that right, this bow has flames but they don't burn you...\nDamage: 150.\nBlock chance: 0.\n", Phelgethon, 150, 0, WEAPON, FLOOR));
-	items.PushBack(Arrows = new Item("arrows", "A pack of arrows\nDamage: 25.\nBlock chance: 0.\n", Entrance, 25, 0, WEAPON, FLOOR));
+	items.PushBack(Sword = new Item("sword", "A shiny sword\nDamage: 70.\nBlock chance: 10.\n", Marsh, 70, 10, WEAPON, FLOOR));	
+	items.PushBack(Arrows = new Item("arrows", "A pack of arrows. Useless without a bow.\nDamage: 25.\nBlock chance: 0.\n", Entrance, 25, 0, WEAPON, FLOOR));
+	items.PushBack(FireBow = new Item("fire bow", "A bow in flames? Yep you see that right, this bow has flames but they don't burn you...\nDamage: 150.\nBlock chance: 0.\n", Entrance, 150, 0, WEAPON, FLOOR));
+	items.PushBack(IceBow = new Item("ice bow", "A bow covered in ice. Seems fragile but strong.\nDamage: 120.\nBlock chance: 0.\n", Entrance, 120, 0, WEAPON, FLOOR));
+	
+	items[4]->name.Tokenize(" ,.-_", item_tokens);
+	item_tokens.PushBack("ice");
+	item_tokens.PushBack("bow");
+
+	//		ACLARATION FOR POSTERIOR CODE: As the list of items grows one by one but the list of tokens grows 2 by 2,
+	//		for this reason, there will be some multiplications *2 in some of the for loops depending if the code refers
+	//		to the list of items or the tokens of them.
+
+	//		Also, for this reason, the list of items must follow this order: first the items which name has one word,
+	//		and then the ones that have 2 words.
 	
 	//--
 
@@ -86,6 +96,7 @@ void World::CreateWorld(){
 	printf("%s\n", player.position->name);
 	printf("After crossing the portal you lose your vision for a few seconds, you feel strange in here. \nOnce you recover you see a big door in the south and a path in the north.\n"); //Different description once you return in the entrance.
 	//--
+	
 }
 
 //Commands that implies direction, else return -1 IN CASE THERE ARE MORE THAN ONE WORD
@@ -224,43 +235,79 @@ void World::CloseGate(int CommandDir)const{
 //--
 
 //Pick items
-bool World::PickItem(Vector<String> tokens, int &InventorySlots){
-	for (int i = 0; i < NUM_ITEMS; i++){
-		if (tokens[1] == items[i]->name.c_str()){
-			if (items[i]->item_position->name == player.position->name){
-				if (items[i]->place == FLOOR){
-					if (InventorySlots < 10){
-						printf("%s picked up.\n", items[i]->name.c_str());
-						items[i]->place = INVENTORY;
-						InventorySlots++;
-						return true;
+bool World::PickItem(Vector<String> tokens, int &InventorySlots, unsigned int num_words){
+	if (num_words == 2){
+		for (int i = 0; i < NUM_1_WORD_ITEMS; i++){
+			if (tokens[1] == items[i]->name.c_str()){
+				if (items[i]->item_position->name == player.position->name){
+					if (items[i]->place == FLOOR){
+						if (InventorySlots < 10){
+							printf("%s picked up.\n", items[i]->name.c_str());
+							items[i]->place = INVENTORY;
+							InventorySlots++;
+							return true;
+						}
+						else{
+							printf("Inventory full.\n");
+							return true;
+						}
 					}
 					else{
-						printf("Inventory full.\n");
+						printf("Item already in the inventory.\n");
 						return true;
 					}
 				}
-				else{
-					printf("Item already in the inventory.\n");
-					return true;
+			}
+		}
+	}
+	if (num_words == 3){
+		for (int i = 0; i < NUM_2_WORD_ITEMS; i++){	
+			if (tokens[1] == item_tokens[i*2] && tokens[2] == item_tokens[i*2 + 1]){
+				if (items[i + NUM_1_WORD_ITEMS ]->item_position->name == player.position->name){
+					if (items[i + NUM_1_WORD_ITEMS ]->place == FLOOR){
+						if (InventorySlots < 10){
+							printf("%s %s picked up.\n", item_tokens[i].c_str(), item_tokens[i + 1].c_str());
+							items[i + NUM_1_WORD_ITEMS]->place = INVENTORY;
+							InventorySlots++;
+							return true;
+						}
+						else{
+							printf("Inventory full.\n");
+							return true;
+						}
+					}
+					else{
+						printf("Item already in the inventory.\n");
+						return true;
+					}
 				}
 			}
-		}		
+		}
 	}
-	return false;
+	return false;	
 }
 //--
 
 //Look at the inventory list
 bool World::LookInventory(int &InventorySlots)const{
-	int empty_inventory = 0;
-	for (int i = 0; i < NUM_ITEMS; i++){
+	int empty_inventory = 0;	
+	for (int i = 0; i < NUM_1_WORD_ITEMS; i++){
 		if (items[i]->place == EQUIPPED){
 			printf("%s(Equipped):  %s\n", items[i]->name.c_str(), items[i]->description.c_str());
 			empty_inventory = 1;
 		}
 		if (items[i]->place == INVENTORY){
 			printf("%s:  %s\n", items[i]->name.c_str(), items[i]->description.c_str());
+			empty_inventory = 1;
+		}
+	}
+	for (int i = 0; i < NUM_2_WORD_ITEMS; i++){
+		if (items[i + NUM_1_WORD_ITEMS]->place == EQUIPPED){
+			printf("%s %s(Equipped):  %s\n", item_tokens[i].c_str(), item_tokens[i + 1].c_str(), items[i + NUM_1_WORD_ITEMS]->description.c_str());
+			empty_inventory = 1;
+		}
+		if (items[i + NUM_1_WORD_ITEMS]->place == INVENTORY){
+			printf("%s %s:  %s\n", item_tokens[i].c_str(), item_tokens[i + 1].c_str(), items[i + NUM_1_WORD_ITEMS]->description.c_str());
 			empty_inventory = 1;
 		}
 	}
@@ -271,15 +318,31 @@ bool World::LookInventory(int &InventorySlots)const{
 //--
 
 //Drop an item
-bool World::DropItem(Vector<String> tokens, int &InventorySlots){
-	for (int i = 0; i < NUM_ITEMS; i++){
-		if (tokens[1] == items[i]->name.c_str()){
-			if (items[i]->place == INVENTORY){
-				printf("%s dropped on the floor.\n", items[i]->name.c_str());
-				items[i]->place = FLOOR;
-				items[i]->item_position = player.position;
-				InventorySlots--;
-				return true;
+bool World::DropItem(Vector<String> tokens, int &InventorySlots, unsigned int num_words){
+	if (num_words == 2){
+		for (int i = 0; i < NUM_1_WORD_ITEMS; i++){
+
+			if (tokens[1] == items[i]->name.c_str()){
+				if (items[i]->place == INVENTORY){
+					printf("%s dropped on the floor.\n", items[i]->name.c_str());
+					items[i]->place = FLOOR;
+					items[i]->item_position = player.position;
+					InventorySlots--;
+					return true;
+				}
+			}
+		}
+	}
+	else if (num_words == 3) {
+		for (int i = 0; i < NUM_2_WORD_ITEMS; i++){
+			if (tokens[1] == item_tokens[i*2] ){
+				if (items[i + NUM_1_WORD_ITEMS]->place == INVENTORY){
+					printf("%s %s dropped on the floor.\n", item_tokens[i*2].c_str(), item_tokens[i*2].c_str());
+					items[i + NUM_1_WORD_ITEMS]->place = FLOOR;
+					items[i + NUM_1_WORD_ITEMS]->item_position = player.position;
+					InventorySlots--;
+					return true;
+				}
 			}
 		}
 	}
@@ -288,11 +351,23 @@ bool World::DropItem(Vector<String> tokens, int &InventorySlots){
 //--
 
 //Look an item description
-void World::LookItem(String item)const{
-	for (int i = 0; i < NUM_ITEMS; i++){
-		if (items[i]->name == item.c_str()){
-			if (items[i]->place == INVENTORY || items[i]->place == EQUIPPED){
-				printf("%s\n%s\n", items[i]->name.c_str(), items[i]->description.c_str());
+void World::LookItem(String item, unsigned int num_words)const{
+	if (num_words == 2){
+		for (int i = 0; i < NUM_1_WORD_ITEMS; i++){
+			if (items[i]->name == item.c_str()){
+				if (items[i]->place == INVENTORY || items[i]->place == EQUIPPED){
+					printf("%s\n%s\n", items[i]->name.c_str(), items[i]->description.c_str());
+				}
+			}
+			else{ printf("This item isn't in your inventory or equipped.\n"); }
+		}
+	}
+	else if (num_words == 3){
+		for (int i = 0; i < NUM_2_WORD_ITEMS; i++){
+			if (items[i + NUM_1_WORD_ITEMS]->name == item.c_str()){
+				if (items[i + NUM_1_WORD_ITEMS]->place == INVENTORY || items[i + NUM_1_WORD_ITEMS]->place == EQUIPPED){
+					printf("%s %s\n%s\n", item_tokens[i].c_str(), item_tokens[i + 1].c_str(), items[i + NUM_1_WORD_ITEMS]->description.c_str());
+				}
 			}
 			else{ printf("This item isn't in your inventory or equipped.\n"); }
 		}
@@ -302,35 +377,69 @@ void World::LookItem(String item)const{
 //--
 
 //Equip an item
-bool World::EquipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCounter){
-	for (int i = 0; i < NUM_ITEMS; i++){
-		if (tokens[1] == items[i]->name.c_str()){
-			if (items[i]->place == INVENTORY){				
-				if (items[i]->type == WEAPON){
-					if (WeaponCounter == 1){ printf("You already have a weapon equipped.\n"); }
-					else{
-						items[i]->place = EQUIPPED;
-						printf("%s equipped.\n", items[i]->name.c_str());
-						player.attack += items[i]->value;
-						player.block_chance += items[i]->block_chance;
-						WeaponCounter++;
+bool World::EquipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCounter, unsigned int num_words){
+	if (num_words == 2){
+		for (int i = 0; i < NUM_1_WORD_ITEMS; i++){
+			if (tokens[1] == items[i]->name.c_str()){
+				if (items[i]->place == INVENTORY){
+					if (items[i]->type == WEAPON){
+						if (WeaponCounter == 1){ printf("You already have a weapon equipped.\n"); }
+						else{
+							if (items[i]->name == "arrows"){
+								printf("You can't equip arrows, put them in a bow :)");
+							}
+							else{
+								items[i]->place = EQUIPPED;
+								printf("%s equipped.\n", items[i]->name.c_str());
+								player.attack += items[i]->value;
+								player.block_chance += items[i]->block_chance;
+							}
+							WeaponCounter++;
+						}
 					}
-				}
-				else if (items[i]->type == ARMOUR){
-					if (ArmourCounter == 1){ printf("You already have an armour equipped.\n"); }
-					else{
-						items[i]->place = EQUIPPED;
-						printf("%s equipped.\n", items[i]->name.c_str());
-						player.defense += items[i]->value;
-						player.block_chance += items[i]->block_chance;
-						ArmourCounter++;
+					else if (items[i]->type == ARMOUR){
+						if (ArmourCounter == 1){ printf("You already have an armour equipped.\n"); }
+						else{
+							items[i]->place = EQUIPPED;
+							printf("%s equipped.\n", items[i]->name.c_str());
+							player.defense += items[i]->value;
+							player.block_chance += items[i]->block_chance;
+							ArmourCounter++;
+						}
 					}
+					else if (items[i]->type == OTHER){ printf("You can't equip this item"); }
 				}
-				else if (items[i]->type == OTHER){ printf("You can't equip this item"); }
+				else if (items[i]->place == EQUIPPED){ printf("Item already equipped dude.\n"); }
+				else if (items[i]->place == FLOOR) { printf("Item must be in the inventory in order to equip it.\n"); }
+				return true;
 			}
-			else if (items[i]->place == EQUIPPED){ printf("Item already equipped dude.\n"); }
-			else if (items[i]->place == FLOOR) { printf("Item must be in the inventory in order to equip it.\n"); }
-			return true;
+		}
+	}
+	else if (num_words == 3){
+		for (int i = 0; i < NUM_2_WORD_ITEMS; i++){
+			if (tokens[1] == item_tokens[i * 2] && tokens[2] == item_tokens[i * 2 + 1]){
+				if (items[i + NUM_1_WORD_ITEMS]->place == INVENTORY){
+					if (items[i + NUM_1_WORD_ITEMS]->type == WEAPON){
+						if (WeaponCounter == 1){ printf("You already have a weapon equipped.\n"); }
+						else{
+							items[i + NUM_1_WORD_ITEMS]->place = EQUIPPED;
+							if (tokens[2] == "bow"){
+								printf("%s %s equipped, but it won't have effect alone...\nYou shouls search for arrows.\n", item_tokens[i * 2].c_str(), item_tokens[i * 2 + 1].c_str());
+							}
+							else{
+								printf("%s equipped.\n", items[i + NUM_1_WORD_ITEMS]->name.c_str());
+								player.attack += items[i + NUM_1_WORD_ITEMS]->value;
+								player.block_chance += items[i + NUM_1_WORD_ITEMS]->block_chance;
+							}
+							WeaponCounter++;
+						}
+					}
+					//No 2 words armour/object exists
+					else if (items[i]->place == EQUIPPED){ printf("Item already equipped dude.\n"); }
+					else if (items[i]->place == FLOOR) { printf("Item must be in the inventory in order to equip it.\n"); }
+					return true;
+				}
+			}
 		}
 	}
 	return false;
@@ -338,25 +447,52 @@ bool World::EquipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCoun
 //--
 
 //Unequip an item
-void World::UnequipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCounter){
-	for (int i = 0; i < NUM_ITEMS; i++){
-		if (tokens[1] == items[i]->name.c_str()){
-			if (items[i]->place == EQUIPPED){
-				items[i]->place = INVENTORY;
-				printf("%s unequipped.\n", items[i]->name.c_str());
-				if (items[i]->type == WEAPON){
-					player.attack -= items[i]->value; 
-					player.block_chance -= items[i]->block_chance;
-					WeaponCounter--;
+void World::UnequipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCounter, unsigned int num_words){
+	if (num_words == 2){
+		for (int i = 0; i < NUM_1_WORD_ITEMS; i++){
+			if (tokens[1] == items[i]->name.c_str()){
+				if (items[i]->place == EQUIPPED){					
+					if (items[i]->type == WEAPON){
+						items[i]->place = INVENTORY;
+						printf("%s unequipped.\n", items[i]->name.c_str());
+						player.attack -= items[i]->value;
+						player.block_chance -= items[i]->block_chance;
+						WeaponCounter--;
+					}
+					else if (items[i]->type == ARMOUR){
+						player.defense -= items[i]->value;
+						player.block_chance -= items[i]->block_chance;
+						ArmourCounter--;
+					}
 				}
-				else if (items[i]->type == ARMOUR){ 
-					player.defense -= items[i]->value; 
-					player.block_chance -= items[i]->block_chance;
-					ArmourCounter--;
+				else if (items[i]->name == "arrows"){ printf("You serious...?\n"); }
+				else if (items[i]->place == INVENTORY){ printf("Item is in the inventory dude.\n"); }
+				else if (items[i]->place == FLOOR) { printf("This item is somewhere in the map...\n"); }
+			}
+		}
+	}
+	else if (num_words == 3){
+		for (int i = 0; i < NUM_2_WORD_ITEMS; i++){
+			if (tokens[1] == item_tokens[i*2] && tokens[2] == item_tokens[i*2 + 1]){
+				if (items[i + NUM_1_WORD_ITEMS]->place == EQUIPPED){
+					items[i + NUM_1_WORD_ITEMS]->place = INVENTORY;
+					if (items[i + NUM_1_WORD_ITEMS]->type == WEAPON){
+						if (tokens[2] == "bow"){
+							printf("%s %s unequipped.\n", item_tokens[i * 2].c_str(), item_tokens[i * 2 + 1].c_str());
+						}
+						else{
+							printf("%s %s unequipped.\n", item_tokens[i * 2].c_str(), item_tokens[i * 2 + 1].c_str());
+							player.attack -= items[i]->value;
+							player.block_chance -= items[i]->block_chance;
+						}
+						WeaponCounter--;
+					}
+					//No armour type of 2 words exists
+				}
+				else if (items[i]->place == INVENTORY){ printf("Item is in the inventory dude.\n"); }
+				else if (items[i]->place == FLOOR) { printf("This item is somewhere in the map...\n");
 				}
 			}
-			else if (items[i]->place == INVENTORY){ printf("Item is in the inventory dude.\n"); }
-			else if (items[i]->place == FLOOR) { printf("This item is somewhere in the map...\n"); }
 		}
 	}
 }
@@ -392,7 +528,7 @@ bool World::WayClear(int i)const{
 	else if (exits[i]->destination == rooms[3] || exits[i]->destination == rooms[6]){
 		if (items[0]->place == INVENTORY){ return true; }
 		else{
-			printf("You need to have the coins for the ferryman to cross this river.\n");
+			printf("You need to have the coins for Charon the ferryman to cross this river.\n");
 			return false;
 		}
 	}

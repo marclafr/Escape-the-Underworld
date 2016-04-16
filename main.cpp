@@ -13,7 +13,7 @@ int main(){
 		//Commands that have more than one word:
 		if (my_world.command.ContainsString(" ") == true){
 			Vector<String> tokens;
-			my_world.command.Tokenize(" ,.-_", tokens);
+			unsigned int num_words = my_world.command.Tokenize(" ,.-_", tokens);
 			int CommandDir = my_world.GetDirection(my_world.command, tokens);
 			if (CommandDir == -1){
 				if (tokens[0] == ("look") && tokens[1] == ("around")){ my_world.Look(); }
@@ -27,25 +27,25 @@ int main(){
 					}
 				}
 				else if (tokens[0] == ("pick")){
-					if (my_world.PickItem(tokens, Counters[0]) == false){
+					if (my_world.PickItem(tokens, Counters[0], num_words) == false){
 						printf("The item is not here or doesn't exist.\n");
 					}
 				}
 				else if (tokens[0] == ("drop") == true){
-					if (my_world.DropItem(tokens, Counters[0]) == false){
+					if (my_world.DropItem(tokens, Counters[0], num_words) == false){
 						printf("Your inventory haven't this item, you can't drop it.\n");
 					}
 				}
 				else if (tokens[0] == ("look")){
-					my_world.LookItem(tokens[1]);
+					my_world.LookItem(tokens[1], num_words);
 				}
 				else if (tokens[0] == "equip"){
-					if (my_world.EquipItem(tokens, Counters[1], Counters[2]) == false){ //[0] == weapon, [1] == armour
+					if (my_world.EquipItem(tokens, Counters[1], Counters[2], num_words) == false){ //[0] == weapon, [1] == armour
 						printf("Item already equipped");
 					}
 				}
 				else if (tokens[0] == "unequip"){
-					my_world.UnequipItem(tokens, Counters[1], Counters[2]);
+					my_world.UnequipItem(tokens, Counters[1], Counters[2], num_words);
 				}
 			}
 			else if (CommandDir == 0 || CommandDir == 1 || CommandDir == 2 || CommandDir == 3){

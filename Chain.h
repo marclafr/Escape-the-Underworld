@@ -54,6 +54,7 @@ public:
 	void GetString(){
 		gets_s(buffer, max_size);
 	}
+
 	//string into string
 	bool ContainsString(const String& string)const{
 		return strstr(string.buffer, buffer) != nullptr;
@@ -154,14 +155,17 @@ public:
 	Vector<String> tokens; //vector de strings
 	player_input.tokenize(" ", tokens); //player_input = command) // tokenize rep dos arguments: tipu de caracters (els que es consideren seperadors(espai)), i una referencia  a tokens
 	*/
-	void Tokenize(const char* symbols, Vector<String> &tokens){  //, char* string
+	unsigned int Tokenize(const char* symbols, Vector<String> &tokens){  //, char* string
+		unsigned int num_words = 0;
 		char* context = nullptr;
 		char* save = nullptr;
 		save = strtok_s(buffer, symbols, &context);
 		while (save != NULL){
+			num_words++;
 			tokens.PushBack(save);
 			save = strtok_s(NULL, symbols, &context);			
-		}		
+		}
+		return num_words;
 	}
 
 };

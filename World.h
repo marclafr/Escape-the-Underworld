@@ -24,12 +24,13 @@ public:
 	bool Move(int CommandDir);
 	bool LookDirection(int CommandDir, Vector<String> tokens)const;
 	void Look()const;
-	bool PickItem(Vector<String> tokens, int &InventorySlots);
+	Vector<String> item_tokens;
+	bool PickItem(Vector<String> tokens, int &InventorySlots, unsigned int num_words);
 	bool LookInventory(int &InventorySlots)const;
-	bool DropItem(Vector<String> tokens, int &InventorySlots);
-	void LookItem(String item)const;
-	bool EquipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCounter);
-	void UnequipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCounter);
+	bool DropItem(Vector<String> tokens, int &InventorySlots, unsigned int num_words);
+	void LookItem(String item, unsigned int num_words)const;
+	bool EquipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCounter, unsigned int num_words);
+	void UnequipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCounter, unsigned int num_words);
 	int GetDirection(String command, Vector<String> tokens)const;
 	int GetDirection(String command)const;
 	void CloseGate(int CommandDir)const;
