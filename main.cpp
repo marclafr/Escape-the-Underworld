@@ -7,6 +7,7 @@ int main(){
 	Counters.PushBack(0);	//Inventory capacity counter
 	Counters.PushBack(0);	//Weapon equipped counter
 	Counters.PushBack(0);	//Armour equipped counter
+	Counters.PushBack(0);	//Shield equipped counter
 	Counters.PushBack(0);	//Quiver capacity counter
 	my_world.CreateWorld();
 	do{
@@ -38,18 +39,23 @@ int main(){
 					}
 				}
 				else if (tokens[0] == ("look")){
-					my_world.LookItem(tokens[1], num_words);
+					if (num_words == 2){
+						my_world.LookItem(tokens[1]);
+					}
+					else if (num_words == 3){
+						my_world.LookItem(tokens[1], tokens[2]);
+					}
 				}
 				else if (tokens[0] == "equip"){
-					if (my_world.EquipItem(tokens, Counters[1], Counters[2], num_words) == false){ //[0] == weapon, [1] == armour
+					if (my_world.EquipItem(tokens, Counters[1], Counters[2], Counters[3], num_words) == false){ //[0] == weapon, [1] == armour
 						printf("Item already equipped");
 					}
 				}
 				else if (tokens[0] == "unequip"){
-					my_world.UnequipItem(tokens, Counters[1], Counters[2], num_words);
+					my_world.UnequipItem(tokens, Counters[1], Counters[2], Counters[3], num_words);
 				}
 				else if (tokens[0] == "put" && tokens[2] == "into"){
-					my_world.FuseItems(tokens, Counters[3]);
+					my_world.FuseItems(tokens, Counters[4]);
 				}
 			}
 			else if (CommandDir == 0 || CommandDir == 1 || CommandDir == 2 || CommandDir == 3){
