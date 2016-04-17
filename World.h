@@ -35,6 +35,7 @@ public:
 	int GetDirection(String command)const;
 	void CloseGate(int CommandDir)const;
 	void OpenGate(int CommandDir)const;
+	void FuseItems(Vector<String> tokens, int &QuiverCapacityCounter)const;
 	void Stats()const;
 private:	
 	bool WayClear(int i)const;	

@@ -4,9 +4,10 @@
 int main(){
 	World my_world;
 	Vector<int>Counters;
-	Counters.PushBack(0);
-	Counters.PushBack(0);
-	Counters.PushBack(0);
+	Counters.PushBack(0);	//Inventory capacity counter
+	Counters.PushBack(0);	//Weapon equipped counter
+	Counters.PushBack(0);	//Armour equipped counter
+	Counters.PushBack(0);	//Quiver capacity counter
 	my_world.CreateWorld();
 	do{
 		my_world.command.GetString();		
@@ -47,6 +48,9 @@ int main(){
 				else if (tokens[0] == "unequip"){
 					my_world.UnequipItem(tokens, Counters[1], Counters[2], num_words);
 				}
+				else if (tokens[0] == "put" && tokens[2] == "into"){
+					my_world.FuseItems(tokens, Counters[3]);
+				}
 			}
 			else if (CommandDir == 0 || CommandDir == 1 || CommandDir == 2 || CommandDir == 3){
 				if (tokens[0] == ("go") && tokens[1] == ("north") ||
@@ -58,6 +62,7 @@ int main(){
 					}
 				}
 			}
+		
 		}
 		//--
 
