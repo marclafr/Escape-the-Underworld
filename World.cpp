@@ -281,10 +281,10 @@ void World::CloseGate(int CommandDir)const{
 bool World::PickItem(Vector<String> tokens, int &InventorySlots, unsigned int num_words){
 	if (num_words == 2){
 		for (int i = 0; i < NUM_1_WORD_ITEMS; i++){
-			if (tokens[1] == items[i]->name.c_str()){
-				if (items[i]->item_position->name == player.position->name){
-					if (items[i]->place == FLOOR){
-						if (InventorySlots < NUM_INVENTORY_SLOTS){
+			if (tokens[1] == items[i]->name.c_str()){		//looks for the item
+				if (items[i]->item_position->name == player.position->name){	//comproves that the item is in the same room as the player
+					if (items[i]->place == FLOOR){			//checks if the item is in the floor
+						if (InventorySlots < NUM_INVENTORY_SLOTS){	//checks if the inventory is full
 							printf("%s picked up.\n\n", items[i]->name.c_str());
 							items[i]->place = INVENTORY;
 							InventorySlots++;
@@ -305,10 +305,10 @@ bool World::PickItem(Vector<String> tokens, int &InventorySlots, unsigned int nu
 	}
 	if (num_words == 3){
 		for (int i = 0; i < NUM_2_WORD_ITEMS; i++){	
-			if (tokens[1] == item_tokens[i*2] && tokens[2] == item_tokens[i*2 + 1]){
-				if (items[i + NUM_1_WORD_ITEMS ]->item_position->name == player.position->name){
-					if (items[i + NUM_1_WORD_ITEMS ]->place == FLOOR){
-						if (InventorySlots < NUM_INVENTORY_SLOTS){
+			if (tokens[1] == item_tokens[i*2] && tokens[2] == item_tokens[i*2 + 1]){		//looks for the item
+				if (items[i + NUM_1_WORD_ITEMS ]->item_position->name == player.position->name){		//comproves that the item is in the same room as the player
+					if (items[i + NUM_1_WORD_ITEMS ]->place == FLOOR){			//checks if the item is in the floor
+						if (InventorySlots < NUM_INVENTORY_SLOTS){				//checks if the inventory is full
 							printf("%s %s picked up.\n\n", item_tokens[i*2].c_str(), item_tokens[i*2 + 1].c_str());
 							items[i + NUM_1_WORD_ITEMS]->place = INVENTORY;
 							InventorySlots++;
@@ -335,6 +335,7 @@ bool World::PickItem(Vector<String> tokens, int &InventorySlots, unsigned int nu
 bool World::LookInventory(int &InventorySlots)const{
 	int empty_inventory = 0;	
 	printf("\n");
+	//Items that have 1 word:
 	for (int i = 0; i < NUM_1_WORD_ITEMS; i++){
 		if (items[i]->place == EQUIPPED){
 			printf("%s(Equipped):  %s\n", items[i]->name.c_str(), items[i]->description.c_str());
@@ -349,6 +350,7 @@ bool World::LookInventory(int &InventorySlots)const{
 			empty_inventory = 1;
 		}
 	}
+	//Items that have 2 words:
 	for (int i = 0; i < NUM_2_WORD_ITEMS; i++){
 		if (items[i + NUM_1_WORD_ITEMS]->place == EQUIPPED){
 			printf("%s %s(Equipped):  %s\n", item_tokens[i*2].c_str(), item_tokens[i*2 + 1].c_str(), items[i + NUM_1_WORD_ITEMS]->description.c_str());
@@ -358,6 +360,7 @@ bool World::LookInventory(int &InventorySlots)const{
 			printf("%s %s:  %s\n", item_tokens[i*2].c_str(), item_tokens[i*2 + 1].c_str(), items[i + NUM_1_WORD_ITEMS]->description.c_str());
 			empty_inventory = 1;
 		}
+		//No need to check if it is fused because there is no 2 words item that can be fused.
 	}
 	printf("Inventory slots: %i/%i.\n\n", InventorySlots, NUM_INVENTORY_SLOTS);
 	if (empty_inventory == 1){ return true; }
@@ -369,9 +372,9 @@ bool World::LookInventory(int &InventorySlots)const{
 bool World::DropItem(Vector<String> tokens, int &InventorySlots, unsigned int num_words){
 	if (num_words == 2){
 		for (int i = 0; i < NUM_1_WORD_ITEMS; i++){
-			if (tokens[1] == items[i]->name.c_str()){
-				if (items[i]->place == INVENTORY){
-					if (items[i]->fuse != FUSED){
+			if (tokens[1] == items[i]->name.c_str()){		//looks for the correct item
+				if (items[i]->place == INVENTORY){			//checks if the item is in the inventory
+					if (items[i]->fuse != FUSED){			//checks that the item isn't fused
 						printf("%s dropped on the floor.\n\n", items[i]->name.c_str());
 						items[i]->place = FLOOR;
 						items[i]->item_position = player.position;
@@ -388,9 +391,9 @@ bool World::DropItem(Vector<String> tokens, int &InventorySlots, unsigned int nu
 	}
 	else if (num_words == 3) {
 		for (int i = 0; i < NUM_2_WORD_ITEMS; i++){
-			if (tokens[1] == item_tokens[i*2] ){
-				if (items[i + NUM_1_WORD_ITEMS]->place == INVENTORY){
-					printf("%s %s dropped on the floor.\n\n", item_tokens[i*2].c_str(), item_tokens[i*2 + 1].c_str());
+			if (tokens[1] == item_tokens[i*2] ){				//looks for the correct item
+				if (items[i + NUM_1_WORD_ITEMS]->place == INVENTORY){		//checks if the item is in the inventory
+					printf("%s %s dropped on the floor.\n\n", item_tokens[i*2].c_str(), item_tokens[i*2 + 1].c_str());	//no need to check if it is fused because there is no 2 words item that can be fused
 					items[i + NUM_1_WORD_ITEMS]->place = FLOOR;
 					items[i + NUM_1_WORD_ITEMS]->item_position = player.position;
 					InventorySlots--;
@@ -408,8 +411,8 @@ bool World::DropItem(Vector<String> tokens, int &InventorySlots, unsigned int nu
 void World::LookItem(String item_w1)const{
 	int IncorrectItem = 0; //if an incorrect item is given	
 		for (int i = 0; i < NUM_1_WORD_ITEMS; i++){
-			if (items[i]->name == item_w1.c_str()){
-				if (items[i]->place == INVENTORY || items[i]->place == EQUIPPED){
+			if (items[i]->name == item_w1.c_str()){				//looks for the correct item
+				if (items[i]->place == INVENTORY || items[i]->place == EQUIPPED){		//check that the item is in the inventory or equipped
 					printf("%s\n%s\n", items[i]->name.c_str(), items[i]->description.c_str());
 					IncorrectItem = 1;
 				}
@@ -421,10 +424,9 @@ void World::LookItem(String item_w1)const{
 	//2 words items
 void World::LookItem(String item_w1, String item_w2)const{
 	int IncorrectItem = 0; //if an incorrect item is given
-
 	for (int i = 0; i < NUM_2_WORD_ITEMS; i++){
-		if (item_tokens[i * 2] == item_w1 && item_tokens[i * 2 + 1] == item_w2){
-			if (items[i + NUM_1_WORD_ITEMS]->place == INVENTORY || items[i + NUM_1_WORD_ITEMS]->place == EQUIPPED){
+		if (item_tokens[i * 2] == item_w1 && item_tokens[i * 2 + 1] == item_w2){		//looks for the correct item
+			if (items[i + NUM_1_WORD_ITEMS]->place == INVENTORY || items[i + NUM_1_WORD_ITEMS]->place == EQUIPPED){			//checks if the item is in the inventory or equipped
 				printf("%s %s\n%s\n", item_tokens[i * 2].c_str(), item_tokens[i * 2 + 1].c_str(), items[i + NUM_1_WORD_ITEMS]->description.c_str());
 				IncorrectItem = 1;
 			}
@@ -438,10 +440,10 @@ void World::LookItem(String item_w1, String item_w2)const{
 bool World::EquipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCounter, int &ShieldCounter, int &QuiverCapacityCounter, unsigned int num_words){
 	if (num_words == 2){
 		for (int i = 0; i < NUM_1_WORD_ITEMS; i++){
-			if (tokens[1] == items[i]->name.c_str()){
-				if (items[i]->place == INVENTORY){
-					if (items[i]->type == WEAPON){
-						if (WeaponCounter == 1){
+			if (tokens[1] == items[i]->name.c_str()){		//looks for the item
+				if (items[i]->place == INVENTORY){			//checks that the item is in the inventory
+					if (items[i]->type == WEAPON){			//if it is a weapon:
+						if (WeaponCounter == 1){			//only 1 weapon can be equipped, checks if there is any
 							printf("You already have a weapon equipped.\n\n"); 
 							return true;
 						}
@@ -460,8 +462,8 @@ bool World::EquipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCoun
 							return true;
 						}
 					}
-					else if (items[i]->type == ARMOUR){
-						if (ArmourCounter == 1){ 
+					else if (items[i]->type == ARMOUR){		//if it is an armour
+						if (ArmourCounter == 1){			//only 1 armour can be equipped, checks if there is any
 							printf("You already have an armour equipped.\n\n");
 							return true;
 						}
@@ -474,8 +476,8 @@ bool World::EquipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCoun
 						}
 						return true;
 					}
-					else if (items[i]->type == SHIELD){
-						if (ShieldCounter == 1){ 
+					else if (items[i]->type == SHIELD){		//if it is a shield
+						if (ShieldCounter == 1){			//only 1 shield can be equipped, checks if there is any
 							printf("You already have a shield equipped.\n\n");
 							return true;
 						}
@@ -489,12 +491,12 @@ bool World::EquipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCoun
 						return true;
 					}
 				}
-				if (items[i]->type == WEAPON || items[i]->type == ARMOUR || items[i]->type == SHIELD){
+				if (items[i]->type == WEAPON || items[i]->type == ARMOUR || items[i]->type == SHIELD){		//if the item is not in the inventory:
 					if (items[i]->place == EQUIPPED){ printf("Item already equipped dude.\n\n"); }
 					else if (items[i]->place == FLOOR) { printf("Item must be in the inventory in order to equip it.\n\n"); }
 					return true;
 				}
-				else{
+				else{		//if the item isnt a weapon, an armour or a shield you can't equip them
 					printf("You can't equip this item\n\n");
 					return true;
 				}
@@ -504,33 +506,33 @@ bool World::EquipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCoun
 	else if (num_words == 3){
 		int QuiverPosition = 0;
 		for (int i = 0; i < NUM_2_WORD_ITEMS; i++){
-			if (tokens[1] == item_tokens[i * 2] && tokens[2] == item_tokens[i * 2 + 1]){
-				if (items[i + NUM_1_WORD_ITEMS]->place == INVENTORY){
-					if (items[i + NUM_1_WORD_ITEMS]->type == WEAPON){
-						if (WeaponCounter == 1){ 
+			if (tokens[1] == item_tokens[i * 2] && tokens[2] == item_tokens[i * 2 + 1]){	//looks for the item
+				if (items[i + NUM_1_WORD_ITEMS]->place == INVENTORY){	//checks if the item is in the inventory
+					if (items[i + NUM_1_WORD_ITEMS]->type == WEAPON){	//if it is a weapon
+						if (WeaponCounter == 1){						//only 1 weapon can be equipped, checks if there is any
 							printf("You already have a weapon equipped.\n\n"); 
 							return true;
 						}
 						else{
 							items[i + NUM_1_WORD_ITEMS]->place = EQUIPPED;
-							if (tokens[2] == "bow"){
+							if (tokens[2] == "bow"){				//special case: if it is a bow you need to have the arrows put into the quiver to get the stats bonus
 								for (int j = 0; j < NUM_1_WORD_ITEMS; j++){
 									items[QuiverPosition]->name == "quiver";
-									QuiverPosition = j;
+									QuiverPosition = j;			//saves the number of item of the quiver (in case we want to add more items we don't need to worry to find it).
 								}
-								if (QuiverCapacityCounter > 0 && items[QuiverPosition]->place == INVENTORY){
-									printf("%s equipped.\n\n", items[i + NUM_1_WORD_ITEMS]->name.c_str());
+								if (QuiverCapacityCounter > 0 && items[QuiverPosition]->place == INVENTORY){	//as only arrows can be put into the quiver, if the capacity of the quiver is > 0 
+									printf("%s equipped.\n\n", items[i + NUM_1_WORD_ITEMS]->name.c_str());		//and and it is in the inventory, we will update the player stats
 									player.attack += items[i + NUM_1_WORD_ITEMS]->value;
 									player.block_chance += items[i + NUM_1_WORD_ITEMS]->value2;
 
 								}
-								else{
+								else{	//in case the previous statments fails, the effects won't apply.
 									printf("%s %s equipped, but it won't have effect alone...\nYou shouls search for arrows and a quiver.\n\n", item_tokens[i * 2].c_str(), item_tokens[i * 2 + 1].c_str());
 								}
 								WeaponCounter++;
 								return true;
 							}
-							else{
+							else{		//rest of weapons that aren't bows
 								printf("%s equipped.\n\n", items[i + NUM_1_WORD_ITEMS]->name.c_str());
 								player.attack += items[i + NUM_1_WORD_ITEMS]->value;
 								player.block_chance += items[i + NUM_1_WORD_ITEMS]->value2;
@@ -539,8 +541,8 @@ bool World::EquipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCoun
 							return true;
 						}
 					}
-					if (items[i + NUM_1_WORD_ITEMS]->type == ARMOUR){
-						if (ArmourCounter == 1){
+					if (items[i + NUM_1_WORD_ITEMS]->type == ARMOUR){	//if it is an armour
+						if (ArmourCounter == 1){						//only 1 armour can be equipped, checks if there is any
 							printf("You already have an armour equipped.\n\n");
 							return true;
 						}
@@ -553,8 +555,8 @@ bool World::EquipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCoun
 							return true;
 						}
 					}
-					if (items[i + NUM_1_WORD_ITEMS]->type == SHIELD){
-						if (ShieldCounter == 1){
+					if (items[i + NUM_1_WORD_ITEMS]->type == SHIELD){	//if it is a shield
+						if (ShieldCounter == 1){						//only 1 shield can be equipped, checks if there is any
 							printf("You already have a shield equipped.\n\n");
 							return true;
 						}
@@ -567,8 +569,9 @@ bool World::EquipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCoun
 							return true;
 						}
 					}
-					else { printf("You can't equip this item.\n\n"); }
-				}
+					else { printf("You can't equip this item.\n\n"); }		//if the item isnt a weapon, an armour or a shield you can't equip them
+				}		
+				//if the item is not in the inventory:
 				else if (items[i + NUM_1_WORD_ITEMS]->place == EQUIPPED){ printf("Item already equipped dude.\n\n"); }
 				else if (items[i + NUM_1_WORD_ITEMS]->place == FLOOR) { printf("Item must be in the inventory in order to equip it.\n\n"); }
 				return true;
@@ -583,9 +586,9 @@ bool World::EquipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCoun
 bool World::UnequipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCounter, int &ShieldCounter, unsigned int num_words){
 	if (num_words == 2){
 		for (int i = 0; i < NUM_1_WORD_ITEMS; i++){
-			if (tokens[1] == items[i]->name.c_str()){
-				if (items[i]->place == EQUIPPED){					
-					if (items[i]->type == WEAPON){
+			if (tokens[1] == items[i]->name.c_str()){		//looks for the item
+				if (items[i]->place == EQUIPPED){			//checks that the item is equipped
+					if (items[i]->type == WEAPON){			//in case it is a weapon:
 						items[i]->place = INVENTORY;
 						printf("%s unequipped.\n\n", items[i]->name.c_str());
 						player.attack -= items[i]->value;
@@ -593,26 +596,26 @@ bool World::UnequipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCo
 						WeaponCounter--;
 						return true;
 					}
-					else if (items[i]->type == ARMOUR){
+					else if (items[i]->type == ARMOUR){		//in case it is an armour
 						player.defense -= items[i]->value;
 						player.block_chance -= items[i]->value2;
 						ArmourCounter--;
 						return true;
 					}
-					else if (items[i]->type == SHIELD){
+					else if (items[i]->type == SHIELD){		//in case it is a shield
 						player.defense -= items[i]->value;
 						player.block_chance -= items[i]->value2;
 						ShieldCounter--;
 						return true;
 					}
 				}
-				if (items[i]->type == WEAPON || items[i]->type == ARMOUR || items[i]->type == SHIELD){
-					if (items[i]->name == "arrows"){ printf("You serious...?\n\n"); }
+				if (items[i]->type == WEAPON || items[i]->type == ARMOUR || items[i]->type == SHIELD){		
+					if (items[i]->name == "arrows"){ printf("You serious...?\n\n"); }	//you can't equip arrows, only put them into quiver.
 					else if (items[i]->place == INVENTORY){ printf("Item is in the inventory dude.\n\n"); }
 					else if (items[i]->place == FLOOR) { printf("This item is somewhere in the map...\n\n"); }
 					return true;
 				}
-				else{
+				else{		//items that are not weapons, armours or shields can't be equipped and so, unequipped.
 					printf("You can't equip/unequip this item.\n\n");
 					return true;
 				}
@@ -621,18 +624,18 @@ bool World::UnequipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCo
 	}
 	else if (num_words == 3){
 		for (int i = 0; i < NUM_2_WORD_ITEMS; i++){
-			if (tokens[1] == item_tokens[i * 2] && tokens[2] == item_tokens[i * 2 + 1]){
-				if (items[i + NUM_1_WORD_ITEMS]->place == EQUIPPED){
+			if (tokens[1] == item_tokens[i * 2] && tokens[2] == item_tokens[i * 2 + 1]){		//looks for the item
+				if (items[i + NUM_1_WORD_ITEMS]->place == EQUIPPED){				//checks the item is equipped
 					items[i + NUM_1_WORD_ITEMS]->place = INVENTORY;
 					if (items[i + NUM_1_WORD_ITEMS]->type == WEAPON){
-						if (tokens[2] == "bow"){
-							if (player.attack > 160){	//if there is incorporated another item that can have more attack than a bow, just include an exception, but i didn't plan that except for an statue upgrade.
+						if (tokens[2] == "bow"){			//special case: bows: if the bow equippment didnt raise the stats, the unequip neither.
+							if (player.attack > 160){		//if there is incorporated another item that can have more attack than a bow, just include an exception, but i didn't plan that except for an statue upgrade (in the 3rd version).
 								player.attack -= items[i + NUM_1_WORD_ITEMS]->value;
 								player.block_chance -= items[i + NUM_1_WORD_ITEMS]->value2;
 							}
-							printf("%s %s unequipped.\n\n", item_tokens[i * 2].c_str(), item_tokens[i * 2 + 1].c_str());
+							printf("%s %s unequipped.\n\n", item_tokens[i * 2].c_str(), item_tokens[i * 2 + 1].c_str());	
 						}
-						else{
+						else{		//other weapons
 							printf("%s %s unequipped.\n\n", item_tokens[i * 2].c_str(), item_tokens[i * 2 + 1].c_str());
 							player.attack -= items[i + NUM_1_WORD_ITEMS]->value;
 							player.block_chance -= items[i + NUM_1_WORD_ITEMS]->value2;
@@ -640,14 +643,14 @@ bool World::UnequipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCo
 						WeaponCounter--;
 						return true;
 					}
-					if (items[i + NUM_1_WORD_ITEMS]->type == ARMOUR){
+					if (items[i + NUM_1_WORD_ITEMS]->type == ARMOUR){		//armours
 						printf("%s %s unequipped.\n\n", item_tokens[i * 2].c_str(), item_tokens[i * 2 + 1].c_str());
 						player.defense -= items[i + NUM_1_WORD_ITEMS]->value;
 						player.block_chance -= items[i + NUM_1_WORD_ITEMS]->value2;
 						ArmourCounter--;
 						return true;
 					}
-					if (items[i + NUM_1_WORD_ITEMS]->type == SHIELD){
+					if (items[i + NUM_1_WORD_ITEMS]->type == SHIELD){		//shields
 						printf("%s %s unequipped.\n\n", item_tokens[i * 2].c_str(), item_tokens[i * 2 + 1].c_str());
 						player.defense -= items[i + NUM_1_WORD_ITEMS]->value;
 						player.block_chance -= items[i + NUM_1_WORD_ITEMS]->value2;
@@ -660,7 +663,7 @@ bool World::UnequipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCo
 					else if (items[i + NUM_1_WORD_ITEMS]->place == FLOOR) { printf("This item is somewhere in the map...\n\n"); }
 					return true;
 				}
-				else{
+				else{		//if the item isn't a weapon, an armour or a shield, it can't be equipped, and so, unequipped
 					printf("You can't equip/unequip this item.\n\n");
 					return true;
 				}
@@ -682,7 +685,7 @@ void World::FuseItems(Vector<String> tokens, int &InventoryCapacity, int &Quiver
 							if (items[i]->place == INVENTORY && items[j]->place == INVENTORY){			//checks if both items are in the inventory.
 								if (items[j]->value > QuiverCapacityCounter){						//checks if the capacity of the item has reached its maximum.
 									items[i]->fuse = FUSED;
-									InventoryCapacity--;		//fused items will take less slots in the inventory.
+									InventoryCapacity--;			//fused items will take less slots in the inventory.
 									QuiverCapacityCounter += items[i]->value;
 									printf("%s put into %s.\n\n", items[i]->name.c_str(), items[j]->name.c_str());
 								}
@@ -710,8 +713,9 @@ void World::UnfuseItems(Vector<String> tokens, int &InventoryCapacity, int &Quiv
 					if (tokens[3] == items[j]->name){				//looks for the second item.
 						if (items[j]->fuse == FUSABLE2){			//checks if the second item can be the container of the first one.
 							if (items[i]->place == INVENTORY && items[j]->place == INVENTORY){			//checks if both items are in the inventory.
-								if (InventoryCapacity < NUM_INVENTORY_SLOTS){		//you cant unfuse if you inventory will excced the inventory limit.
+									//you cant unfuse if you inventory will excced the inventory limit.
 									//checks if the capacity of the item has reached its maximum.
+								if (InventoryCapacity < NUM_INVENTORY_SLOTS){
 									items[i]->fuse = FUSABLE1;
 									InventoryCapacity++;
 									QuiverCapacityCounter -= items[i]->value;
@@ -755,11 +759,11 @@ bool World::Move(int CommandDir){
 
 //Comproving if tha path is closed
 bool World::WayClear(int i)const{
-	if (exits[i]->blocked == true){
+	if (exits[i]->blocked == true){		//checks if gates are locked
 		printf("Gate locked.\n");
 		return false;
 	}
-	else if (exits[i]->destination == rooms[3] || exits[i]->destination == rooms[6]){
+	else if (exits[i]->destination == rooms[3] || exits[i]->destination == rooms[6]){	//checks if you have the coins in your inventory to cross the Styx River (right and left side)
 		if (items[0]->place == INVENTORY){ return true; }
 		else{
 			printf("You need to have the coins for Charon the ferryman to cross this river.\n");
@@ -776,15 +780,20 @@ bool World::LookDirection(int CommandDir, Vector<String> tokens)const{
 	for (int i = 0; i < NUM_EXITS; i++){
 		if (exits[i]->origin->name == player.position->name){
 			CommandDir = GetDirection(command, tokens);
-			if (CommandDir == exits[i]->direction) {
-				if (World::WayClear(i) == true){
+			if (CommandDir == exits[i]->direction) {		//checks if the direction is the same
+				if (World::WayClear(i) == true){			//if the path is blocked you can't see the other side
 					printf("%s\n", exits[i]->destination->description);
 					done = true;
 					return 1;
 					break;
 				}
-				else{
-				printf("Before look what is inside you must open the gate.\n");
+				else{	//the message change if you try to look across a river or across a gate
+					if (exits[i]->destination == rooms[3] || exits[i]->destination == rooms[6]){
+						printf("You will need to cross the river to look what is in the other side.\n\n");
+					}
+					else{
+						printf("Before look what is inside you must open the gate.\n");
+					}
 				}
 			}
 		}
@@ -800,9 +809,9 @@ void World::Look()const{
 	printf("This room contains this items:\n");
 	int NoItems = 0;		//if there are no items this equals 0
 	for (int i = 0; i < NUM_ITEMS; i++){
-		if (items[i]->item_position->name == player.position->name && items[i]->place == FLOOR){
+		if (items[i]->item_position->name == player.position->name && items[i]->place == FLOOR){	//looks for the items that are in the same room as the player && are in the floor
 			printf(" -%s: %s\n", items[i]->name.c_str(), items[i]->description.c_str());
-			NoItems++;
+			NoItems = 1;
 		}
 	}
 	if (NoItems == 0){ printf("This room has no items on the floor.\n\n"); }
