@@ -60,6 +60,7 @@ void World::CreateWorld(){
 
 	//Items:
 	Item* Coins;
+	Item* Keys;
 	Item* Stick;
 	Item* Sword;
 	Item* Shield;
@@ -73,6 +74,7 @@ void World::CreateWorld(){
 	Item* HephaestusStatue;
 	Item* AphroditeStatue;
 	items.PushBack(Coins = new Item("coins", "Coins needed to cross the river.\n\n", Elm, 0, 0, OTHER, FLOOR, UNFUSABLE));
+	items.PushBack(Keys = new Item("keys", "keys needed to open gates.\n\n", Marsh, 0, 0, OTHER, FLOOR, UNFUSABLE));
 	items.PushBack(Stick = new Item("stick", "Just a large stick.\nDamage: 10.\nBlock chance: 5.\n\n", Entrance, 10, 5, WEAPON, FLOOR, UNFUSABLE));
 	items.PushBack(Sword = new Item("sword", "A shiny sword\nDamage: 70.\nBlock chance: 10.\n\n", Marsh, 70, 10, WEAPON, FLOOR, UNFUSABLE));
 	items.PushBack(Shield = new Item("shield", "A big shield to protect you.\nDefense: 25.\nBlock chance: 50.\n\n", Entrance, 25, 50, SHIELD, FLOOR, UNFUSABLE));
@@ -225,9 +227,16 @@ void World::OpenGate(int CommandDir)const{
 				if (exits[i]->destination == rooms[10] ||exits[i]->destination == rooms[1] ||exits[i]->destination == rooms[9] ||exits[i]->destination == rooms[0]){
 					if ((exits[i])->blocked == false){ printf("This door had been already opened dude.\n\n"); }
 					else{
-						exits[i]->blocked = false;
-						exits[i + 2]->blocked = false;
-						printf("The path to %s has been opened.\n\n", exits[i]->destination->name);
+						for (int j = 0; j < NUM_1_WORD_ITEMS; j++){
+							if (items[j]->name == "keys"){
+								if (items[j]->place == INVENTORY){
+									exits[i]->blocked = false;
+									exits[i + 2]->blocked = false;
+									printf("The path to %s has been opened.\n\n", exits[i]->destination->name);
+								}
+								else{ printf("You need the keys to open this door.\n\n"); }
+							}
+						}						
 					}
 				}
 				else{ printf("I don't see any door to open...\n\n"); }
@@ -245,9 +254,16 @@ void World::CloseGate(int CommandDir)const{
 				if (exits[i]->destination == rooms[10] || exits[i]->destination == rooms[1] || exits[i]->destination == rooms[9] || exits[i]->destination == rooms[0]){
 					if (exits[i]->blocked == true){ printf("This door is already closed dude.\n\n"); }
 					else{
-						exits[i]->blocked = true;
-						exits[i + 2]->blocked = true;
-						printf("The path to %s has been closed.\n\n", exits[i]->destination->name);
+						for (int j = 0; j < NUM_1_WORD_ITEMS; j++){
+							if (items[j]->name == "keys"){
+								if (items[j]->place == INVENTORY){
+									exits[i]->blocked = true;
+									exits[i + 2]->blocked = true;
+									printf("The path to %s has been closed.\n\n", exits[i]->destination->name);
+								}
+								else{ printf("You need the keys to close this door.\n"); }
+							}
+						}
 					}
 				}
 				else{ printf("I don't see any door to close...\n\n"); }
