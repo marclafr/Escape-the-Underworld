@@ -4,7 +4,7 @@
 int main(){
 	World my_world;
 	Vector<int>Counters;
-	Counters.PushBack(0);	//Inventory capacity counter
+	Counters.PushBack(2);	//Inventory capacity counter: starts with 2 items
 	Counters.PushBack(0);	//Weapon equipped counter
 	Counters.PushBack(0);	//Armour equipped counter
 	Counters.PushBack(0);	//Shield equipped counter
@@ -48,17 +48,27 @@ int main(){
 				}
 				else if (tokens[0] == "equip"){
 					if (my_world.EquipItem(tokens, Counters[1], Counters[2], Counters[3], Counters[4], num_words) == false){ //[0] == weapon, [1] == armour
-						printf("Item already equipped");
+						printf("Equip what??\n");
 					}
 				}
 				else if (tokens[0] == "unequip"){
-					my_world.UnequipItem(tokens, Counters[1], Counters[2], Counters[3], num_words);
+					if (my_world.UnequipItem(tokens, Counters[1], Counters[2], Counters[3], num_words) == false){
+						printf("Unequip what??\n\n");
+					}
 				}
-				else if (tokens[0] == "put" && tokens[2] == "into"){
-					my_world.FuseItems(tokens, Counters[0], Counters[4]);
-				}
-				else if (tokens[0] == "get" && tokens[2] == "from"){
-					my_world.UnfuseItems(tokens, Counters[0], Counters[4]);
+				if (num_words >= 4){		//if this is not used it asserts if you introduce get/put + <less than 2 words> e.g. "get stick"
+					if (num_words == 5){
+						if (tokens[2] == "statue"){ printf("Statues can't be put into nothing.\n\n"); }
+						if (tokens[4] == "statue"){ printf("Statues can't be used to put nothing\n\n"); }
+					}
+					else{
+						if (tokens[0] == "put" && tokens[2] == "into"){
+							my_world.FuseItems(tokens, Counters[0], Counters[4]);
+						}
+						else if (tokens[0] == "get" && tokens[2] == "from"){
+							my_world.UnfuseItems(tokens, Counters[0], Counters[4]);
+						}
+					}
 				}
 			}
 			else if (CommandDir == 0 || CommandDir == 1 || CommandDir == 2 || CommandDir == 3){
@@ -105,7 +115,6 @@ int main(){
 		}
 		//--	
 		
-
 	} while (my_world.ExitGame() == false);
 	return 0;
 }
