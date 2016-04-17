@@ -4,10 +4,10 @@
 int main(){
 	World my_world;
 	Vector<int>Counters;
-	Counters.PushBack(2);	//Inventory capacity counter: starts with 2 items
-	Counters.PushBack(0);	//Weapon equipped counter
-	Counters.PushBack(0);	//Armour equipped counter
-	Counters.PushBack(0);	//Shield equipped counter
+	Counters.PushBack(3);	//Inventory capacity counter: starts with 2 items
+	Counters.PushBack(1);	//Weapon equipped counter
+	Counters.PushBack(1);	//Armour equipped counter
+	Counters.PushBack(1);	//Shield equipped counter
 	Counters.PushBack(0);	//Quiver capacity counter
 	my_world.CreateWorld();
 	do{

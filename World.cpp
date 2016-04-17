@@ -70,20 +70,22 @@ void World::CreateWorld(){
 	Item* FireBow;
 	Item* IceBow;
 	Item* WornArmour;
+	Item* DestroyedShield;
 	Item* HadesStatue;
 	Item* HephaestusStatue;
 	Item* AphroditeStatue;
 	items.PushBack(Coins = new Item("coins", "Coins needed to cross the river.\n\n", Elm, 0, 0, OTHER, FLOOR, UNFUSABLE));
 	items.PushBack(Keys = new Item("keys", "keys needed to open gates.\n\n", Marsh, 0, 0, OTHER, FLOOR, UNFUSABLE));
-	items.PushBack(Stick = new Item("stick", "Just a large stick.\nDamage: 10.\nBlock chance: 5.\n\n", Entrance, 10, 5, WEAPON, FLOOR, UNFUSABLE));
+	items.PushBack(Stick = new Item("stick", "Just a large stick.\nDamage: 7.\nBlock chance: 3.\n\n", Entrance, 7, 3, WEAPON, EQUIPPED, UNFUSABLE));
 	items.PushBack(Sword = new Item("sword", "A shiny sword\nDamage: 70.\nBlock chance: 10.\n\n", Marsh, 70, 10, WEAPON, FLOOR, UNFUSABLE));
 	items.PushBack(Shield = new Item("shield", "A big shield to protect you.\nDefense: 25.\nBlock chance: 50.\n\n", Entrance, 25, 50, SHIELD, FLOOR, UNFUSABLE));
 	items.PushBack(Arrows = new Item("arrows", "A pack of arrows. Useless without a bow. You should put them into a quiver...\nAmount: 50.\n\n", Entrance, 50, 0, WEAPON, FLOOR, FUSABLE1));
 	items.PushBack(Arrows2 = new Item("arrows", "A pack of arrows. Useless without a bow. You should put them into a quiver...\nAmount: 50.\n", Marsh, 50, 0, WEAPON, FLOOR, FUSABLE1));
-	items.PushBack(Quiver = new Item("quiver", "Use it to store and use your arrows.\nCapacity: 50.\n", Entrance, 50, 0, OTHER, INVENTORY, FUSABLE2));
+	items.PushBack(Quiver = new Item("quiver", "Use it to store and use your arrows.\nCapacity: 50.\n", Entrance, 50, 0, OTHER, FLOOR, FUSABLE2));
 	items.PushBack(FireBow = new Item("fire bow", "A bow in flames? Yep you see that right, this bow has flames but they don't burn you...\nDamage: 150.\nBlock chance: 0.\n\n", Entrance, 150, 0, WEAPON, FLOOR, UNFUSABLE));
 	items.PushBack(IceBow = new Item("ice bow", "A bow covered in ice. Seems fragile but strong.\nDamage: 120.\nBlock chance: 0.\n\n", Entrance, 120, 0, WEAPON, FLOOR, UNFUSABLE));
 	items.PushBack(WornArmour = new Item("worn armour", "This armour doesn't seem to be really useful anymore...\nDefense: 5.\nBlock chance: 1.\n\n", Entrance, 5, 1, ARMOUR, EQUIPPED, UNFUSABLE));
+	items.PushBack(DestroyedShield = new Item("destroyed shield", "This shield isn't a shield anymore...\nDefense: 1.\nBlock chance: 0.\n\n", Entrance, 1, 0, SHIELD, EQUIPPED, UNFUSABLE));
 	items.PushBack(HadesStatue = new Item("hades statue", "A shiny statue of the god Hades.\nIt may be useful in his world.\n\n", Entrance, 0, 0, STATUE, FLOOR, UNFUSABLE));
 	items.PushBack(HephaestusStatue = new Item("hephaestus statue", "A shiny statue of the god Hephaestus.\nIt may be useful in his world.\n\n", Entrance, 0, 0, STATUE, FLOOR, UNFUSABLE));
 	items.PushBack(AphroditeStatue = new Item("aphrodite statue", "A shiny statue of the goddess Aphrodite.\nIt may be useful in his world.\n\n", Entrance, 0, 0, STATUE, FLOOR, UNFUSABLE));
@@ -94,6 +96,8 @@ void World::CreateWorld(){
 	item_tokens.PushBack("bow");
 	item_tokens.PushBack("worn");
 	item_tokens.PushBack("armour");
+	item_tokens.PushBack("destroyed");
+	item_tokens.PushBack("shield");
 	item_tokens.PushBack("hades");
 	item_tokens.PushBack("statue");
 	item_tokens.PushBack("hephaestus");
@@ -112,15 +116,15 @@ void World::CreateWorld(){
 
 	//Player:
 	player.position = rooms[0];//Initializes the position in the Entrance.
-	player.attack = 45;
-	player.defense = 25;
-	player.block_chance = 2;
+	player.attack = 52;
+	player.defense = 26;
+	player.block_chance = 5;
 	player.hp = 2500;
 	//--
 
 	//First place name and description
 	printf("%s\n", player.position->name);
-	printf("After crossing the portal you lose your vision for a few seconds, you feel strange in here. \nOnce you recover you see a big door in the south and a path in the north.\n\n"); 
+	printf("After crossing the portal you lose your vision for a few seconds, you feel strange in here. \nOnce you recover you see a big door in the south and a path in the north.\nThe portal destroyed your shield, your spear is now just a stick and your armour is highly damaged, but you seem to be fine.\n\n"); 
 	//Different description once you return in the entrance.
 	//--	
 }
@@ -549,6 +553,20 @@ bool World::EquipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCoun
 							return true;
 						}
 					}
+					if (items[i + NUM_1_WORD_ITEMS]->type == SHIELD){
+						if (ShieldCounter == 1){
+							printf("You already have a shield equipped.\n\n");
+							return true;
+						}
+						else{
+							items[i + NUM_1_WORD_ITEMS]->place = EQUIPPED;
+							printf("%s equipped.\n\n", items[i + NUM_1_WORD_ITEMS]->name.c_str());
+							player.defense += items[i + NUM_1_WORD_ITEMS]->value;
+							player.block_chance += items[i + NUM_1_WORD_ITEMS]->value2;
+							ShieldCounter++;
+							return true;
+						}
+					}
 					else { printf("You can't equip this item.\n\n"); }
 				}
 				else if (items[i + NUM_1_WORD_ITEMS]->place == EQUIPPED){ printf("Item already equipped dude.\n\n"); }
@@ -627,6 +645,13 @@ bool World::UnequipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCo
 						player.defense -= items[i + NUM_1_WORD_ITEMS]->value;
 						player.block_chance -= items[i + NUM_1_WORD_ITEMS]->value2;
 						ArmourCounter--;
+						return true;
+					}
+					if (items[i + NUM_1_WORD_ITEMS]->type == SHIELD){
+						printf("%s %s unequipped.\n\n", item_tokens[i * 2].c_str(), item_tokens[i * 2 + 1].c_str());
+						player.defense -= items[i + NUM_1_WORD_ITEMS]->value;
+						player.block_chance -= items[i + NUM_1_WORD_ITEMS]->value2;
+						ShieldCounter--;
 						return true;
 					}
 				}
