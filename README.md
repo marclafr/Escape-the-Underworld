@@ -1,5 +1,8 @@
 
 There was an error when I run the game in relase OUTSIDE the visual, so I uploaded the debug aplication, which works correctly.
+____________
+VERSION 0.1
+____________
 
 Instructions to play the game:
 
@@ -14,7 +17,7 @@ Instructions to play the game:
 		The command "go" alone doesn't work but the game itself request you to use a direction with it.
 
 	LOOK COMMAND:
-		if you type "look", the game will descrive the place where you are.
+		if you type "look around", the game will descrive the place where you are.
 		if you type a direction with "look", e.g. "look north" you will get the description of the place you have in the north
 		of your position, if there is nothing in the north, the game will say "Nothing to see here...".
 
@@ -29,11 +32,41 @@ Instructions to play the game:
 
 	EXIT THE GAME:
 		Just introduce the command "quit".
-____________
-NEW VERSION
-____________
-Now you can pick and drop items, look inventory.
 
+____________
+VERSION 0.2
+____________
+
+New commands:
+
+	PICK/DROP ITEMS:
+		There are some items around the map, if you are in the same room, you can use the command "pick <item>" to get it on your inventory.
+		There is a slot limit in your inventory, so if you want to throw something you can use the command "drop <item>" and the item will remain in the room you drop it.
+
+	EQUIP/UNEQUIP ITEMS:
+		You can equip them if there are in your inventory with the command "equip <item>" and unequip with "unequip <item>".
+
+	INVENTORY:
+		Now you have an inventory with a slot limit to put the items you want. You can check the items you have in with the commands "inventory" / "inv" / "i".
+
+	STATS:
+		In the next version I will implement a combat system, so in advance the player now have stats that are modified with the items you have. You can check your stats with the command "stats".
+
+	LOOK ITEMS:
+		Now you can check the description of the items there are in your inventory with the command "look <item>".
+	
+	PUT/GET ITEMS INTO OTHER ITEMS:
+		Now the game allows you to puc items in other items to reduce the slots occuped in the inventory. Actually you are able to put the arrows into the quiver. (and it is needed to use the bows).
+
+
+Commands udpates:
+
+	- "look around" now gives the names of the items there are in the room.
+
+
+Note: If you introduce look + (something that does not match) it will interpret you are trying to look at an item that is in your inventory and the game will say "This item isn't in your inventory".
+
+_________________________________________________________________
 
 Author: Marc Latorre, https://github.com/marclafr
 
