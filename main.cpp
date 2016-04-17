@@ -55,7 +55,10 @@ int main(){
 					my_world.UnequipItem(tokens, Counters[1], Counters[2], Counters[3], num_words);
 				}
 				else if (tokens[0] == "put" && tokens[2] == "into"){
-					my_world.FuseItems(tokens, Counters[4]);
+					my_world.FuseItems(tokens, Counters[0], Counters[4]);
+				}
+				else if (tokens[0] == "get" && tokens[2] == "from"){
+					my_world.UnfuseItems(tokens, Counters[0], Counters[4]);
 				}
 			}
 			else if (CommandDir == 0 || CommandDir == 1 || CommandDir == 2 || CommandDir == 3){

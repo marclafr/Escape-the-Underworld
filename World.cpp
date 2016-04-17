@@ -571,7 +571,7 @@ void World::UnequipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCo
 //--
 
 //Put an item into another one (arrows in quiver)
-void World::FuseItems(Vector<String> tokens, int &QuiverCapacityCounter)const{
+void World::FuseItems(Vector<String> tokens, int InventoryCapacity, int &QuiverCapacityCounter)const{
 	for (int i = 0; i < NUM_ITEMS; i++){
 		if (tokens[1] == items[i]->name){						//looks for the first item.
 			if (items[i]->fuse == FUSABLE1){					//checks it the first item can be fused into another one.
@@ -581,6 +581,7 @@ void World::FuseItems(Vector<String> tokens, int &QuiverCapacityCounter)const{
 							if (items[i]->place == INVENTORY && items[j]->place == INVENTORY){			//checks if both items are in the inventory.
 								if (items[j]->value > QuiverCapacityCounter){						//checks if the capacity of the item has reached its maximum.
 									items[i]->fuse = FUSED;
+									InventoryCapacity--;		//fused items will take less slots in the inventory.
 									QuiverCapacityCounter += items[i]->value;
 									printf("%s put into %s.\n", items[i]->name.c_str(), items[j]->name.c_str());
 								}
@@ -594,6 +595,34 @@ void World::FuseItems(Vector<String> tokens, int &QuiverCapacityCounter)const{
 			}
 			else if (items[i]->fuse == FUSED){ printf("%s already into another item.\n", items[i]->name.c_str()); }
 			else{ printf("%s can't be put into anything.\n", items[i]->name.c_str()); }
+		}
+	}
+}
+//--
+
+//Take an item from another one (arrows from quiver)
+void World::UnfuseItems(Vector<String> tokens, int InventoryCapacity, int &QuiverCapacityCounter)const{
+	for (int i = 0; i < NUM_ITEMS; i++){
+		if (tokens[1] == items[i]->name){						//looks for the first item.
+			if (items[i]->fuse == FUSED){					//checks it the first item can be fused into another one.
+				for (int j = 0; j < NUM_ITEMS; j++){
+					if (tokens[3] == items[j]->name){				//looks for the second item.
+						if (items[j]->fuse == FUSABLE2){			//checks if the second item can be the container of the first one.
+							if (items[i]->place == INVENTORY && items[j]->place == INVENTORY){			//checks if both items are in the inventory.
+								//checks if the capacity of the item has reached its maximum.
+								items[i]->fuse = FUSABLE1;
+								InventoryCapacity++;
+								QuiverCapacityCounter -= items[i]->value;
+								printf("You got the %s from %s.\n", items[i]->name.c_str(), items[j]->name.c_str());
+							}
+							else{ printf(" both items must be in the inventory.\n"); }
+						}
+						else{ printf("%s can't be used to put anything.\n", items[j]->name.c_str()); }
+					}
+				}
+			}
+			else if (items[i]->fuse == FUSABLE1){ printf("There are no %s in that.\n", items[i]->name.c_str()); }
+			else{ printf("%s can't be put into anynothing, so you can't take them from anywhere.\n", items[i]->name.c_str()); }			
 		}
 	}
 }
