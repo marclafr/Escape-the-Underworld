@@ -64,7 +64,7 @@ void World::CreateWorld(){
 	Item* Sword;
 	Item* Shield;
 	Item* Arrows;
-	Item* Arrows2;
+	//Item* Arrows2;
 	Item* Quiver;
 	Item* FireBow;
 	Item* IceBow;
@@ -74,7 +74,7 @@ void World::CreateWorld(){
 	items.PushBack(Sword = new Item("sword", "A shiny sword\nDamage: 70.\nBlock chance: 10.\n", Marsh, 70, 10, WEAPON, FLOOR, UNFUSABLE));
 	items.PushBack(Shield = new Item("shield", "A big shield to protect you.\nDefense: 25.\nBlock chance: 50.\n", Entrance, 25, 50, SHIELD, FLOOR, UNFUSABLE));
 	items.PushBack(Arrows = new Item("arrows", "A pack of arrows. Useless without a bow. You should put them into a quiver...\nAmount: 30.\n", Entrance, 30, 0, WEAPON, FLOOR, FUSABLE1));
-	items.PushBack(Arrows2 = new Item("arrows", "A pack of arrows. Useless without a bow. You should put them into a quiver...\nAmount: 30.\n", Marsh, 30, 0, WEAPON, FLOOR, FUSABLE1));
+	//items.PushBack(Arrows2 = new Item("arrows", "A pack of arrows. Useless without a bow. You should put them into a quiver...\nAmount: 30.\n", Marsh, 30, 0, WEAPON, FLOOR, FUSABLE1));
 	items.PushBack(Quiver = new Item("quiver", "Use it to store and use your arrows.\nCapacity: 50.\n", Entrance, 50, 0, OTHER, INVENTORY, FUSABLE2));
 	items.PushBack(FireBow = new Item("fire bow", "A bow in flames? Yep you see that right, this bow has flames but they don't burn you...\nDamage: 150.\nBlock chance: 0.\n", Entrance, 150, 0, WEAPON, FLOOR, UNFUSABLE));
 	items.PushBack(IceBow = new Item("ice bow", "A bow covered in ice. Seems fragile but strong.\nDamage: 120.\nBlock chance: 0.\n", Entrance, 120, 0, WEAPON, FLOOR, UNFUSABLE));
@@ -336,14 +336,19 @@ bool World::LookInventory(int &InventorySlots)const{
 bool World::DropItem(Vector<String> tokens, int &InventorySlots, unsigned int num_words){
 	if (num_words == 2){
 		for (int i = 0; i < NUM_1_WORD_ITEMS; i++){
-
 			if (tokens[1] == items[i]->name.c_str()){
 				if (items[i]->place == INVENTORY){
-					printf("%s dropped on the floor.\n", items[i]->name.c_str());
-					items[i]->place = FLOOR;
-					items[i]->item_position = player.position;
-					InventorySlots--;
-					return true;
+					if (items[i]->fuse != FUSED){
+						printf("%s dropped on the floor.\n", items[i]->name.c_str());
+						items[i]->place = FLOOR;
+						items[i]->item_position = player.position;
+						InventorySlots--;
+						return true;
+					}
+					else{
+						printf("To drop an item it can't be into another item.\n");
+						return true;
+					}
 				}
 			}
 		}
@@ -397,7 +402,7 @@ void World::LookItem(String item_w1, String item_w2)const{
 //--
 
 //Equip an item
-bool World::EquipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCounter, int &ShieldCounter, unsigned int num_words){
+bool World::EquipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCounter, int &ShieldCounter, int &QuiverCapacityCounter, unsigned int num_words){
 	if (num_words == 2){
 		for (int i = 0; i < NUM_1_WORD_ITEMS; i++){
 			if (tokens[1] == items[i]->name.c_str()){
@@ -446,6 +451,7 @@ bool World::EquipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCoun
 		}
 	}
 	else if (num_words == 3){
+		int QuiverPosition = 0;
 		for (int i = 0; i < NUM_2_WORD_ITEMS; i++){
 			if (tokens[1] == item_tokens[i * 2] && tokens[2] == item_tokens[i * 2 + 1]){
 				if (items[i + NUM_1_WORD_ITEMS]->place == INVENTORY){
@@ -454,8 +460,20 @@ bool World::EquipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCoun
 						else{
 							items[i + NUM_1_WORD_ITEMS]->place = EQUIPPED;
 							if (tokens[2] == "bow"){
-								//TODO: make that if ARROWS into QUIVER and in the INVENTORY-> stats affected.
-								printf("%s %s equipped, but it won't have effect alone...\nYou shouls search for arrows and a quiver.\n", item_tokens[i * 2].c_str(), item_tokens[i * 2 + 1].c_str());
+								for (int j = 0; j < NUM_1_WORD_ITEMS; j++){
+									items[QuiverPosition]->name == "quiver";
+									QuiverPosition = j;
+								}
+								if (QuiverCapacityCounter > 0 && items[QuiverPosition]->place == INVENTORY){
+									printf("%s equipped.\n", items[i + NUM_1_WORD_ITEMS]->name.c_str());
+									player.attack += items[i + NUM_1_WORD_ITEMS]->value;
+									player.block_chance += items[i + NUM_1_WORD_ITEMS]->value2;
+								}
+								else{
+									printf("%s %s equipped, but it won't have effect alone...\nYou shouls search for arrows and a quiver.\n", item_tokens[i * 2].c_str(), item_tokens[i * 2 + 1].c_str());
+									WeaponCounter++;
+									return true;
+								}
 							}
 							else{
 								printf("%s equipped.\n", items[i + NUM_1_WORD_ITEMS]->name.c_str());
@@ -475,11 +493,10 @@ bool World::EquipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCoun
 							ArmourCounter++;
 						}
 					}
-					//No 2 words armour/object exists
-					else if (items[i]->place == EQUIPPED){ printf("Item already equipped dude.\n"); }
-					else if (items[i]->place == FLOOR) { printf("Item must be in the inventory in order to equip it.\n"); }
-					return true;
 				}
+				else if (items[i + NUM_1_WORD_ITEMS]->place == EQUIPPED){ printf("Item already equipped dude.\n"); }
+				else if (items[i + NUM_1_WORD_ITEMS]->place == FLOOR) { printf("Item must be in the inventory in order to equip it.\n"); }
+				return true;
 			}
 		}
 	}
@@ -524,6 +541,10 @@ void World::UnequipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCo
 					items[i + NUM_1_WORD_ITEMS]->place = INVENTORY;
 					if (items[i + NUM_1_WORD_ITEMS]->type == WEAPON){
 						if (tokens[2] == "bow"){
+							if (player.attack > 160){	//if there is incorporated another item that can have more attack than a bow, just include an exception, but i didn't plan that except for an statue upgrade.
+								player.attack -= items[i + NUM_1_WORD_ITEMS]->value;
+								player.block_chance -= items[i + NUM_1_WORD_ITEMS]->value2;
+							}
 							printf("%s %s unequipped.\n", item_tokens[i * 2].c_str(), item_tokens[i * 2 + 1].c_str());
 						}
 						else{

@@ -47,7 +47,7 @@ int main(){
 					}
 				}
 				else if (tokens[0] == "equip"){
-					if (my_world.EquipItem(tokens, Counters[1], Counters[2], Counters[3], num_words) == false){ //[0] == weapon, [1] == armour
+					if (my_world.EquipItem(tokens, Counters[1], Counters[2], Counters[3], Counters[4], num_words) == false){ //[0] == weapon, [1] == armour
 						printf("Item already equipped");
 					}
 				}

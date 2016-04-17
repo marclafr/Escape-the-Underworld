@@ -3,8 +3,8 @@
 #ifndef _ITEM_
 #define _ITEM_
 
-#define NUM_ITEMS 10
-#define NUM_1_WORD_ITEMS 7
+#define NUM_ITEMS 9
+#define NUM_1_WORD_ITEMS 6
 #define NUM_2_WORD_ITEMS 3
 #define NUM_INVENTORY_SLOTS 10
 
