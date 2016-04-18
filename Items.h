@@ -3,9 +3,9 @@
 #ifndef _ITEM_
 #define _ITEM_
 
-#define NUM_ITEMS 14
+#define NUM_ITEMS 15
 #define NUM_1_WORD_ITEMS 7
-#define NUM_2_WORD_ITEMS 7
+#define NUM_2_WORD_ITEMS 8
 #define NUM_INVENTORY_SLOTS 10
 #define MAX_STATUES_ACTIVATED 2
 

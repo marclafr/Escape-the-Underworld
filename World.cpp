@@ -1,5 +1,7 @@
 #include "World.h"
 
+#define PLAYER_ORIGINAL_DAMAGE 45
+
 void World::CreateWorld(){
 
 	//Name and description from all the rooms in the game:
@@ -70,26 +72,28 @@ void World::CreateWorld(){
 	Item* IceBow;
 	Item* WornArmour;
 	Item* DestroyedShield;
+	Item* StrangeArtifact;
 	Item* HadesStatue;
 	Item* HephaestusStatue;
 	Item* AphroditeStatue;
 	items.PushBack(Coins = new Item("coins", "Coins needed to cross the river.\n\n", Elm, 0, 0, OTHER, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
 	items.PushBack(Keys = new Item("keys", "keys needed to open gates.\n\n", Marsh, 0, 0, OTHER, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
 	items.PushBack(Stick = new Item("stick", "Just a large stick.\nDamage: 7.\nBlock chance: 3.\n\n", Entrance, 7, 3, WEAPON, EQUIPPED, UNFUSABLE, UNACTIVABLE, REGULAR));
-	items.PushBack(Sword = new Item("sword", "A shiny sword\nDamage: 70.\nBlock chance: 10.\n\n", Marsh, 70, 10, WEAPON, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
-	items.PushBack(Shield = new Item("shield", "A big shield to protect you.\nDefense: 25.\nBlock chance: 50.\n\n", Entrance, 25, 50, SHIELD, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
-	items.PushBack(Arrows = new Item("arrows", "A pack of arrows. Useless without a bow. You should put them into a quiver...\nAmount: 50.\n\n", Entrance, 50, 0, WEAPON, FLOOR, FUSABLE1, UNACTIVABLE, REGULAR));
+	items.PushBack(Sword = new Item("sword", "A shiny sword\nDamage: 70.\nBlock chance: 10.\n\n", StyxLeft, 70, 10, WEAPON, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
+	items.PushBack(Shield = new Item("shield", "A big shield to protect you.\nDefense: 25.\nBlock chance: 50.\n\n", Tartarus, 25, 50, SHIELD, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
+	items.PushBack(Arrows = new Item("arrows", "A pack of arrows. Useless without a bow. You should put them into a quiver...\nAmount: 50.\n\n", Elm, 50, 0, WEAPON, FLOOR, FUSABLE1, UNACTIVABLE, REGULAR));
 	items.PushBack(Quiver = new Item("quiver", "Use it to store and use your arrows.\nCapacity: 50.\n", Entrance, 50, 0, OTHER, FLOOR, FUSABLE2, UNACTIVABLE, REGULAR));
 	//bows must be the first 2 words items to simplify posterior code
-	items.PushBack(FireBow = new Item("fire bow", "A bow in flames? Yep you see that right, this bow has flames but they don't burn you...\nDamage: 150.\nBlock chance: 0.\n\n", Entrance, 150, 0, WEAPON, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
-	items.PushBack(IceBow = new Item("ice bow", "A bow covered in ice. Seems fragile but strong.\nDamage: 120.\nBlock chance: 0.\n\n", Entrance, 120, 0, WEAPON, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
+	items.PushBack(FireBow = new Item("fire bow", "A bow in flames? Yep you see that right, this bow has flames but they don't burn you...\nDamage: 150.\nBlock chance: 0.\n\n", Phelgethon, 150, 0, WEAPON, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
+	items.PushBack(IceBow = new Item("ice bow", "A bow covered in ice. Seems fragile but strong.\nDamage: 120.\nBlock chance: 0.\n\n", PalaceHades, 120, 0, WEAPON, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
 	items.PushBack(WornArmour = new Item("worn armour", "This armour doesn't seem to be really useful anymore...\nDefense: 5.\nBlock chance: 1.\n\n", Entrance, 5, 1, ARMOUR, EQUIPPED, UNFUSABLE, UNACTIVABLE, REGULAR));
 	items.PushBack(DestroyedShield = new Item("destroyed shield", "This shield isn't a shield anymore...\nDefense: 1.\nBlock chance: 0.\n\n", Entrance, 1, 0, SHIELD, EQUIPPED, UNFUSABLE, UNACTIVABLE, REGULAR));
-	items.PushBack(HadesStatue = new Item("hades statue", "A shiny statue of the god Hades.\nIt may be useful in his world.\n\n", Entrance, 0, 0, STATUE, FLOOR, UNFUSABLE, DESACTIVATED, REGULAR));
-	items.PushBack(HephaestusStatue = new Item("hephaestus statue", "A shiny statue of the god Hephaestus.\nIt may be useful in his world.\n\n", Entrance, 0, 0, STATUE, FLOOR, UNFUSABLE, DESACTIVATED, REGULAR));
+	items.PushBack(StrangeArtifact = new Item("strange artifact", "You had never seen something like this, maybe it is the artifact you were looking for?\n\n", PalaceHades, 0, 0, OTHER, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
+	items.PushBack(HadesStatue = new Item("hades statue", "A shiny statue of the god Hades.\nIt may be useful in his world.\n\n", ElysianFields, 0, 0, STATUE, FLOOR, UNFUSABLE, DESACTIVATED, REGULAR));
+	items.PushBack(HephaestusStatue = new Item("hephaestus statue", "A shiny statue of the god Hephaestus.\nIt may be useful in his world.\n\n", Phelgethon, 0, 0, STATUE, FLOOR, UNFUSABLE, DESACTIVATED, REGULAR));
 	items.PushBack(AphroditeStatue = new Item("aphrodite statue", "A shiny statue of the goddess Aphrodite.\nIt may be useful in his world.\n\n", Entrance, 0, 0, STATUE, FLOOR, UNFUSABLE, DESACTIVATED, REGULAR));
 	//I probably will think in more features that the statues can do an add them.
-
+	
 	item_tokens.PushBack("fire");
 	item_tokens.PushBack("bow");
 	item_tokens.PushBack("ice");
@@ -98,6 +102,8 @@ void World::CreateWorld(){
 	item_tokens.PushBack("armour");
 	item_tokens.PushBack("destroyed");
 	item_tokens.PushBack("shield");
+	item_tokens.PushBack("strange");
+	item_tokens.PushBack("artifact");
 	item_tokens.PushBack("hades");
 	item_tokens.PushBack("statue");
 	item_tokens.PushBack("hephaestus");
@@ -116,7 +122,7 @@ void World::CreateWorld(){
 
 	//Player:
 	player.position = rooms[0];//Initializes the position in the Entrance.
-	player.attack = 52;
+	player.attack = PLAYER_ORIGINAL_DAMAGE + 7; //+7 because our hero starts with a stick of 7 damage equipped
 	player.defense = 26;
 	player.block_chance = 5;
 	player.hp = 2500;
@@ -635,7 +641,7 @@ bool World::UnequipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCo
 					items[i + NUM_1_WORD_ITEMS]->place = INVENTORY;
 					if (items[i + NUM_1_WORD_ITEMS]->type == WEAPON){
 						if (tokens[2] == "bow"){			//special case: bows: if the bow equippment didnt raise the stats, the unequip neither.
-							if (player.attack > 160){		//if there is incorporated another item that can have more attack than a bow, just include an exception, but i didn't plan that except for an statue upgrade (in the 3rd version).
+							if (player.attack > PLAYER_ORIGINAL_DAMAGE){		//if the player has more than its original damage it means it has a weapon
 								player.attack -= items[i + NUM_1_WORD_ITEMS]->value;
 								player.block_chance -= items[i + NUM_1_WORD_ITEMS]->value2;
 							}
@@ -760,7 +766,7 @@ void World::UnfuseItems(Vector<String> tokens, int &InventoryCapacity, int &Quiv
 
 //Activate statues
 bool World::ActivateStatue(Vector<String> tokens, int &ActiveStatues, int &InventorySlots){
-	if (ActiveStatues <= MAX_STATUES_ACTIVATED){
+	if (ActiveStatues < MAX_STATUES_ACTIVATED){
 		for (int i = 0; i < NUM_2_WORD_ITEMS; i++){
 			if (tokens[1] == "hades"){		//each statue have a different use
 				if (tokens[1] == item_tokens[i * 2]){
@@ -830,6 +836,20 @@ bool World::ActivateStatue(Vector<String> tokens, int &ActiveStatues, int &Inven
 					else{ printf("Hephaestus statue must be in the inventory to use it.\n\n"); return true; }
 				}
 			}
+			if (tokens[1] == "aphrodite"){
+				if (tokens[1] == item_tokens[i * 2]){
+					if (items[i + NUM_1_WORD_ITEMS]->place == INVENTORY){
+						if (items[i + NUM_1_WORD_ITEMS]->state == ACTIVATED){ printf("Aphrodite statue is already active.\n\n"); return true; }
+						else if (items[i + NUM_1_WORD_ITEMS]->state == DESACTIVATED){
+							items[i + NUM_1_WORD_ITEMS]->state = ACTIVATED;
+							printf("Aphrodite statue activated.\n\n");	//this statue won't have use yet, as its use is to speak with Hades, which is not implemented yet.
+							ActiveStatues++;
+							return true;
+						}
+					}
+					else{ printf("Aphrodite statue must be in the inventory to be used.\n\n"); return true; }
+				}
+			}
 		}
 		return false;
 	}
@@ -860,6 +880,20 @@ bool World::DesactivateStatue(Vector<String> tokens, int &ActiveStatues){
 					if (items[i + NUM_1_WORD_ITEMS]->state == DESACTIVATED){ printf("Hades statue is already desactivated.\n\n"); return true; }
 				}
 				else{ printf("Hephaestus statue isn't in the inventory.\n\n"); return true; }
+			}
+		}
+		else if (tokens[1] == "aphrodite"){
+			if (tokens[1] == item_tokens[i * 2]){
+				if (items[i + NUM_1_WORD_ITEMS]->place == INVENTORY){
+					if (items[i + NUM_1_WORD_ITEMS]->state == DESACTIVATED){ printf("Aphrodite statue is already desactivated.\n\n"); return true; }
+					else if (items[i + NUM_1_WORD_ITEMS]->state == ACTIVATED){
+						items[i + NUM_1_WORD_ITEMS]->state = DESACTIVATED;
+						printf("Aphrodite statue desactivated.\n\n");	//this statue won't have use yet
+						ActiveStatues--;
+						return true;
+					}
+				}
+				else{ printf("Aphrodite statue must be in the inventory to be desactivated.\n\n"); return true; }
 			}
 		}
 	}
