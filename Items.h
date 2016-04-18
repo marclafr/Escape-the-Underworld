@@ -4,8 +4,8 @@
 #define _ITEM_
 
 #define NUM_ITEMS 14
-#define NUM_1_WORD_ITEMS 8
-#define NUM_2_WORD_ITEMS 6
+#define NUM_1_WORD_ITEMS 7
+#define NUM_2_WORD_ITEMS 7
 #define NUM_INVENTORY_SLOTS 10
 
 enum ItemType{
@@ -18,7 +18,8 @@ enum ItemType{
 enum ItemPlace{
 	EQUIPPED,
 	INVENTORY,
-	FLOOR
+	FLOOR,
+	DISAPPEARED	//only for statues, make them disappear from the map.
 };
 enum Union{
 	FUSABLE1,	//	as the union of items shall be unidirectional, I decided to define 2 kinds of items:
@@ -27,16 +28,31 @@ enum Union{
 	FUSED		//	FUSED is needed in order to not put something indefinetly into something other
 };
 
+enum StatuesState{	//special feature: statues:
+	ACTIVATED,		//they have 2 states, activated or desactivated
+	DESACTIVATED,
+	DESTROYED,		//some statues only can be used once
+	UNACTIVABLE		//the rest of items won't be activable
+};
+
+enum Upgrade{
+	UPGRADED,
+	REGULAR
+};
+
 class Item :public Entity{
 public:
 	Item(){}
-	Item(const char* n, const char* d, Room* position, int val, int val2, ItemType t, ItemPlace p, Union f) :Entity(n, d) {
+	~Item(){}
+	Item(const char* n, const char* d, Room* position, int val, int val2, ItemType t, ItemPlace p, Union f, StatuesState s, Upgrade upgr) :Entity(n, d) {
 		item_position = position;
-		value = val;		//attack for WEAPONS, defense for ARMOURS, capacity for quiver, and quantity for arrows (and damage?).
-		value2 = val2;		//block chance for WEAPONS && ARMOURS.
+		value = val;		//attack for WEAPONS, defense for ARMOURS && SHIELDS, capacity for quiver, and quantity for arrows (and damage?).
+		value2 = val2;		//block chance for WEAPONS && ARMOURS && SHIELDS.
 		type = t;
 		place = p;
 		fuse = f;
+		state = s;
+		upgrade = upgr;
 	}
 	Room* item_position = nullptr;
 	int value;
@@ -44,7 +60,8 @@ public:
 	ItemType type;
 	ItemPlace place;
 	Union fuse;
-
+	StatuesState state;
+	Upgrade upgrade;
 };
 
 #endif //_ITEM_

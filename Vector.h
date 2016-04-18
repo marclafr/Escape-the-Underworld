@@ -97,18 +97,6 @@ public:
 	unsigned int Capacity(){
 		return capacity;
 	}
-	/*
-	void shrink_to_fit(){
-		capacity = num_elements;
-		TYPE* temp = new TYPE[capacity];
-		for (int i = 0; i < capacity; i++){
-			*(temp + i) = *(vector + i);
-		}
-		delete[] vector;
-		vector = temp;
-	}*/
 };
-// shrink_to_fit //
-
 
 #endif //DYNAMIC_ARRAYS

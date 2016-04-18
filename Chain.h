@@ -98,6 +98,7 @@ public:
 		}
 	}
 	//--
+
 	//operator +=
 	void operator +=(const String& string){
 
@@ -113,6 +114,7 @@ public:
 		}
 		else{ strcat_s(buffer, string.lenght() + 1, string.buffer); }
 	}
+
 	void operator +=(const char* string){
 
 		if (max_size < lenght() + strlen(string) + 1){
@@ -128,6 +130,7 @@ public:
 		else{ strcat_s(buffer, strlen(string) + 1, buffer); }
 	}
 	//--
+
 	//operator +
 	String operator +(const String& string){
 		String new_str;
@@ -148,13 +151,8 @@ public:
 		return new_str;
 	}
 	//--
-	/*
-	String::Tokemize("a"){
-		return Vector<String>;
-	}
-	Vector<String> tokens; //vector de strings
-	player_input.tokenize(" ", tokens); //player_input = command) // tokenize rep dos arguments: tipu de caracters (els que es consideren seperadors(espai)), i una referencia  a tokens
-	*/
+
+	//Tokenize
 	unsigned int Tokenize(const char* symbols, Vector<String> &tokens){  //, char* string
 		unsigned int num_words = 0;
 		char* context = nullptr;
@@ -167,7 +165,6 @@ public:
 		}
 		return num_words;
 	}
-
+	//--
 };
-
 #endif //_CHAIN_

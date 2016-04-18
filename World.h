@@ -1,5 +1,3 @@
-
-
 #ifndef WORLD
 #define WORLD
 
@@ -14,6 +12,18 @@
 
 class World{
 public:
+	World(){}
+	~World(){
+		for (int i = 0; i < NUM_ROOMS; i++){
+			delete rooms[i];
+		}
+		for (int i = 0; i < NUM_EXITS; i++){
+			delete exits[i];
+		}
+		for (int i = 0; i < NUM_ITEMS; i++){
+			delete items[i];
+		}
+	}
 	String command;
 	Vector <Room*> rooms;
 	Vector<Item*> items;
@@ -38,6 +48,7 @@ public:
 	void OpenGate(int CommandDir)const;
 	void FuseItems(Vector<String> tokens, int &InventoryCapacity, int &QuiverCapacityCounter)const;
 	void UnfuseItems(Vector<String> tokens, int &InventoryCapacity, int &QuiverCapacityCounter)const;
+	bool ActivateStatue(Vector<String> tokens, int &ActiveStatues, int &InventorySlots);
 	void Stats()const;
 private:	
 	bool WayClear(int i)const;	

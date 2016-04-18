@@ -12,13 +12,6 @@ public:
 		name = n;
 		description = d;
 	}
-//	Vector<Entity*> my_entity;
-	enum tipus{
-		PLAYER,
-		ROOM,
-		EXIT
-		//----
-	};
 };
 
 #endif //_ENTITY_

@@ -62,5 +62,8 @@
     <ClInclude Include="Vector.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="MemLeaks.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

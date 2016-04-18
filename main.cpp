@@ -1,14 +1,16 @@
 #include "World.h"
-
+#include "MemLeaks.h"
 
 int main(){
+	ReportMemoryLeaks();
 	World my_world;
 	Vector<int>Counters;
-	Counters.PushBack(3);	//Inventory capacity counter: starts with 2 items
-	Counters.PushBack(1);	//Weapon equipped counter
-	Counters.PushBack(1);	//Armour equipped counter
-	Counters.PushBack(1);	//Shield equipped counter
-	Counters.PushBack(0);	//Quiver capacity counter
+	Counters.PushBack(3);	// 0 - Inventory capacity counter: starts with 2 items
+	Counters.PushBack(1);	// 1 - Weapon equipped counter
+	Counters.PushBack(1);	// 2 - Armour equipped counter
+	Counters.PushBack(1);	// 3 - Shield equipped counter
+	Counters.PushBack(0);	// 4 - Quiver capacity counter
+	Counters.PushBack(0);	// 5 - Activated Statues counter
 	my_world.CreateWorld();
 	do{
 		my_world.command.GetString();		
@@ -54,6 +56,11 @@ int main(){
 				else if (tokens[0] == "unequip"){
 					if (my_world.UnequipItem(tokens, Counters[1], Counters[2], Counters[3], num_words) == false){
 						printf("Unequip what??\n\n");
+					}
+				}
+				else if (tokens[0] == "activate"){
+					if (my_world.ActivateStatue(tokens, Counters[5], Counters[0]) == false){
+						printf("Activate what??\n");
 					}
 				}
 				if (num_words >= 4){		//if this is not used it asserts if you introduce get/put + <less than 2 words> e.g. "get stick"

@@ -65,7 +65,6 @@ void World::CreateWorld(){
 	Item* Sword;
 	Item* Shield;
 	Item* Arrows;
-	Item* Arrows2;
 	Item* Quiver;
 	Item* FireBow;
 	Item* IceBow;
@@ -74,21 +73,20 @@ void World::CreateWorld(){
 	Item* HadesStatue;
 	Item* HephaestusStatue;
 	Item* AphroditeStatue;
-	items.PushBack(Coins = new Item("coins", "Coins needed to cross the river.\n\n", Elm, 0, 0, OTHER, FLOOR, UNFUSABLE));
-	items.PushBack(Keys = new Item("keys", "keys needed to open gates.\n\n", Marsh, 0, 0, OTHER, FLOOR, UNFUSABLE));
-	items.PushBack(Stick = new Item("stick", "Just a large stick.\nDamage: 7.\nBlock chance: 3.\n\n", Entrance, 7, 3, WEAPON, EQUIPPED, UNFUSABLE));
-	items.PushBack(Sword = new Item("sword", "A shiny sword\nDamage: 70.\nBlock chance: 10.\n\n", Marsh, 70, 10, WEAPON, FLOOR, UNFUSABLE));
-	items.PushBack(Shield = new Item("shield", "A big shield to protect you.\nDefense: 25.\nBlock chance: 50.\n\n", Entrance, 25, 50, SHIELD, FLOOR, UNFUSABLE));
-	items.PushBack(Arrows = new Item("arrows", "A pack of arrows. Useless without a bow. You should put them into a quiver...\nAmount: 50.\n\n", Entrance, 50, 0, WEAPON, FLOOR, FUSABLE1));
-	items.PushBack(Arrows2 = new Item("arrows", "A pack of arrows. Useless without a bow. You should put them into a quiver...\nAmount: 50.\n", Marsh, 50, 0, WEAPON, FLOOR, FUSABLE1));
-	items.PushBack(Quiver = new Item("quiver", "Use it to store and use your arrows.\nCapacity: 50.\n", Entrance, 50, 0, OTHER, FLOOR, FUSABLE2));
-	items.PushBack(FireBow = new Item("fire bow", "A bow in flames? Yep you see that right, this bow has flames but they don't burn you...\nDamage: 150.\nBlock chance: 0.\n\n", Entrance, 150, 0, WEAPON, FLOOR, UNFUSABLE));
-	items.PushBack(IceBow = new Item("ice bow", "A bow covered in ice. Seems fragile but strong.\nDamage: 120.\nBlock chance: 0.\n\n", Entrance, 120, 0, WEAPON, FLOOR, UNFUSABLE));
-	items.PushBack(WornArmour = new Item("worn armour", "This armour doesn't seem to be really useful anymore...\nDefense: 5.\nBlock chance: 1.\n\n", Entrance, 5, 1, ARMOUR, EQUIPPED, UNFUSABLE));
-	items.PushBack(DestroyedShield = new Item("destroyed shield", "This shield isn't a shield anymore...\nDefense: 1.\nBlock chance: 0.\n\n", Entrance, 1, 0, SHIELD, EQUIPPED, UNFUSABLE));
-	items.PushBack(HadesStatue = new Item("hades statue", "A shiny statue of the god Hades.\nIt may be useful in his world.\n\n", Entrance, 0, 0, STATUE, FLOOR, UNFUSABLE));
-	items.PushBack(HephaestusStatue = new Item("hephaestus statue", "A shiny statue of the god Hephaestus.\nIt may be useful in his world.\n\n", Entrance, 0, 0, STATUE, FLOOR, UNFUSABLE));
-	items.PushBack(AphroditeStatue = new Item("aphrodite statue", "A shiny statue of the goddess Aphrodite.\nIt may be useful in his world.\n\n", Entrance, 0, 0, STATUE, FLOOR, UNFUSABLE));
+	items.PushBack(Coins = new Item("coins", "Coins needed to cross the river.\n\n", Elm, 0, 0, OTHER, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
+	items.PushBack(Keys = new Item("keys", "keys needed to open gates.\n\n", Marsh, 0, 0, OTHER, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
+	items.PushBack(Stick = new Item("stick", "Just a large stick.\nDamage: 7.\nBlock chance: 3.\n\n", Entrance, 7, 3, WEAPON, EQUIPPED, UNFUSABLE, UNACTIVABLE, REGULAR));
+	items.PushBack(Sword = new Item("sword", "A shiny sword\nDamage: 70.\nBlock chance: 10.\n\n", Marsh, 70, 10, WEAPON, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
+	items.PushBack(Shield = new Item("shield", "A big shield to protect you.\nDefense: 25.\nBlock chance: 50.\n\n", Entrance, 25, 50, SHIELD, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
+	items.PushBack(Arrows = new Item("arrows", "A pack of arrows. Useless without a bow. You should put them into a quiver...\nAmount: 50.\n\n", Entrance, 50, 0, WEAPON, FLOOR, FUSABLE1, UNACTIVABLE, REGULAR));
+	items.PushBack(Quiver = new Item("quiver", "Use it to store and use your arrows.\nCapacity: 50.\n", Entrance, 50, 0, OTHER, FLOOR, FUSABLE2, UNACTIVABLE, REGULAR));
+	items.PushBack(FireBow = new Item("fire bow", "A bow in flames? Yep you see that right, this bow has flames but they don't burn you...\nDamage: 150.\nBlock chance: 0.\n\n", Entrance, 150, 0, WEAPON, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
+	items.PushBack(IceBow = new Item("ice bow", "A bow covered in ice. Seems fragile but strong.\nDamage: 120.\nBlock chance: 0.\n\n", Entrance, 120, 0, WEAPON, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
+	items.PushBack(WornArmour = new Item("worn armour", "This armour doesn't seem to be really useful anymore...\nDefense: 5.\nBlock chance: 1.\n\n", Entrance, 5, 1, ARMOUR, EQUIPPED, UNFUSABLE, UNACTIVABLE, REGULAR));
+	items.PushBack(DestroyedShield = new Item("destroyed shield", "This shield isn't a shield anymore...\nDefense: 1.\nBlock chance: 0.\n\n", Entrance, 1, 0, SHIELD, EQUIPPED, UNFUSABLE, UNACTIVABLE, REGULAR));
+	items.PushBack(HadesStatue = new Item("hades statue", "A shiny statue of the god Hades.\nIt may be useful in his world.\n\n", Entrance, 0, 0, STATUE, FLOOR, UNFUSABLE, DESACTIVATED, REGULAR));
+	items.PushBack(HephaestusStatue = new Item("hephaestus statue", "A shiny statue of the god Hephaestus.\nIt may be useful in his world.\n\n", Entrance, 0, 0, STATUE, FLOOR, UNFUSABLE, DESACTIVATED, REGULAR));
+	items.PushBack(AphroditeStatue = new Item("aphrodite statue", "A shiny statue of the goddess Aphrodite.\nIt may be useful in his world.\n\n", Entrance, 0, 0, STATUE, FLOOR, UNFUSABLE, DESACTIVATED, REGULAR));
 
 	item_tokens.PushBack("fire");
 	item_tokens.PushBack("bow");
@@ -375,7 +373,7 @@ bool World::DropItem(Vector<String> tokens, int &InventorySlots, unsigned int nu
 			if (tokens[1] == items[i]->name.c_str()){		//looks for the correct item
 				if (items[i]->place == INVENTORY){			//checks if the item is in the inventory
 					if (items[i]->fuse != FUSED){			//checks that the item isn't fused
-						printf("%s dropped on the floor.\n\n", items[i]->name.c_str());
+						printf("%s dropped on the floor.\n\n", items[i]->name.c_str());		//TODO: active statues cant be dropped && quiver w/ arrows can't be dropped if a bow is equipped
 						items[i]->place = FLOOR;
 						items[i]->item_position = player.position;
 						InventorySlots--;
@@ -733,6 +731,81 @@ void World::UnfuseItems(Vector<String> tokens, int &InventoryCapacity, int &Quiv
 			else{ printf("%s can't be put into anynothing, so you can't take them from anywhere.\n\n", items[i]->name.c_str()); }			
 		}
 	}
+}
+//--
+
+//Use statues
+bool World::ActivateStatue(Vector<String> tokens, int &ActiveStatues, int &InventorySlots){
+	for (int i = 0; i < NUM_2_WORD_ITEMS; i++){
+		if (tokens[1] == "hades"){//each statue have a different use
+			if (tokens[1] == item_tokens[i * 2]){
+				if (items[i + NUM_1_WORD_ITEMS]->place == INVENTORY){
+					if (items[i + NUM_1_WORD_ITEMS]->state == ACTIVATED){ printf("Hades statue is already active.\n\n"); return true; }
+					else if (items[i + NUM_1_WORD_ITEMS]->state == DESACTIVATED){
+						items[i + NUM_1_WORD_ITEMS]->state = ACTIVATED;
+						printf("Hades statue activated.\n\n");	//this statue won't have use yet, as its use is to speak with Hades, which is not implemented yet.
+						return true;
+					}
+				}
+				else{ printf("Hades statue must be in the inventory to be used.\n\n"); return true; }
+			}
+		}
+		else if (tokens[1] == "hephaestus"){
+			if (tokens[1] == item_tokens[i * 2]){
+				if (items[i + NUM_1_WORD_ITEMS]->place == INVENTORY){
+					int StatueUsed = 0;
+					printf("Hephaestus statue upgrades your quipped weapons, armours and shields\n");
+					for (int j = 0; j < NUM_ITEMS; j++){
+						if (items[j]->place == EQUIPPED && items[j]->type == WEAPON){
+							items[j]->value += 50;		//Upgrade weapon stats
+							items[j]->value2 += 8;
+							items[j]->upgrade = UPGRADED;
+							items[j]->description += "\tThis item is upgraded. It has a bonus of 50 damage and 8 block chance.\n\n";
+							player.attack += 50;		//Same for the player (as the items are equipped)
+							player.block_chance += 8;
+							printf("Weapon upgrade complete.\n");
+							StatueUsed = 1;
+							items[i + NUM_1_WORD_ITEMS]->state = DESTROYED;
+							items[i + NUM_1_WORD_ITEMS]->place = DISAPPEARED;
+						}
+						if (items[j]->place == EQUIPPED && items[j]->type == ARMOUR){
+							items[j]->value += 40;		//Upgrade armour stats
+							items[j]->value2 += 15;
+							items[j]->upgrade = UPGRADED;
+							items[j]->description += "\tThis item is upgraded. It has a bonus of 40 defense and 15 block chance.\n\n";
+							player.defense += 40;		//Same for the player (as the items are equipped)
+							player.block_chance += 15;
+							printf("Armour upgrade complete.\n");
+							StatueUsed = 1;
+							items[i + NUM_1_WORD_ITEMS]->state = DESTROYED;
+							items[i + NUM_1_WORD_ITEMS]->place = DISAPPEARED;
+						}
+						if (items[j]->place == EQUIPPED && items[j]->type == SHIELD){
+							items[j]->value += 30;		//Upgrade shield stats
+							items[j]->value2 += 25;
+							items[j]->upgrade = UPGRADED;
+							items[j]->description += "\tThis item is upgraded. It has a bonus of 30 defense and 25 block chance.\n\n";
+							player.defense += 30;		//Same for the player (as the items are equipped)
+							player.block_chance += 25;
+							printf("Shield upgrade complete.\n");
+							StatueUsed = 1;
+							items[i + NUM_1_WORD_ITEMS]->state = DESTROYED;
+							items[i + NUM_1_WORD_ITEMS]->place = DISAPPEARED;
+						}
+					}
+					if (StatueUsed == 1){
+						printf("This statue disappeared!!\n\n");
+						InventorySlots--;	//if it dissapears you have a free slot in the inventory
+					}
+					if (StatueUsed == 0){ printf("Activation failed.\n\n"); }
+					return true;
+				}
+				else if (items[i + NUM_1_WORD_ITEMS]->place == DISAPPEARED){ printf("This item had dissapeared...\n\n"); return true; }	//if it was already used
+				else{ printf("Hephaestus statue must be in the inventory to use it.\n\n"); return true; }
+			}
+		}
+	}
+	return false;
 }
 //--
 

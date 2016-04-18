@@ -77,6 +77,7 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Exits.h" />
     <ClInclude Include="Items.h" />
+    <ClInclude Include="MemLeaks.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Rooms.h" />
     <ClInclude Include="Vector.h" />
