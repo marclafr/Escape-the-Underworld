@@ -1,6 +1,3 @@
-
-There was an error when I run the game in relase OUTSIDE the visual, so I uploaded the debug aplication, which works correctly.
-
 Once you have recovered from  crossing the portal you see that you are trapped in here and your weapon, armour and shield are destroyed, but you seem fine.
 
 ____________
@@ -37,7 +34,7 @@ Instructions to play the game:
 		Just introduce the command "quit".
 
 ____________
-VERSION 0.2
+VERSION 0.5
 ____________
 
 New commands:
@@ -60,7 +57,7 @@ New commands:
 		Now you can check the description of the items there are in your inventory with the command "look <item>".
 	
 	PUT/GET ITEMS INTO OTHER ITEMS:
-		Now the game allows you to puc items in other items to reduce the slots occuped in the inventory. Actually you are able to put the arrows into the quiver. (and it is needed to use the bows).
+		Now the game allows you to put items into other items to reduce the slots occuped in the inventory. Actually you are able to put the arrows into the quiver. (and it is needed to use all bows).
 
 	ACTIVATE/DESACTIVATE:
 			Some items are Gods statues, those items can be activated and each one have an special effect. Right now there are only 3 activable statues out of 3 that are in the game, the Hades one, that need and NPC to cause its effect (not implemented yet), the Aphrodite statue (which haven't anything yet as i have to think what it will do, but you can activate/desactivate it) and the Hephaestus statue, which upgrades the weapon, armour and shield that you have equipped and then it is destroyed. To use this introduce "activate <GodName> statue" or "desactivate <GodName> statue" (all in lower case).
