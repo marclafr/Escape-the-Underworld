@@ -63,6 +63,12 @@ int main(){
 						printf("Activate what??\n");
 					}
 				}
+				else if (tokens[0] == "desactivate"){
+					if (my_world.DesactivateStatue(tokens, Counters[5]) == false){
+						printf("Desactivate what??\n");
+					}
+				}
+				
 				if (num_words >= 4){		//if this is not used it asserts if you introduce get/put + <less than 2 words> e.g. "get stick"
 					if (num_words == 5){
 						if (tokens[2] == "statue"){ printf("Statues can't be put into nothing.\n\n"); }
@@ -96,7 +102,7 @@ int main(){
 			int CommandDir = my_world.GetDirection(my_world.command);
 			if (CommandDir == -1){
 				if (my_world.command == "help"){
-					printf("Help menu: \nTo move north, introduce north, n or go north.\nTo move south, introduce south, s or go south.\nTo move east, introduce east, e or go east.\nTo move west, introduce west, w or go west.\n\n The command 'look around' descrives the place you are in and the items that are in the room.\n\nlook + (direction): describe the path you want to take, but you can't see the items there are if you are not in the same room.\n\nThere are some locked doors, to open or close them use the commands 'open'/'close': Opens or closes a door if it is possible, then the game will ask you the direction the door is.\nNOTICE: if you type, for example, open north directly it won't work!\n\nThe command 'inventory', 'inv', or 'i' allows you to look the items there are in your inventory and the ones that are equipped (if you have any).\nIt also tells you its free space.\n\nIn order to equip or unequip an item, introduce 'equip / unequip <item>'\nThere is a limit of items that could be equipped (1 armour, 1 weapon and 1 shield).\n\nBefore being able to equip an item it must be in the inventory, with the command 'pick <item>' you will get the item you introduce if it is in the same room as you are, and if you need space in your inventory you can drop an item with 'drop <item>'.\n\nIn order to save inventory space you can put items into anothers and get them after(only a few) with the commands 'put <item> into <item>' and 'get <item> from <item>'\n\nYour player have stats, that can be changed deppending on the items you have equipped, to check them introduce the command 'stats'.\n\nquit: quits the game.\n");
+					printf("Help menu: \nTo move north, introduce north, n or go north.\nTo move south, introduce south, s or go south.\nTo move east, introduce east, e or go east.\nTo move west, introduce west, w or go west.\n\n The command 'look around' descrives the place you are in and the items that are in the room.\n\nlook + (direction): describe the path you want to take, but you can't see the items there are if you are not in the same room.\n\nThere are some locked doors, to open or close them use the commands 'open'/'close': Opens or closes a door if it is possible, then the game will ask you the direction the door is.\nNOTICE: if you type, for example, open north directly it won't work!\n\nThe command 'inventory', 'inv', or 'i' allows you to look the items there are in your inventory and the ones that are equipped (if you have any).\nIt also tells you its free space.\n\nIn order to equip or unequip an item, introduce 'equip / unequip <item>'\nThere is a limit of items that could be equipped (1 armour, 1 weapon and 1 shield).\n\nBefore being able to equip an item it must be in the inventory, with the command 'pick <item>' you will get the item you introduce if it is in the same room as you are, and if you need space in your inventory you can drop an item with 'drop <item>'.\n\nIn order to save inventory space you can put items into anothers and get them after(only a few) with the commands 'put <item> into <item>' and 'get <item> from <item>'\n\nThe statues can be used with the command 'activate <name> statue', but you can only have 2 of them activated at the same time, so you can also desactivate them with 'desactivate <name> statue'\n\nYour player have stats, that can be changed deppending on the items you have equipped, to check them introduce the command 'stats'.\n\nquit: quits the game.\n");
 				}	//help menu will be more readable if you start the game and introduce "help" :)
 				else if (my_world.command == "inventory" || my_world.command == "inv" || my_world.command == "i"){
 					if (my_world.LookInventory(Counters[0]) == false){

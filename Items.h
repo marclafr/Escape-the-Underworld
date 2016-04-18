@@ -7,6 +7,7 @@
 #define NUM_1_WORD_ITEMS 7
 #define NUM_2_WORD_ITEMS 7
 #define NUM_INVENTORY_SLOTS 10
+#define MAX_STATUES_ACTIVATED 2
 
 enum ItemType{
 	WEAPON,

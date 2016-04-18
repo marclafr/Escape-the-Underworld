@@ -49,6 +49,7 @@ public:
 	void FuseItems(Vector<String> tokens, int &InventoryCapacity, int &QuiverCapacityCounter)const;
 	void UnfuseItems(Vector<String> tokens, int &InventoryCapacity, int &QuiverCapacityCounter)const;
 	bool ActivateStatue(Vector<String> tokens, int &ActiveStatues, int &InventorySlots);
+	bool DesactivateStatue(Vector<String> tokens, int &ActiveStatues);
 	void Stats()const;
 private:	
 	bool WayClear(int i)const;	

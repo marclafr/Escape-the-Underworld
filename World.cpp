@@ -87,6 +87,7 @@ void World::CreateWorld(){
 	items.PushBack(HadesStatue = new Item("hades statue", "A shiny statue of the god Hades.\nIt may be useful in his world.\n\n", Entrance, 0, 0, STATUE, FLOOR, UNFUSABLE, DESACTIVATED, REGULAR));
 	items.PushBack(HephaestusStatue = new Item("hephaestus statue", "A shiny statue of the god Hephaestus.\nIt may be useful in his world.\n\n", Entrance, 0, 0, STATUE, FLOOR, UNFUSABLE, DESACTIVATED, REGULAR));
 	items.PushBack(AphroditeStatue = new Item("aphrodite statue", "A shiny statue of the goddess Aphrodite.\nIt may be useful in his world.\n\n", Entrance, 0, 0, STATUE, FLOOR, UNFUSABLE, DESACTIVATED, REGULAR));
+	//I probably will think in more features that the statues can do an add them.
 
 	item_tokens.PushBack("fire");
 	item_tokens.PushBack("bow");
@@ -734,78 +735,111 @@ void World::UnfuseItems(Vector<String> tokens, int &InventoryCapacity, int &Quiv
 }
 //--
 
-//Use statues
+//Activate statues
 bool World::ActivateStatue(Vector<String> tokens, int &ActiveStatues, int &InventorySlots){
+	if (ActiveStatues <= MAX_STATUES_ACTIVATED){
+		for (int i = 0; i < NUM_2_WORD_ITEMS; i++){
+			if (tokens[1] == "hades"){		//each statue have a different use
+				if (tokens[1] == item_tokens[i * 2]){
+					if (items[i + NUM_1_WORD_ITEMS]->place == INVENTORY){
+						if (items[i + NUM_1_WORD_ITEMS]->state == ACTIVATED){ printf("Hades statue is already active.\n\n"); return true; }
+						else if (items[i + NUM_1_WORD_ITEMS]->state == DESACTIVATED){
+							items[i + NUM_1_WORD_ITEMS]->state = ACTIVATED;
+							printf("Hades statue activated.\n\n");	//this statue won't have use yet, as its use is to speak with Hades, which is not implemented yet.
+							ActiveStatues++;
+							return true;
+						}
+					}
+					else{ printf("Hades statue must be in the inventory to be used.\n\n"); return true; }
+				}
+			}
+			else if (tokens[1] == "hephaestus"){
+				if (tokens[1] == item_tokens[i * 2]){
+					if (items[i + NUM_1_WORD_ITEMS]->place == INVENTORY){
+						int StatueUsed = 0;
+						printf("Hephaestus statue upgrades your quipped weapons, armours and shields\n");
+						for (int j = 0; j < NUM_ITEMS; j++){
+							if (items[j]->place == EQUIPPED && items[j]->type == WEAPON){
+								items[j]->value += 50;		//Upgrade weapon stats
+								items[j]->value2 += 8;
+								items[j]->upgrade = UPGRADED;
+								items[j]->description += "\tThis item is upgraded. It has a bonus of 50 damage and 8 block chance.\n\n";
+								player.attack += 50;		//Same for the player (as the items are equipped)
+								player.block_chance += 8;
+								printf("Weapon upgrade complete.\n");
+								StatueUsed = 1;
+								items[i + NUM_1_WORD_ITEMS]->state = DESTROYED;
+								items[i + NUM_1_WORD_ITEMS]->place = DISAPPEARED;
+							}
+							if (items[j]->place == EQUIPPED && items[j]->type == ARMOUR){
+								items[j]->value += 40;		//Upgrade armour stats
+								items[j]->value2 += 15;
+								items[j]->upgrade = UPGRADED;
+								items[j]->description += "\tThis item is upgraded. It has a bonus of 40 defense and 15 block chance.\n\n";
+								player.defense += 40;		//Same for the player (as the items are equipped)
+								player.block_chance += 15;
+								printf("Armour upgrade complete.\n");
+								StatueUsed = 1;
+								items[i + NUM_1_WORD_ITEMS]->state = DESTROYED;
+								items[i + NUM_1_WORD_ITEMS]->place = DISAPPEARED;
+							}
+							if (items[j]->place == EQUIPPED && items[j]->type == SHIELD){
+								items[j]->value += 30;		//Upgrade shield stats
+								items[j]->value2 += 25;
+								items[j]->upgrade = UPGRADED;
+								items[j]->description += "\tThis item is upgraded. It has a bonus of 30 defense and 25 block chance.\n\n";
+								player.defense += 30;		//Same for the player (as the items are equipped)
+								player.block_chance += 25;
+								printf("Shield upgrade complete.\n");
+								StatueUsed = 1;
+								items[i + NUM_1_WORD_ITEMS]->state = DESTROYED;
+								items[i + NUM_1_WORD_ITEMS]->place = DISAPPEARED;
+							}
+						}
+						if (StatueUsed == 1){
+							printf("This statue disappeared!!\n\n");
+							InventorySlots--;	//if it dissapears you have a free slot in the inventory
+						}
+						if (StatueUsed == 0){ printf("Activation failed.\n\n"); }
+						return true;
+					}
+					else if (items[i + NUM_1_WORD_ITEMS]->place == DISAPPEARED){ printf("This item had dissapeared...\n\n"); return true; }	//if it was already used
+					else{ printf("Hephaestus statue must be in the inventory to use it.\n\n"); return true; }
+				}
+			}
+		}
+		return false;
+	}
+	else{ printf("You have the maximum number of statues activated.\n\n"); return true; }
+}
+//--
+
+//Desactivate statues
+bool World::DesactivateStatue(Vector<String> tokens, int &ActiveStatues){
 	for (int i = 0; i < NUM_2_WORD_ITEMS; i++){
-		if (tokens[1] == "hades"){//each statue have a different use
+		if (tokens[1] == "hades"){		//each statue have a different use
 			if (tokens[1] == item_tokens[i * 2]){
 				if (items[i + NUM_1_WORD_ITEMS]->place == INVENTORY){
-					if (items[i + NUM_1_WORD_ITEMS]->state == ACTIVATED){ printf("Hades statue is already active.\n\n"); return true; }
-					else if (items[i + NUM_1_WORD_ITEMS]->state == DESACTIVATED){
-						items[i + NUM_1_WORD_ITEMS]->state = ACTIVATED;
-						printf("Hades statue activated.\n\n");	//this statue won't have use yet, as its use is to speak with Hades, which is not implemented yet.
+					if (items[i + NUM_1_WORD_ITEMS]->state == DESACTIVATED){ printf("Hades statue is already desactivated.\n\n"); return true; }
+					else if (items[i + NUM_1_WORD_ITEMS]->state == ACTIVATED){
+						items[i + NUM_1_WORD_ITEMS]->state = DESACTIVATED;
+						printf("Hades statue desactivated.\n\n");	//this statue won't have use yet, as its use is to speak with Hades, which is not implemented yet.
+						ActiveStatues--;
 						return true;
 					}
 				}
-				else{ printf("Hades statue must be in the inventory to be used.\n\n"); return true; }
+				else{ printf("Hades statue must be in the inventory to be desactivated.\n\n"); return true; }
 			}
 		}
 		else if (tokens[1] == "hephaestus"){
 			if (tokens[1] == item_tokens[i * 2]){
 				if (items[i + NUM_1_WORD_ITEMS]->place == INVENTORY){
-					int StatueUsed = 0;
-					printf("Hephaestus statue upgrades your quipped weapons, armours and shields\n");
-					for (int j = 0; j < NUM_ITEMS; j++){
-						if (items[j]->place == EQUIPPED && items[j]->type == WEAPON){
-							items[j]->value += 50;		//Upgrade weapon stats
-							items[j]->value2 += 8;
-							items[j]->upgrade = UPGRADED;
-							items[j]->description += "\tThis item is upgraded. It has a bonus of 50 damage and 8 block chance.\n\n";
-							player.attack += 50;		//Same for the player (as the items are equipped)
-							player.block_chance += 8;
-							printf("Weapon upgrade complete.\n");
-							StatueUsed = 1;
-							items[i + NUM_1_WORD_ITEMS]->state = DESTROYED;
-							items[i + NUM_1_WORD_ITEMS]->place = DISAPPEARED;
-						}
-						if (items[j]->place == EQUIPPED && items[j]->type == ARMOUR){
-							items[j]->value += 40;		//Upgrade armour stats
-							items[j]->value2 += 15;
-							items[j]->upgrade = UPGRADED;
-							items[j]->description += "\tThis item is upgraded. It has a bonus of 40 defense and 15 block chance.\n\n";
-							player.defense += 40;		//Same for the player (as the items are equipped)
-							player.block_chance += 15;
-							printf("Armour upgrade complete.\n");
-							StatueUsed = 1;
-							items[i + NUM_1_WORD_ITEMS]->state = DESTROYED;
-							items[i + NUM_1_WORD_ITEMS]->place = DISAPPEARED;
-						}
-						if (items[j]->place == EQUIPPED && items[j]->type == SHIELD){
-							items[j]->value += 30;		//Upgrade shield stats
-							items[j]->value2 += 25;
-							items[j]->upgrade = UPGRADED;
-							items[j]->description += "\tThis item is upgraded. It has a bonus of 30 defense and 25 block chance.\n\n";
-							player.defense += 30;		//Same for the player (as the items are equipped)
-							player.block_chance += 25;
-							printf("Shield upgrade complete.\n");
-							StatueUsed = 1;
-							items[i + NUM_1_WORD_ITEMS]->state = DESTROYED;
-							items[i + NUM_1_WORD_ITEMS]->place = DISAPPEARED;
-						}
-					}
-					if (StatueUsed == 1){
-						printf("This statue disappeared!!\n\n");
-						InventorySlots--;	//if it dissapears you have a free slot in the inventory
-					}
-					if (StatueUsed == 0){ printf("Activation failed.\n\n"); }
-					return true;
+					if (items[i + NUM_1_WORD_ITEMS]->state == DESACTIVATED){ printf("Hades statue is already desactivated.\n\n"); return true; }
 				}
-				else if (items[i + NUM_1_WORD_ITEMS]->place == DISAPPEARED){ printf("This item had dissapeared...\n\n"); return true; }	//if it was already used
-				else{ printf("Hephaestus statue must be in the inventory to use it.\n\n"); return true; }
+				else{ printf("Hephaestus statue isn't in the inventory.\n\n"); return true; }
 			}
 		}
 	}
-	return false;
 }
 //--
 
