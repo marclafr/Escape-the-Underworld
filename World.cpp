@@ -71,7 +71,9 @@ void World::CreateWorld(){
 	Item* FireBow;
 	Item* IceBow;
 	Item* WornArmour;
+	Item* SilverArmour;
 	Item* DestroyedShield;
+	Item* UnknownShield;
 	Item* StrangeArtifact;
 	Item* HadesStatue;
 	Item* HephaestusStatue;
@@ -80,14 +82,16 @@ void World::CreateWorld(){
 	items.PushBack(Keys = new Item("keys", "keys needed to open gates.\n\n", Marsh, 0, 0, OTHER, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
 	items.PushBack(Stick = new Item("stick", "Just a large stick.\nDamage: 7.\nBlock chance: 3.\n\n", Entrance, 7, 3, WEAPON, EQUIPPED, UNFUSABLE, UNACTIVABLE, REGULAR));
 	items.PushBack(Sword = new Item("sword", "A shiny sword\nDamage: 70.\nBlock chance: 10.\n\n", StyxLeft, 70, 10, WEAPON, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
-	items.PushBack(Shield = new Item("shield", "A big shield to protect you.\nDefense: 25.\nBlock chance: 50.\n\n", Tartarus, 25, 50, SHIELD, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
+	items.PushBack(Shield = new Item("shield", "A big shield to protect you.\nDefense: 25.\nBlock chance: 30.\n\n", Tartarus, 25, 30, SHIELD, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
 	items.PushBack(Arrows = new Item("arrows", "A pack of arrows. Useless without a bow. You should put them into a quiver...\nAmount: 50.\n\n", Elm, 50, 0, WEAPON, FLOOR, FUSABLE1, UNACTIVABLE, REGULAR));
 	items.PushBack(Quiver = new Item("quiver", "Use it to store and use your arrows.\nCapacity: 50.\n", Entrance, 50, 0, OTHER, FLOOR, FUSABLE2, UNACTIVABLE, REGULAR));
 	//bows must be the first 2 words items to simplify posterior code
 	items.PushBack(FireBow = new Item("fire bow", "A bow in flames? Yep you see that right, this bow has flames but they don't burn you...\nDamage: 150.\nBlock chance: 0.\n\n", Phelgethon, 150, 0, WEAPON, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
 	items.PushBack(IceBow = new Item("ice bow", "A bow covered in ice. Seems fragile but strong.\nDamage: 120.\nBlock chance: 0.\n\n", PalaceHades, 120, 0, WEAPON, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
 	items.PushBack(WornArmour = new Item("worn armour", "This armour doesn't seem to be really useful anymore...\nDefense: 5.\nBlock chance: 1.\n\n", Entrance, 5, 1, ARMOUR, EQUIPPED, UNFUSABLE, UNACTIVABLE, REGULAR));
+	items.PushBack(SilverArmour = new Item("silver armour", "This shiny armour looks so resistant and\nDefense: 95.\nBlock chance: 5.\n\n", PalaceHades, 95, 5, ARMOUR, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
 	items.PushBack(DestroyedShield = new Item("destroyed shield", "This shield isn't a shield anymore...\nDefense: 1.\nBlock chance: 0.\n\n", Entrance, 1, 0, SHIELD, EQUIPPED, UNFUSABLE, UNACTIVABLE, REGULAR));
+	items.PushBack(UnknownShield = new Item("unknown shield", "You have never seen a shield like this one, its colours change...\nDefense: 140.\nBlock chance: 50.\n\n", ValeMourning, 140, 50, SHIELD, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
 	items.PushBack(StrangeArtifact = new Item("strange artifact", "You had never seen something like this, maybe it is the artifact you were looking for?\n\n", PalaceHades, 0, 0, OTHER, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
 	items.PushBack(HadesStatue = new Item("hades statue", "A shiny statue of the god Hades.\nIt may be useful in his world.\n\n", ElysianFields, 0, 0, STATUE, FLOOR, UNFUSABLE, DESACTIVATED, REGULAR));
 	items.PushBack(HephaestusStatue = new Item("hephaestus statue", "A shiny statue of the god Hephaestus.\nIt may be useful in his world.\n\n", Phelgethon, 0, 0, STATUE, FLOOR, UNFUSABLE, DESACTIVATED, REGULAR));
@@ -100,7 +104,11 @@ void World::CreateWorld(){
 	item_tokens.PushBack("bow");
 	item_tokens.PushBack("worn");
 	item_tokens.PushBack("armour");
+	item_tokens.PushBack("silver");
+	item_tokens.PushBack("armour");
 	item_tokens.PushBack("destroyed");
+	item_tokens.PushBack("shield");
+	item_tokens.PushBack("unknown");
 	item_tokens.PushBack("shield");
 	item_tokens.PushBack("strange");
 	item_tokens.PushBack("artifact");

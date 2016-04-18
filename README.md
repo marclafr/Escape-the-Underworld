@@ -1,5 +1,8 @@
 
 There was an error when I run the game in relase OUTSIDE the visual, so I uploaded the debug aplication, which works correctly.
+
+Once you have recovered from  crossing the portal you see that you are trapped in here and your weapon, armour and shield are destroyed, but you seem fine.
+
 ____________
 VERSION 0.1
 ____________
@@ -48,9 +51,10 @@ New commands:
 
 	INVENTORY:
 		Now you have an inventory with a slot limit to put the items you want. You can check the items you have in with the commands "inventory" / "inv" / "i".
+	This command will also tell you the items that are equipped and the ones that are not, and the number of items you have and the maximum you can have.
 
 	STATS:
-		In the next version I will implement a combat system, so in advance the player now have stats that are modified with the items you have. You can check your stats with the command "stats".
+		In the next version I will implement a combat system, so in advance the player now have stats that are modified with the items you have equipped. You can check your stats with the command "stats".
 
 	LOOK ITEMS:
 		Now you can check the description of the items there are in your inventory with the command "look <item>".
@@ -58,10 +62,13 @@ New commands:
 	PUT/GET ITEMS INTO OTHER ITEMS:
 		Now the game allows you to puc items in other items to reduce the slots occuped in the inventory. Actually you are able to put the arrows into the quiver. (and it is needed to use the bows).
 
+	ACTIVATE/DESACTIVATE:
+			Some items are Gods statues, those items can be activated and each one have an special effect. Right now there are only 3 activable statues out of 3 that are in the game, the Hades one, that need and NPC to cause its effect (not implemented yet), the Aphrodite statue (which haven't anything yet as i have to think what it will do, but you can activate/desactivate it) and the Hephaestus statue, which upgrades the weapon, armour and shield that you have equipped and then it is destroyed. To use this introduce "activate <GodName> statue" or "desactivate <GodName> statue" (all in lower case).
 
-Commands udpates:
 
-	- "look around" now gives the names of the items there are in the room.
+	COMMANDS UPDATES FROM LAST VERSION:
+
+	- "look around" now also gives the names of the items there are in the room.
 
 
 Note: If you introduce look + (something that does not match) it will interpret you are trying to look at an item that is in your inventory and the game will say "This item isn't in your inventory".
