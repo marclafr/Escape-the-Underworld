@@ -80,6 +80,7 @@ void World::CreateWorld(){
 	items.PushBack(Shield = new Item("shield", "A big shield to protect you.\nDefense: 25.\nBlock chance: 50.\n\n", Entrance, 25, 50, SHIELD, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
 	items.PushBack(Arrows = new Item("arrows", "A pack of arrows. Useless without a bow. You should put them into a quiver...\nAmount: 50.\n\n", Entrance, 50, 0, WEAPON, FLOOR, FUSABLE1, UNACTIVABLE, REGULAR));
 	items.PushBack(Quiver = new Item("quiver", "Use it to store and use your arrows.\nCapacity: 50.\n", Entrance, 50, 0, OTHER, FLOOR, FUSABLE2, UNACTIVABLE, REGULAR));
+	//bows must be the first 2 words items to simplify posterior code
 	items.PushBack(FireBow = new Item("fire bow", "A bow in flames? Yep you see that right, this bow has flames but they don't burn you...\nDamage: 150.\nBlock chance: 0.\n\n", Entrance, 150, 0, WEAPON, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
 	items.PushBack(IceBow = new Item("ice bow", "A bow covered in ice. Seems fragile but strong.\nDamage: 120.\nBlock chance: 0.\n\n", Entrance, 120, 0, WEAPON, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
 	items.PushBack(WornArmour = new Item("worn armour", "This armour doesn't seem to be really useful anymore...\nDefense: 5.\nBlock chance: 1.\n\n", Entrance, 5, 1, ARMOUR, EQUIPPED, UNFUSABLE, UNACTIVABLE, REGULAR));
@@ -374,11 +375,17 @@ bool World::DropItem(Vector<String> tokens, int &InventorySlots, unsigned int nu
 			if (tokens[1] == items[i]->name.c_str()){		//looks for the correct item
 				if (items[i]->place == INVENTORY){			//checks if the item is in the inventory
 					if (items[i]->fuse != FUSED){			//checks that the item isn't fused
-						printf("%s dropped on the floor.\n\n", items[i]->name.c_str());		//TODO: active statues cant be dropped && quiver w/ arrows can't be dropped if a bow is equipped
-						items[i]->place = FLOOR;
-						items[i]->item_position = player.position;
-						InventorySlots--;
-						return true;
+						if ((items[i]->name == "arrows" || items[i]->name == "quiver") && (items[NUM_1_WORD_ITEMS]->place == EQUIPPED || items[NUM_1_WORD_ITEMS + 1]->place == EQUIPPED)){
+							printf("Unequip your bow first, you can't use it without arrows or the quiver.\n\n");
+							return true;
+						}
+						else{
+							printf("%s dropped on the floor.\n\n", items[i]->name.c_str());		//TODO: active statues cant be dropped && quiver w/ arrows can't be dropped if a bow is equipped
+							items[i]->place = FLOOR;
+							items[i]->item_position = player.position;
+							InventorySlots--;
+							return true;
+						}
 					}
 					else{
 						printf("To drop an item it can't be into another item.\n\n");
@@ -674,7 +681,7 @@ bool World::UnequipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCo
 //--
 
 //Put an item into another one (arrows in quiver)
-void World::FuseItems(Vector<String> tokens, int &InventoryCapacity, int &QuiverCapacityCounter)const{
+void World::FuseItems(Vector<String> tokens, int &InventoryCapacity, int &QuiverCapacityCounter){
 	for (int i = 0; i < NUM_ITEMS; i++){
 		if (tokens[1] == items[i]->name){						//looks for the first item.
 			if (items[i]->fuse == FUSABLE1){					//checks it the first item can be fused into another one.
@@ -687,6 +694,17 @@ void World::FuseItems(Vector<String> tokens, int &InventoryCapacity, int &Quiver
 									InventoryCapacity--;			//fused items will take less slots in the inventory.
 									QuiverCapacityCounter += items[i]->value;
 									printf("%s put into %s.\n\n", items[i]->name.c_str(), items[j]->name.c_str());
+									if (items[NUM_1_WORD_ITEMS]->place == EQUIPPED){
+										player.attack += items[NUM_1_WORD_ITEMS]->value;
+										player.block_chance += items[NUM_1_WORD_ITEMS]->value2;
+										printf("The stats from fire bow are now applied.\n\n");
+									}
+									else if (items[NUM_1_WORD_ITEMS + 1]->place == EQUIPPED){
+										player.attack += items[NUM_1_WORD_ITEMS + 1]->value;
+										player.block_chance += items[NUM_1_WORD_ITEMS + 1]->value2;
+										printf("The stats from ice bow are now applied.\n\n");
+									}
+									//Those stats can't only be apllied once because if you have a bow equipped you can get the arrows from the quiver.
 								}
 								else{ printf("The capacity of %s has reached its limit.\n\n", items[j]->name.c_str()); }
 							}
@@ -715,10 +733,15 @@ void World::UnfuseItems(Vector<String> tokens, int &InventoryCapacity, int &Quiv
 									//you cant unfuse if you inventory will excced the inventory limit.
 									//checks if the capacity of the item has reached its maximum.
 								if (InventoryCapacity < NUM_INVENTORY_SLOTS){
-									items[i]->fuse = FUSABLE1;
-									InventoryCapacity++;
-									QuiverCapacityCounter -= items[i]->value;
-									printf("You got the %s from %s.\n\n", items[i]->name.c_str(), items[j]->name.c_str());
+									if (items[i]->name == "arrows" && (items[NUM_1_WORD_ITEMS]->place == EQUIPPED || items[NUM_1_WORD_ITEMS + 1]->place == EQUIPPED)){
+										printf("You can't get the arrows fro the quiver with a bow equipped. What do you want to shot..?\n\n");
+									}
+									else{
+										items[i]->fuse = FUSABLE1;
+										InventoryCapacity++;
+										QuiverCapacityCounter -= items[i]->value;
+										printf("You got the %s from %s.\n\n", items[i]->name.c_str(), items[j]->name.c_str());
+									}
 								}
 								else{ printf("If you get this item you will excced the inventory limit, drop something first.\n\n"); }
 							}
