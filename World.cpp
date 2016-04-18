@@ -748,7 +748,7 @@ void World::UnfuseItems(Vector<String> tokens, int &InventoryCapacity, int &Quiv
 									//checks if the capacity of the item has reached its maximum.
 								if (InventoryCapacity < NUM_INVENTORY_SLOTS){
 									if (items[i]->name == "arrows" && (items[NUM_1_WORD_ITEMS]->place == EQUIPPED || items[NUM_1_WORD_ITEMS + 1]->place == EQUIPPED)){
-										printf("You can't get the arrows fro the quiver with a bow equipped. What do you want to shot..?\n\n");
+										printf("You can't get the arrows from the quiver with a bow equipped. What do you want to shot..?\n\n");
 									}
 									else{
 										items[i]->fuse = FUSABLE1;
