@@ -17,6 +17,7 @@ public:
 	Player(const char* n, const char* d, Room* pos, unsigned int att, unsigned int def, unsigned int hitpoints) :Entity(n, d){
 		position = pos;
 	}	
+	void Stats()const;
 };
 
 #endif //PLAYER

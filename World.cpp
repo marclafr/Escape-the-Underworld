@@ -1,6 +1,6 @@
 #include "World.h"
 
-#define PLAYER_ORIGINAL_DAMAGE 45
+
 
 void World::CreateWorld(){
 
@@ -290,7 +290,7 @@ void World::CloseGate(int CommandDir)const{
 	}
 }
 //--
-
+/*
 //Pick items
 bool World::PickItem(Vector<String> tokens, int &InventorySlots, unsigned int num_words){
 	if (num_words == 2){
@@ -692,7 +692,7 @@ bool World::UnequipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCo
 	}
 	return false;
 }
-//--
+//--*/
 
 //Put an item into another one (arrows in quiver)
 void World::FuseItems(Vector<String> tokens, int &InventoryCapacity, int &QuiverCapacityCounter){
@@ -990,15 +990,7 @@ void World::Look()const{
 }
 //--
 
-//Player stats
-void World::Stats()const{
-	printf("Your stats are:\n");
-	printf("HP: %i.\n", player.hp);
-	printf("Attack: %i.\n", player.attack);
-	printf("Defense: %i.\n", player.defense);
-	printf("Block chance: %i.\n\n", player.block_chance);
-}
-//--
+
 
 //Exits game
 bool World::ExitGame()const{
