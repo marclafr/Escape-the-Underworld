@@ -1,23 +1,21 @@
-#include "Rooms.h"
+#include "Creatures.h"
 #include "Entity.h"
+#include "Rooms.h"
 
-#ifndef PLAYER
-#define PLAYER
+#ifndef __PLAYER__
+#define __PLAYER__
 
-#define NUM_ROOMS 13
-
-class Player:public Entity{
+class Player :public Creature{
 public:
 	Player(){}
 	Room* position = nullptr;
 	unsigned int attack;
 	unsigned int defense;
 	unsigned int block_chance;
-	int hp;	
-	Player(const char* n, const char* d, Room* pos, unsigned int att, unsigned int def, unsigned int hitpoints) :Entity(n, d){
-		position = pos;
-	}	
+	int hp;
+	Player(String n, const char* d, Room* pos, unsigned int att, unsigned int def, unsigned int block_chance, unsigned int hitpoints) :Creature(PLAYER, n, d, pos, att, def, block_chance, hitpoints), attack(att), defense(def), block_chance(block_chance), hp(hitpoints), position(pos){}
 	void Stats()const;
+	bool Move(int direction);
 };
 
-#endif //PLAYER
+#endif //__PLAYER__

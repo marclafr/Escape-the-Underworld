@@ -26,7 +26,7 @@ public:
 	~Vector(){
 		delete[]vector;
 	}
-	
+
 	void PushBack(const TYPE &element){
 		if (capacity == num_elements)
 		{

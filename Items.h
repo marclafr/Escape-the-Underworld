@@ -1,4 +1,5 @@
 #include "Entity.h"
+#include "Rooms.h"
 
 #ifndef _ITEM_
 #define _ITEM_
@@ -41,15 +42,17 @@ enum Upgrade{
 	REGULAR
 };
 
+
+
 class Item :public Entity{
 public:
 	Item(){}
 	~Item(){}
-	Item(const char* n, const char* d, Room* position, int val, int val2, ItemType t, ItemPlace p, Union f, StatuesState s, Upgrade upgr) :Entity(n, d) {
+	Item(const char* n, const char* d, Room* position, int val, int val2, ItemType t, ItemPlace p, Union f, StatuesState s, Upgrade upgr) :Entity(ITEM, n, d) {
 		item_position = position;
 		value = val;		//attack for WEAPONS, defense for ARMOURS && SHIELDS, capacity for quiver, and quantity for arrows (and damage?).
 		value2 = val2;		//block chance for WEAPONS && ARMOURS && SHIELDS.
-		type = t;
+		item_type = t;
 		place = p;
 		fuse = f;
 		state = s;
@@ -58,7 +61,7 @@ public:
 	Room* item_position = nullptr;
 	int value;
 	int value2;
-	ItemType type;
+	ItemType item_type;
 	ItemPlace place;
 	Union fuse;
 	StatuesState state;

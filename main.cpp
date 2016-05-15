@@ -1,136 +1,163 @@
-#include "World.h"
+#include "Entity.h"
 #include "MemLeaks.h"
+#include "World.h"
+#include "Items.h"
+
 
 World* Wor = nullptr;
 
-int main(){
+int main()
+{
 	ReportMemoryLeaks();
-	Wor = new World();
-	Vector<int>Counters;
-	Counters.PushBack(3);	// 0 - Inventory capacity counter: starts with 2 items
-	Counters.PushBack(1);	// 1 - Weapon equipped counter
-	Counters.PushBack(1);	// 2 - Armour equipped counter
-	Counters.PushBack(1);	// 3 - Shield equipped counter
-	Counters.PushBack(0);	// 4 - Quiver capacity counter
-	Counters.PushBack(0);	// 5 - Activated Statues counter
+	Wor = new World;
+	
 	Wor->CreateWorld();
-	Wor->player.Stats();
+	/*Wor->entities[1]->type == ITEM;
+	Item* i = (Item*)Wor->entities[1];
+	int a = i->value;*/
 	do{
 		Wor->command.GetString();
-		//Commands that have more than one word:
-		if (Wor->command.ContainsString(" ") == true){
+		if (Wor->command.ContainsString(" ") == true)
+		{
 			Vector<String> tokens;
 			unsigned int num_words = Wor->command.Tokenize(" ,.-_", tokens);
-			int CommandDir = Wor->GetDirection(Wor->command, tokens);
-			if (CommandDir == -1){
-				if (tokens[0] == ("look") && tokens[1] == ("around")){ Wor->Look(); }
-				else if (tokens[0] == ("look") && tokens[1] == ("north") || tokens[0] == ("look") && tokens[1] == ("south") || tokens[0] == ("look") && tokens[1] == ("east") || tokens[0] == ("look") && tokens[1] == ("west")){
-					if (tokens[0] == ("look") && tokens[1] == ("north"))	{ Wor->command = "north"; }		//Need to do this because if not, the CommandDir won't be able to compare with the exit direction
-					else if (tokens[0] == ("look") && tokens[1] == ("south"))	{ Wor->command = "south"; }
-					else if (tokens[0] == ("look") && tokens[1] == ("east"))	{ Wor->command = "east"; }
-					else if (tokens[0] == ("look") && tokens[1] == ("west"))	{ Wor->command = "west"; }
-					if (Wor->LookDirection(CommandDir, tokens) == false){ //Look Directions Commands Function
-						printf("Nothing to see here...\n\n");
-					}
-				}
-				else if (tokens[0] == ("pick")){
-					if (Wor->item.PickItem(tokens, Counters[0], num_words) == false){
-						printf("The item is not here or doesn't exist.\n");
-					}
-				}
-				else if (tokens[0] == ("drop") == true){
-					if (Wor->item.DropItem(tokens, Counters[0], num_words) == false){
-						printf("Your inventory haven't this item, you can't drop it.\n\n");
-					}
-				}
-				else if (tokens[0] == ("look")){
-					if (num_words == 2){
-						Wor->item.LookItem(tokens[1]);
-					}
-					else if (num_words == 3){
-						Wor->item.LookItem(tokens[1], tokens[2]);
-					}
-				}
-				else if (tokens[0] == "equip"){
-					if (Wor->item.EquipItem(tokens, Counters[1], Counters[2], Counters[3], Counters[4], num_words) == false){ //[0] == weapon, [1] == armour
-						printf("Equip what??\n");
-					}
-				}
-				else if (tokens[0] == "unequip"){
-					if (Wor->item.UnequipItem(tokens, Counters[1], Counters[2], Counters[3], num_words) == false){
-						printf("Unequip what??\n\n");
-					}
-				}
-				else if (tokens[0] == "activate"){
-					if (Wor->ActivateStatue(tokens, Counters[5], Counters[0]) == false){
-						printf("Activate what??\n");
-					}
-				}
-				else if (tokens[0] == "desactivate"){
-					if (Wor->DesactivateStatue(tokens, Counters[5]) == false){
-						printf("Desactivate what??\n");
-					}
-				}
-				
-				if (num_words >= 4){		//if this is not used it asserts if you introduce get/put + <less than 2 words> e.g. "get stick"
-					if (num_words == 5){
-						if (tokens[2] == "statue"){ printf("Statues can't be put into nothing.\n\n"); }
-						if (tokens[4] == "statue"){ printf("Statues can't be used to put nothing\n\n"); }
-					}
-					else{
-						if (tokens[0] == "put" && tokens[2] == "into"){
-							Wor->FuseItems(tokens, Counters[0], Counters[4]);
-						}
-						else if (tokens[0] == "get" && tokens[2] == "from"){
-							Wor->UnfuseItems(tokens, Counters[0], Counters[4]);
-						}
-					}
-				}
-			}
-			else if (CommandDir == 0 || CommandDir == 1 || CommandDir == 2 || CommandDir == 3){
+			int CommandDir = Wor->exits.GetDirection(Wor->command, tokens);
+			if (CommandDir == 0 || CommandDir == 1 || CommandDir == 2 || CommandDir == 3){
 				if (tokens[0] == ("go") && tokens[1] == ("north") ||
 					tokens[0] == ("go") && tokens[1] == ("south") ||
 					tokens[0] == ("go") && tokens[1] == ("east") ||
 					tokens[0] == ("go") && tokens[1] == ("west"))  {
-					if (Wor->Move(CommandDir) == false){ //Move Commands Function
+					if (Wor->player.Move(CommandDir) == false){ //Move Commands Function
 						printf("You can't go that way.\n\n");
 					}
 				}
-			}		
-		}
-		//--
+			}
+			/*if (CommandDir == -1){
+				if (tokens[0] == ("look") && tokens[1] == ("around")){ Wor->Look(); }
+				else if (tokens[0] == ("look") && tokens[1] == ("north") || tokens[0] == ("look") && tokens[1] == ("south") || tokens[0] == ("look") && tokens[1] == ("east") || tokens[0] == ("look") && tokens[1] == ("west")){
+				if (tokens[0] == ("look") && tokens[1] == ("north"))	{ Wor->command = "north"; }		//Need to do this because if not, the CommandDir won't be able to compare with the exit direction
+				else if (tokens[0] == ("look") && tokens[1] == ("south"))	{ Wor->command = "south"; }
+				else if (tokens[0] == ("look") && tokens[1] == ("east"))	{ Wor->command = "east"; }
+				else if (tokens[0] == ("look") && tokens[1] == ("west"))	{ Wor->command = "west"; }
+				if (Wor->LookDirection(CommandDir, tokens) == false){ //Look Directions Commands Function
+				printf("Nothing to see here...\n\n");
+				}
+				}
+				else if (tokens[0] == ("pick")){
+				if (Wor->item.PickItem(tokens, Counters[0], num_words) == false){
+				printf("The item is not here or doesn't exist.\n");
+				}
+				}
+				else if (tokens[0] == ("drop") == true){
+				if (Wor->item.DropItem(tokens, Counters[0], num_words) == false){
+				printf("Your inventory haven't this item, you can't drop it.\n\n");
+				}
+				}
+				else if (tokens[0] == ("look")){
+				if (num_words == 2){
+				Wor->item.LookItem(tokens[1]);
+				}
+				else if (num_words == 3){
+				Wor->item.LookItem(tokens[1], tokens[2]);
+				}
+				}
+				else if (tokens[0] == "equip"){
+				if (Wor->item.EquipItem(tokens, Counters[1], Counters[2], Counters[3], Counters[4], num_words) == false){ //[0] == weapon, [1] == armour
+				printf("Equip what??\n");
+				}
+				}
+				else if (tokens[0] == "unequip"){
+				if (Wor->item.UnequipItem(tokens, Counters[1], Counters[2], Counters[3], num_words) == false){
+				printf("Unequip what??\n\n");
+				}
+				}
+				else if (tokens[0] == "activate"){
+				if (Wor->ActivateStatue(tokens, Counters[5], Counters[0]) == false){
+				printf("Activate what??\n");
+				}
+				}
+				else if (tokens[0] == "desactivate"){
+				if (Wor->DesactivateStatue(tokens, Counters[5]) == false){
+				printf("Desactivate what??\n");
+				}
+				}
 
-		//Commands that only have one word
-		else{
-			int CommandDir = Wor->GetDirection(Wor->command);
+				if (num_words >= 4){		//if this is not used it asserts if you introduce get/put + <less than 2 words> e.g. "get stick"
+				if (num_words == 5){
+				if (tokens[2] == "statue"){ printf("Statues can't be put into nothing.\n\n"); }
+				if (tokens[4] == "statue"){ printf("Statues can't be used to put nothing\n\n"); }
+				}
+				else{
+				if (tokens[0] == "put" && tokens[2] == "into"){
+				Wor->FuseItems(tokens, Counters[0], Counters[4]);
+				}
+				else if (tokens[0] == "get" && tokens[2] == "from"){
+				Wor->UnfuseItems(tokens, Counters[0], Counters[4]);
+				}
+				}
+				}
+				}
+				else if (CommandDir == 0 || CommandDir == 1 || CommandDir == 2 || CommandDir == 3){
+				if (tokens[0] == ("go") && tokens[1] == ("north") ||
+				tokens[0] == ("go") && tokens[1] == ("south") ||
+				tokens[0] == ("go") && tokens[1] == ("east") ||
+				tokens[0] == ("go") && tokens[1] == ("west"))  {
+				if (Wor->Move(CommandDir) == false){ //Move Commands Function
+				printf("You can't go that way.\n\n");
+				}
+				}
+				}*/
+		}
+		else if (Wor->command.ContainsString(" ") == false)
+		{
+			int CommandDir = Wor->exits.GetDirection(Wor->command);
 			if (CommandDir == -1){
-				if (Wor->command == "help"){
+				if (Wor->command == "help")
+				{
 					printf("Help menu: \nTo move north, introduce north, n or go north.\nTo move south, introduce south, s or go south.\nTo move east, introduce east, e or go east.\nTo move west, introduce west, w or go west.\n\n The command 'look around' descrives the place you are in and the items that are in the room.\n\nlook + (direction): describe the path you want to take, but you can't see the items there are if you are not in the same room.\n\nThere are some locked doors, to open or close them use the commands 'open'/'close': Opens or closes a door if it is possible, then the game will ask you the direction the door is.\nNOTICE: if you type, for example, open north directly it won't work!\n\nThe command 'inventory', 'inv', or 'i' allows you to look the items there are in your inventory and the ones that are equipped (if you have any).\nIt also tells you its free space.\n\nIn order to equip or unequip an item, introduce 'equip / unequip <item>'\nThere is a limit of items that could be equipped (1 armour, 1 weapon and 1 shield).\n\nBefore being able to equip an item it must be in the inventory, with the command 'pick <item>' you will get the item you introduce if it is in the same room as you are, and if you need space in your inventory you can drop an item with 'drop <item>'.\n\nIn order to save inventory space you can put items into anothers and get them after(only a few) with the commands 'put <item> into <item>' and 'get <item> from <item>'\n\nThe statues can be used with the command 'activate <name> statue', but you can only have 2 of them activated at the same time, so you can also desactivate them with 'desactivate <name> statue'\n\nYour player have stats, that can be changed deppending on the items you have equipped, to check them introduce the command 'stats'.\n\nquit: quits the game.\n");
 				}	//help menu will be more readable if you start the game and introduce "help" :)
-				else if (Wor->command == "inventory" || Wor->command == "inv" || Wor->command == "i"){
-					if (Wor->item.LookInventory(Counters[0]) == false){
-						printf("Your inventory is empty.\n\n");
+				/*	else if (Wor->command == "inventory" || Wor->command == "inv" || Wor->command == "i")
+					{
+					if (Wor->item.LookInventory(Counters[0]) == false)
+					{
+					printf("Your inventory is empty.\n\n");
 					}
-				}
-				else if (Wor->command == "stats"){
+					}*/
+				else if (Wor->command == "stats")
+				{
 					Wor->player.Stats();
 				}
 			}
-			else if (CommandDir == 0 || CommandDir == 1 || CommandDir == 2 || CommandDir == 3){
+			else if (CommandDir == 0 || CommandDir == 1 || CommandDir == 2 || CommandDir == 3)
+			{
 				if (Wor->command == "n" || Wor->command == "north" ||
 					Wor->command == "s" || Wor->command == "south" ||
 					Wor->command == "e" || Wor->command == "east" ||
-					Wor->command == "w" || Wor->command == "west"){
-					if (Wor->Move(CommandDir) == false){ //Move Commands Function
+					Wor->command == "w" || Wor->command == "west")
+				{
+					if (Wor->player.Move(CommandDir) == false)	//Move Commands Function
+					{
 						printf("You can't go that way.\n\n");
 					}
-				}		
-				else if (Wor->command == "open")		{ Wor->OpenGate(CommandDir); }  //Open function
-				else if (Wor->command == "close")		{ Wor->CloseGate(CommandDir); } //Close function	
+				}
+				else if (Wor->command == "open")	//Open function
+				{
+					if (Wor->exits.OpenGate(CommandDir) == false)
+					{
+						printf("I don't see any door to open.\n\n");
+					}
+				}  
+				else if (Wor->command == "close")		//Close function
+				{
+					if (Wor->exits.CloseGate(CommandDir) == false)
+					{
+						printf("I don't see any door to close.\n\n");
+					}
+				} 
 			}
+			//--
 		}
-		//--	
-		
 	} while (Wor->ExitGame() == false);
+	Wor->DeleteWorld();
 	return 0;
 }

@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{EE5B1506-A281-4410-997C-3D4A9BF117A5}</ProjectGuid>
-    <RootNamespace>EscapetheUnderworld</RootNamespace>
+    <ProjectGuid>{EACEA3AB-D82C-4B47-8AD1-6EB5FDB8ABE4}</ProjectGuid>
+    <RootNamespace>EscapetheUnderworldv10</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -64,6 +64,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="Exits.cpp" />
+    <ClCompile Include="Items.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Rooms.cpp" />
+    <ClCompile Include="World.cpp" />
+  </ItemGroup>
+  <ItemGroup>
     <ClInclude Include="Creatures.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Exits.h" />
@@ -75,15 +84,6 @@
     <ClInclude Include="String.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="World.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Entity.cpp" />
-    <ClCompile Include="Exits.cpp" />
-    <ClCompile Include="Items.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Rooms.cpp" />
-    <ClCompile Include="World.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

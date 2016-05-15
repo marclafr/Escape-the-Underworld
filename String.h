@@ -64,7 +64,7 @@ public:
 		return strstr(buffer, string) != nullptr;
 	}
 	//--
-	
+
 	//operator ==
 	bool operator==(const String& string)const{
 		return (strcmp(buffer, string.buffer) == 0);
@@ -161,7 +161,7 @@ public:
 		while (save != NULL){
 			num_words++;
 			tokens.PushBack(save);
-			save = strtok_s(NULL, symbols, &context);			
+			save = strtok_s(NULL, symbols, &context);
 		}
 		return num_words;
 	}
