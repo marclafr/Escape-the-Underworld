@@ -112,7 +112,12 @@ void World::CreateWorld()
 	//--
 		//TODO CHANGE PLAYER DESCRIPTION//
 
-	
+	Counters.PushBack(3);	// 0 - Inventory capacity counter: starts with 3 items
+	Counters.PushBack(1);	// 1 - Weapon equipped counter
+	Counters.PushBack(1);	// 2 - Armour equipped counter
+	Counters.PushBack(1);	// 3 - Shield equipped counter
+	Counters.PushBack(0);	// 4 - Quiver capacity counter
+	Counters.PushBack(0);	// 5 - Activated Statues counter
 	
 
 	//First place name and description

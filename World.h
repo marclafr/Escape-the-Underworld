@@ -4,6 +4,7 @@
 #include "Entity.h"
 #include "Exits.h"
 #include "Player.h"
+#include "Items.h"
 
 #ifndef WORLD
 #define WORLD
@@ -21,8 +22,10 @@ public:
 	~World(){}
 	
 	Vector<Entity*> entities;
+	Vector<int>Counters;
 	String command;
 	Exit exits;
+	Item items;
 	Player player;
 	void CreateWorld();
 	bool ExitGame()const;

@@ -48,16 +48,7 @@ class Item :public Entity{
 public:
 	Item(){}
 	~Item(){}
-	Item(const char* n, const char* d, Room* position, int val, int val2, ItemType t, ItemPlace p, Union f, StatuesState s, Upgrade upgr) :Entity(ITEM, n, d) {
-		item_position = position;
-		value = val;		//attack for WEAPONS, defense for ARMOURS && SHIELDS, capacity for quiver, and quantity for arrows (and damage?).
-		value2 = val2;		//block chance for WEAPONS && ARMOURS && SHIELDS.
-		item_type = t;
-		place = p;
-		fuse = f;
-		state = s;
-		upgrade = upgr;
-	}
+	Item(const char* n, const char* d, Room* position, int val, int val2, ItemType t, ItemPlace p, Union f, StatuesState s, Upgrade upgr) :Entity(ITEM, n, d), item_position(position), value(val), value2(val2), item_type(t), place(p), fuse(f), state(s), upgrade(upgr) {}
 	Room* item_position = nullptr;
 	int value;
 	int value2;
@@ -68,7 +59,7 @@ public:
 	Upgrade upgrade;
 
 	bool PickItem(Vector<String> tokens, int &InventorySlots, unsigned int num_words);
-	bool LookInventory(int &InventorySlots)const;
+	void LookInventory(int &InventorySlots)const;
 	bool DropItem(Vector<String> tokens, int &InventorySlots, unsigned int num_words);
 	void LookItem(String item_w1)const;						//items with 1 word
 	void LookItem(String item_w1, String item_w2)const;		//items with 2 words

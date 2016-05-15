@@ -123,10 +123,8 @@ int main()
 					printf("Your inventory is empty.\n\n");
 					}
 					}*/
-				else if (Wor->command == "stats")
-				{
-					Wor->player.Stats();
-				}
+				else if (Wor->command == "inventory" || Wor->command == "inv" || Wor->command == "i"){ Wor->items.LookInventory(Wor->Counters[0]); }
+				else if (Wor->command == "stats"){ Wor->player.Stats(); }
 			}
 			else if (CommandDir == 0 || CommandDir == 1 || CommandDir == 2 || CommandDir == 3)
 			{
