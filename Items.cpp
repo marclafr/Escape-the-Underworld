@@ -2,6 +2,7 @@
 #include "Items.h"
 #include "String.h"
 
+//Look Inventory
 void Item::LookInventory(int &InventorySlots)const
 {
 	Item* item = (Item*)Wor->entities[0];
@@ -25,6 +26,7 @@ void Item::LookInventory(int &InventorySlots)const
 	if (InventorySlots == 0){ printf("Your inventory is empty.\n\n"); }
 	else{ printf("Inventory slots: %i/%i.\n\n", InventorySlots, NUM_INVENTORY_SLOTS); }
 }
+//--
 
 //Pick Items
 bool Item::PickItem(Vector<String> &tokens, int &InventorySlots, int num_words)
@@ -90,7 +92,7 @@ bool Item::PickItem(Vector<String> &tokens, int &InventorySlots, int num_words)
 //--
 
 //Drop Items
-bool Item::DropItem(Vector<String> tokens, int &InventorySlots, int num_words)
+bool Item::DropItem(Vector<String> &tokens, int &InventorySlots, int num_words)
 {
 	Item* item = (Item*)Wor->entities[0];
 	Player* player = (Player*)Wor->entities[0];
@@ -178,5 +180,41 @@ bool Item::DropItem(Vector<String> tokens, int &InventorySlots, int num_words)
 			}
 		}
 	}
+}
+//--
+
+//Look Items
+void Item::LookItem(Vector<String> &tokens, int num_words)const
+{
+	bool ItemCorrect = false;
+	if (num_words == 3)
+	{
+		tokens[1] += " ";
+	}
+	Item* item = (Item*)Wor->entities[0];
+	for (int i = 0; i <= NUM_ENTITIES; i++)
+	{
+		if (Wor->entities[i]->type == ITEM)
+		{
+			item = (Item*)Wor->entities[i];
+			if (num_words == 3)
+			{
+				if ((tokens[1] + tokens[2]) == item->name.c_str() && (item->place == INVENTORY || item->place == EQUIPPED))
+				{
+					printf("%s\n%s\n\n", item->name.c_str(), item->description.c_str());
+					ItemCorrect = true;
+				}
+			}
+			else if (num_words == 2)
+			{
+				if ((tokens[1]) == item->name.c_str() && (item->place == INVENTORY || item->place == EQUIPPED))
+				{
+					printf("%s\n%s\n\n", item->name.c_str(), item->description.c_str());
+					ItemCorrect = true;
+				}
+			}
+		}
+	}
+	if (ItemCorrect == false) { printf("You haven't this item.\n\n"); }
 }
 //--

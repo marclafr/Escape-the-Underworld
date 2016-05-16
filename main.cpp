@@ -12,7 +12,7 @@ int main()
 	Wor = new World;
 	
 	Wor->CreateWorld();
-	Wor->player.ReceiveCommand();
+	Wor->player->ReceiveCommand();
 	Wor->DeleteWorld();
 
 	return 0;

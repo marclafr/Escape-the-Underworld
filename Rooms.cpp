@@ -54,10 +54,10 @@ void Room::Look()const
 				exit = (Exit*)Wor->entities[i];
 				if (exit->origin->name == player->position->name)
 				{
-					CommandDir = Wor->exits.GetDirection(Wor->command, tokens);
+					CommandDir = Wor->exits->GetDirection(Wor->command, tokens);
 					if (CommandDir == exit->direction)			//checks if the direction is the same
 					{		
-						if (Wor->exits.WayClear(i) == true)		//if the path is blocked you can't see the other side
+						if (Wor->exits->WayClear(i) == true)		//if the path is blocked you can't see the other side
 						{		
 							printf("%s\n", exit->destination->description);
 							return true;

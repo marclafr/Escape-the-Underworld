@@ -24,10 +24,10 @@ public:
 	Vector<Entity*> entities;
 	Vector<int>Counters;
 	String command;
-	Exit exits;
-	Item items;
-	Room rooms;
-	Player player;
+	Exit* exits;
+	Item* items;
+	Room* rooms;
+	Player* player;
 	void CreateWorld();
 	bool ExitGame()const;
 	void DeleteWorld();
