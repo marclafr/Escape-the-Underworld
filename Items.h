@@ -58,9 +58,9 @@ public:
 	StatuesState state;
 	Upgrade upgrade;
 
-	bool PickItem(Vector<String> tokens, int &InventorySlots, unsigned int num_words);
+	bool PickItem(Vector<String> &tokens, int &InventorySlots, int num_words);
 	void LookInventory(int &InventorySlots)const;
-	bool DropItem(Vector<String> tokens, int &InventorySlots, unsigned int num_words);
+	bool DropItem(Vector<String> tokens, int &InventorySlots, int num_words);
 	void LookItem(String item_w1)const;						//items with 1 word
 	void LookItem(String item_w1, String item_w2)const;		//items with 2 words
 	bool EquipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCounter, int &ShieldCounter, int &QuiverCapacityCounter, unsigned int num_words);

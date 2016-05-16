@@ -7,6 +7,8 @@
 
 void World::CreateWorld()
 {
+	//TODO QUIT ALL WOR-> IN WORLD
+
 	//Name and description from all the rooms in the game:
 	Room *Entrance;
 	Room *Elm;
