@@ -88,7 +88,7 @@ void World::CreateWorld()
 	Wor->entities.PushBack(Stick = new Item("stick", "Just a large stick.\nDamage: 7.\nBlock chance: 3.\n\n", Entrance, 7, 3, WEAPON, EQUIPPED, UNFUSABLE, UNACTIVABLE, REGULAR));
 	Wor->entities.PushBack(Sword = new Item("sword", "A shiny sword\nDamage: 70.\nBlock chance: 10.\n\n", StyxLeft, 70, 10, WEAPON, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
 	Wor->entities.PushBack(Shield = new Item("shield", "A big shield to protect you.\nDefense: 25.\nBlock chance: 30.\n\n", Tartarus, 25, 30, SHIELD, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
-	Wor->entities.PushBack(Arrows = new Item("arrows", "A pack of arrows. Useless without a bow. You should put them into a quiver...\nAmount: 50.\n\n", Elm, 50, 0, WEAPON, FLOOR, FUSABLE1, UNACTIVABLE, REGULAR));
+	Wor->entities.PushBack(Arrows = new Item("arrows", "A pack of arrows. Useless without a bow. You should put them into a quiver...\nAmount: 50.\n\n", Elm, 50, 0, OTHER, FLOOR, FUSABLE1, UNACTIVABLE, REGULAR));	//TODO PREVIOUS WAS WEAPON
 	Wor->entities.PushBack(Quiver = new Item("quiver", "Use it to store and use your arrows.\nCapacity: 50.\n", Entrance, 50, 0, OTHER, FLOOR, FUSABLE2, UNACTIVABLE, REGULAR));
 	//bows must be the first 2 words items to simplify posterior code
 	Wor->entities.PushBack(FireBow = new Item("fire bow", "A bow in flames? Yep you see that right, this bow has flames but they don't burn you...\nDamage: 150.\nBlock chance: 0.\n\n", Phelgethon, 150, 0, WEAPON, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
@@ -108,7 +108,7 @@ void World::CreateWorld()
 	String player_name;
 	player_name.GetString();
 	//--
-
+	
 	//Player:
 	Wor->entities.PushBack(new Player(player_name, "ain't using this description", Entrance, P_ORI_DAMAGE, P_ORI_DEFENSE, P_ORI_B_CHANCE, P_ORI_HP));
 	//--

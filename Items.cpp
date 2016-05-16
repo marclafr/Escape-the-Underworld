@@ -218,3 +218,120 @@ void Item::LookItem(Vector<String> &tokens, int num_words)const
 	if (ItemCorrect == false) { printf("You haven't this item.\n\n"); }
 }
 //--
+
+//Equip Items
+bool Item::EquipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCounter, int &ShieldCounter, int &QuiverCapacityCounter, unsigned int num_words)
+{
+	if (num_words == 3)
+	{
+		tokens[1] += " ";
+	}
+	Player* player = (Player*)Wor->entities[0];
+	for (int i = 0; i <= NUM_ENTITIES; i++)
+	{
+		if (Wor->entities[i]->type == PLAYER)
+		{
+			player = (Player*)Wor->entities[i];
+		}
+	}
+	Item* item = (Item*)Wor->entities[0];
+	for (int i = 0; i <= NUM_ENTITIES; i++)
+	{
+		if (Wor->entities[i]->type == ITEM)
+		{
+			item = (Item*)Wor->entities[i];
+			if (num_words == 3)
+			{
+				if ((tokens[1] + tokens[2]) == item->name.c_str() && item->place == INVENTORY)
+				{
+					switch (item->type)
+					{
+					case WEAPON:	
+						if (WeaponCounter == 1)		//only 1 weapon can be equipped, checks if there is any
+						{
+							printf("You already have a weapon equipped.\n\n");
+							return true;
+						}
+						else
+						{
+							if (tokens[2] == "bow")		//bows stats only added if arrows are in the quiver
+							{
+								Item* quiver = (Item*)Wor->entities[0];
+								for (int i = 0; i <= NUM_ENTITIES; i++)
+								{
+									if (Wor->entities[i]->name == "quiver")
+									{
+										quiver = (Item*)Wor->entities[i];
+									}
+								}
+								if (QuiverCapacityCounter > 0 && quiver->place == INVENTORY)		//as only arrows can be put into the quiver, if the capacity of the quiver is > 0 and and it is in the inventory, we will update the player stats
+								{
+									printf("%s equipped.\n\n", item->name.c_str());		
+									player->attack += item->value;
+									player->block_chance += item->value2;
+								}
+								else		//in case the previous statments fails, the effects won't apply.
+								{	
+									printf("%s equipped, but it won't have effect alone...\nYou should search for arrows and a quiver.\n\n", item->name.c_str());
+								}
+							}
+							else
+							{
+								item->place = EQUIPPED;
+								printf("%s equipped.\n\n", item->name.c_str());
+								player->attack += item->value;
+								player->block_chance += item->value2;
+								WeaponCounter++;
+								return true;
+							}
+						}
+					case ARMOUR:
+						if (ArmourCounter == 1)		//only 1 armour can be equipped, checks if there is any
+						{
+							printf("You already have an armour equipped.\n\n");
+							return true;
+						}
+						else
+						{
+							item->place = EQUIPPED;
+							printf("%s equipped.\n\n", item->name.c_str());
+							player->defense += item->value;
+							player->block_chance += item->value2;
+							ArmourCounter++;
+							return true;
+						}
+					case SHIELD:
+						if (ShieldCounter == 1)		//only 1 shield can be equipped, checks if there is any
+						{
+							printf("You already have a shield equipped.\n\n");
+							return true;
+						}
+						else
+						{
+							item->place = EQUIPPED;
+							printf("%s equipped.\n\n", item->name.c_str());
+							player->defense += item->value;
+							player->block_chance += item->value2;
+							ShieldCounter++;
+							return true;
+						}
+					case STATUE:
+						printf("You can't equip an statue...\n\n");
+						return true;
+					case OTHER:
+						printf("You can't equip this item...\n\n");
+						return true;
+					}
+				}
+				else if ((tokens[1] + tokens[2]) == item->name.c_str() && item->place == EQUIPPED)	{ printf("Item already equipped dude.\n\n");							return true; }
+				else if ((tokens[1] + tokens[2]) == item->name.c_str() && item->place == FLOOR)		{ printf("Item must be in the inventory in order to equip it.\n\n");	return true; }
+			}
+			/*else if (num_words == 2)
+			{
+			TODO 1 WORD ITEMS
+			}*/
+		}
+	}
+	return false;
+}
+//--

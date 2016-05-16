@@ -2,26 +2,16 @@
 #include "World.h"
 #include "Items.h"
 
-
+//TWO WORDS
 int Exit::GetDirection(const String& command, const Vector<String> &tokens)const
 {
 	if		(command == "n" || command == "north" || tokens[0] == ("go") && tokens[1] == ("north"))		{ return 0; }
 	else if (command == "s" || command == "south" || tokens[0] == ("go") && tokens[1] == ("south"))		{ return 1; }
 	else if (command == "e" || command == "east" || tokens[0] == ("go") && tokens[1] == ("east"))		{ return 2; }
 	else if (command == "w" || command == "west" || tokens[0] == ("go") && tokens[1] == ("west"))		{ return 3; }
-	//Open/Close Command: Asks where to open.
-	else if (command == "open" || command == "close"){
-		if (command == "open")			{ printf("Open where?\n"); }
-		else if (command == "close")	{ printf("Close where?\n"); }
-		String Open_Close_Direction;
-		Open_Close_Direction.GetString();
-		if		(Open_Close_Direction == "north" || Open_Close_Direction == "n")	{ return 0; }
-		else if (Open_Close_Direction == "south" || Open_Close_Direction == "s")	{ return 1; }
-		else if (Open_Close_Direction == "east" || Open_Close_Direction == "e")		{ return 2; }
-		else if (Open_Close_Direction == "west" || Open_Close_Direction == "w")		{ return 3; }
-	}
 	else { return -1; }
 }
+//--
 
 //ONE WORD
 int Exit::GetDirection(const String& command)const
@@ -36,32 +26,33 @@ int Exit::GetDirection(const String& command)const
 		else if (command == "close")	{ printf("Close where?\n"); }
 		String Open_Close_Direction;
 		Open_Close_Direction.GetString();
-		if		(Open_Close_Direction == "north" || Open_Close_Direction == "n")	{ return 0; }
-		else if (Open_Close_Direction == "south" || Open_Close_Direction == "s")	{ return 1; }
-		else if (Open_Close_Direction == "east" || Open_Close_Direction == "e")		{ return 2; }
-		else if (Open_Close_Direction == "west" || Open_Close_Direction == "w")		{ return 3; }
+		if		(Open_Close_Direction == "north" || Open_Close_Direction == "n")		{ return 0; }
+		else if (Open_Close_Direction == "south" || Open_Close_Direction == "s")		{ return 1; }
+		else if (Open_Close_Direction == "east"  || Open_Close_Direction == "e")		{ return 2; }
+		else if (Open_Close_Direction == "west"  || Open_Close_Direction == "w")		{ return 3; }
 	}
 	else { return -1; }
 }
+//--
 
 //Checks if the path is clear
 bool Exit::WayClear(int i)const
 {
 	Exit* exit = (Exit*)Wor->entities[i];
-	if (exit->blocked == true){		//checks if gates are locked
+	if (exit->blocked == true){		//checks if a gate is locked
 		printf("Gate locked.\n");
 		return false;
 	}
 	else if (exit->destination == Wor->entities[3] || exit->destination == Wor->entities[6]){	//checks if you have the coins in your inventory to cross the Styx River (right and left side)
-		Item* item = (Item*)Wor->entities[0];
+		Item* coins = (Item*)Wor->entities[0];
 		for (int i = 0; i <= NUM_ENTITIES; i++)
 		{
-			if (Wor->entities[i]->type == ITEM)
+			if (Wor->entities[i]->name == "coins")
 			{
-				item = (Item*)Wor->entities[i];
+				coins = (Item*)Wor->entities[i];
 			}
 		}
-		if (item->place == INVENTORY){ return true; }
+		if (coins->place == INVENTORY){ return true; }
 		else{
 			printf("You need to have the coins for Charon the ferryman to cross this river.\n");
 			return false;
@@ -77,6 +68,7 @@ bool Exit::OpenGate(int CommandDir)const
 	Exit* exit = (Exit*)Wor->entities[0];
 	Player* player = (Player*)Wor->entities[0];
 	Room* room = (Room*)Wor->entities[0];
+	Item* keys = (Item*)Wor->entities[0];
 	for (int i = 0; i <= NUM_ENTITIES; i++)
 	{
 		if (Wor->entities[i]->type == PLAYER)
@@ -102,21 +94,22 @@ bool Exit::OpenGate(int CommandDir)const
 						else if (exit->blocked == 2){ printf("There is no door in this direction...\n\n"); return true; }
 						else
 						{
-							//for (int j = 0; j < NUM_1_WORD_ITEMS; j++)
-							//	{
-							//	if (items[j]->name == "keys")
-							//	{
-							//		if (items[j]->place == INVENTORY)
-							//		{
-							exit->blocked = false;
-							printf("The path to %s has been opened.\n\n", exit->destination->name);
-							exit = (Exit*)Wor->entities[i + 2];
-							exit->blocked = false;
-							return true;
-							//		}
-							//		else{ printf("You need the keys to open this door.\n\n"); }
-							//	}
-							//	}
+							for (int i = 0; i <= NUM_ENTITIES; i++)
+							{
+								if (Wor->entities[i]->name == "keys")
+								{
+									keys = (Item*)Wor->entities[i];
+								}
+							}
+							if (keys->place == INVENTORY)
+							{
+								exit->blocked = false;
+								printf("The path to %s has been opened.\n\n", exit->destination->name);
+								exit = (Exit*)Wor->entities[i + 2];
+								exit->blocked = false;
+								return true;
+							}
+							else{ printf("You need the keys to open this door.\n\n"); return true; }
 						}
 					}
 				}
@@ -133,6 +126,7 @@ bool Exit::CloseGate(int CommandDir)const
 	Exit* exit = (Exit*)Wor->entities[0];
 	Player* player = (Player*)Wor->entities[0];
 	Room* room = (Room*)Wor->entities[0];
+	Item* keys = (Item*)Wor->entities[0];
 	for (int i = 0; i <= NUM_ENTITIES; i++)
 	{
 		if (Wor->entities[i]->type == PLAYER)
@@ -158,21 +152,22 @@ bool Exit::CloseGate(int CommandDir)const
 						else if (exit->blocked == 2){ printf("There is no door in this direction...\n\n"); return true; }
 						else
 						{
-							//for (int j = 0; j < NUM_1_WORD_ITEMS; j++)
-							//	{
-							//	if (items[j]->name == "keys")
-							//	{
-							//		if (items[j]->place == INVENTORY)
-							//		{
+							for (int i = 0; i <= NUM_ENTITIES; i++)
+							{
+								if (Wor->entities[i]->name == "keys")
+								{
+									keys = (Item*)Wor->entities[i];
+								}
+							}
+							if (keys->place == INVENTORY)
+							{
 							exit->blocked = true;
-							printf("The path to %s has been clsoed.\n\n", exit->destination->name);
+							printf("The path to %s has been closed.\n\n", exit->destination->name);
 							exit = (Exit*)Wor->entities[i + 2];
 							exit->blocked = true;
 							return true;
-							//		}
-							//		else{ printf("You need the keys to close this door.\n\n"); }
-							//	}
-							//	}
+							}
+							else{ printf("You need the keys to close this door.\n\n"); return true; }
 						}
 					}
 				}
