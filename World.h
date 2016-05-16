@@ -26,6 +26,7 @@ public:
 	String command;
 	Exit exits;
 	Item items;
+	Room rooms;
 	Player player;
 	void CreateWorld();
 	bool ExitGame()const;

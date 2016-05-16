@@ -142,7 +142,8 @@ bool World::ExitGame()const
 
 void World::DeleteWorld()
 {
-	for (int i = 0; i <= NUM_ENTITIES; i++){
+	for (int i = 0; i <= NUM_ENTITIES; i++)
+	{
 		delete entities[i];
 	}
 }

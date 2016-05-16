@@ -22,16 +22,32 @@ int main()
 			Vector<String> tokens;
 			unsigned int num_words = Wor->command.Tokenize(" ,.-_", tokens);
 			int CommandDir = Wor->exits.GetDirection(Wor->command, tokens);
-			if (CommandDir == 0 || CommandDir == 1 || CommandDir == 2 || CommandDir == 3){
+			if (CommandDir == 0 || CommandDir == 1 || CommandDir == 2 || CommandDir == 3)
+			{
 				if (tokens[0] == ("go") && tokens[1] == ("north") ||
 					tokens[0] == ("go") && tokens[1] == ("south") ||
 					tokens[0] == ("go") && tokens[1] == ("east") ||
-					tokens[0] == ("go") && tokens[1] == ("west"))  {
-					if (Wor->player.Move(CommandDir) == false){ //Move Commands Function
+					tokens[0] == ("go") && tokens[1] == ("west"))
+				{
+					if (Wor->player.Move(CommandDir) == false)
+					{ //Move Commands Function
 						printf("You can't go that way.\n\n");
 					}
 				}
 			}
+			if (tokens[0] == ("look") && tokens[1] == ("around")){ Wor->rooms.Look(); }
+			if (tokens[0] == ("look") && tokens[1] == ("north") || tokens[0] == ("look") && tokens[1] == ("south") || tokens[0] == ("look") && tokens[1] == ("east") || tokens[0] == ("look") && tokens[1] == ("west"))
+			{
+					if		(tokens[0] == ("look") && tokens[1] == ("north"))	{ Wor->command = "north"; }		//Need to do this because if not, the CommandDir won't be able to compare with the exit direction
+					else if (tokens[0] == ("look") && tokens[1] == ("south"))	{ Wor->command = "south"; }
+					else if (tokens[0] == ("look") && tokens[1] == ("east"))	{ Wor->command = "east"; }
+					else if (tokens[0] == ("look") && tokens[1] == ("west"))	{ Wor->command = "west"; }
+				if (Wor->rooms.LookDirection(CommandDir, tokens) == false)//Look Directions Commands Function
+				{
+					printf("Nothing to see here...\n\n");
+				}
+			}
+			
 			/*if (CommandDir == -1){
 				if (tokens[0] == ("look") && tokens[1] == ("around")){ Wor->Look(); }
 				else if (tokens[0] == ("look") && tokens[1] == ("north") || tokens[0] == ("look") && tokens[1] == ("south") || tokens[0] == ("look") && tokens[1] == ("east") || tokens[0] == ("look") && tokens[1] == ("west")){
@@ -107,11 +123,16 @@ int main()
 				}
 				}
 				}*/
+			else
+			{
+				printf("I can't understand that.\n\n");
+			}
 		}
 		else if (Wor->command.ContainsString(" ") == false)
 		{
 			int CommandDir = Wor->exits.GetDirection(Wor->command);
-			if (CommandDir == -1){
+			if (CommandDir == -1)
+			{
 				if (Wor->command == "help")
 				{
 					printf("Help menu: \nTo move north, introduce north, n or go north.\nTo move south, introduce south, s or go south.\nTo move east, introduce east, e or go east.\nTo move west, introduce west, w or go west.\n\n The command 'look around' descrives the place you are in and the items that are in the room.\n\nlook + (direction): describe the path you want to take, but you can't see the items there are if you are not in the same room.\n\nThere are some locked doors, to open or close them use the commands 'open'/'close': Opens or closes a door if it is possible, then the game will ask you the direction the door is.\nNOTICE: if you type, for example, open north directly it won't work!\n\nThe command 'inventory', 'inv', or 'i' allows you to look the items there are in your inventory and the ones that are equipped (if you have any).\nIt also tells you its free space.\n\nIn order to equip or unequip an item, introduce 'equip / unequip <item>'\nThere is a limit of items that could be equipped (1 armour, 1 weapon and 1 shield).\n\nBefore being able to equip an item it must be in the inventory, with the command 'pick <item>' you will get the item you introduce if it is in the same room as you are, and if you need space in your inventory you can drop an item with 'drop <item>'.\n\nIn order to save inventory space you can put items into anothers and get them after(only a few) with the commands 'put <item> into <item>' and 'get <item> from <item>'\n\nThe statues can be used with the command 'activate <name> statue', but you can only have 2 of them activated at the same time, so you can also desactivate them with 'desactivate <name> statue'\n\nYour player have stats, that can be changed deppending on the items you have equipped, to check them introduce the command 'stats'.\n\nquit: quits the game.\n");
@@ -125,6 +146,10 @@ int main()
 					}*/
 				else if (Wor->command == "inventory" || Wor->command == "inv" || Wor->command == "i"){ Wor->items.LookInventory(Wor->Counters[0]); }
 				else if (Wor->command == "stats"){ Wor->player.Stats(); }
+				else
+				{
+					printf("I can't understand that.\n\n");
+				}
 			}
 			else if (CommandDir == 0 || CommandDir == 1 || CommandDir == 2 || CommandDir == 3)
 			{
@@ -152,6 +177,10 @@ int main()
 						printf("I don't see any door to close.\n\n");
 					}
 				} 
+				else
+				{
+					printf("I can't understand that.\n\n");
+				}
 			}
 			//--
 		}
