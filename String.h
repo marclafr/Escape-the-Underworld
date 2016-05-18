@@ -182,14 +182,14 @@ public:
 			num_words++;
 			if (save[0] == '"')
 			{
+				item = save;
+				save = strtok_s(NULL, symbols, &context);
 				if (save != NULL)
-				{
-					item = save;
-					save = strtok_s(NULL, symbols, &context);
+				{					
 					item += " ";
-					item += save;
-					tokens.PushBack(item);
+					item += save;					
 				}
+				tokens.PushBack(item);
 				
 			}
 			else

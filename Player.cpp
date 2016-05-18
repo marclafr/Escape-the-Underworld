@@ -9,7 +9,7 @@ void Player::ReceiveCommand()
 		if (Wor->command.ContainsString(" ") == true)
 		{
 			Vector<String> tokens;
-			unsigned int num_words = Wor->command.Tokenize(" ,.-_", tokens);	//TODO num_words needed?
+			Wor->command.Tokenize(" ,.-_", tokens);	//TODO num_words needed?
 			for (int i = 0; i < tokens.Size(); i++)
 			{
 				if (tokens[i].ContainsString(""""))
@@ -45,35 +45,37 @@ void Player::ReceiveCommand()
 			}
 			else if (tokens[0] == ("pick"))
 			{
-				if (Wor->items->PickItem(tokens, Wor->Counters[0], num_words) == false)
+				if (Wor->items->PickItem(tokens, Wor->Counters[0]) == false)
 				{
 					printf("The item is not here or doesn't exist.\n");
 				}
 			}
 			else if (tokens[0] == ("drop") == true)
 			{
-				if (Wor->items->DropItem(tokens, Wor->Counters[0], num_words) == false)
+				if (Wor->items->DropItem(tokens, Wor->Counters[0]) == false)
 				{
 					printf("Your inventory haven't this item, you can't drop it.\n\n");
 				}
 			}
-			else if (tokens[0] == ("look")){ Wor->items->LookItem(tokens, num_words); }
+			else if (tokens[0] == ("look")){ Wor->items->LookItem(tokens); }
 			else if (tokens[0] == "equip")
 			{
-				if (Wor->items->EquipItem(tokens, Wor->Counters[1], Wor->Counters[2], Wor->Counters[3], Wor->Counters[4], num_words) == false)		//[0] == weapon, [1] == armour
+				if (Wor->items->EquipItem(tokens, Wor->Counters[1], Wor->Counters[2], Wor->Counters[3], Wor->Counters[4]) == false)		//[0] == weapon, [1] == armour
 				{ 
 					printf("Equip what??\n");
 				}
 			}
-
+			else if (tokens[0] == "equip")
+			{
+				if (Wor->items->EquipItem(tokens, Wor->Counters[1], Wor->Counters[2], Wor->Counters[3], Wor->Counters[4]) == false)
+				{ //[0] == weapon, [1] == armour
+					printf("Equip what??\n");
+				}
+			}
 			/*
-			else if (tokens[0] == "equip"){
-			if (Wor->item.EquipItem(tokens, Counters[1], Counters[2], Counters[3], Counters[4], num_words) == false){ //[0] == weapon, [1] == armour
-			printf("Equip what??\n");
-			}
-			}
+			
 			else if (tokens[0] == "unequip"){
-			if (Wor->item.UnequipItem(tokens, Counters[1], Counters[2], Counters[3], num_words) == false){
+			if (Wor->item.UnequipItem(tokens, Counters[1], Counters[2], Counters[3]) == false){
 			printf("Unequip what??\n\n");
 			}
 			}

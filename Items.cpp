@@ -29,7 +29,7 @@ void Item::LookInventory(int &InventorySlots)const
 //--
 
 //Pick Items
-bool Item::PickItem(Vector<String> &tokens, int &InventorySlots, int num_words)
+bool Item::PickItem(Vector<String> &tokens, int &InventorySlots)
 {
 	Item* item = (Item*)Wor->entities[0];
 	Player* player = (Player*)Wor->entities[0];
@@ -68,7 +68,7 @@ bool Item::PickItem(Vector<String> &tokens, int &InventorySlots, int num_words)
 //--
 
 //Drop Items
-bool Item::DropItem(Vector<String> &tokens, int &InventorySlots, int num_words)
+bool Item::DropItem(Vector<String> &tokens, int &InventorySlots)
 {
 	Item* item = (Item*)Wor->entities[0];
 	Player* player = (Player*)Wor->entities[0];
@@ -121,7 +121,7 @@ bool Item::DropItem(Vector<String> &tokens, int &InventorySlots, int num_words)
 //--
 
 //Look Items
-void Item::LookItem(Vector<String> &tokens, int num_words)const
+void Item::LookItem(Vector<String> &tokens)const
 {
 	bool ItemCorrect = false;
 	
@@ -143,7 +143,7 @@ void Item::LookItem(Vector<String> &tokens, int num_words)const
 //--
 
 //Equip Items
-bool Item::EquipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCounter, int &ShieldCounter, int &QuiverCapacityCounter, unsigned int num_words)
+bool Item::EquipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCounter, int &ShieldCounter, int &QuiverCapacityCounter)
 {
 	
 	Player* player = (Player*)Wor->entities[0];

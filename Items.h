@@ -58,12 +58,12 @@ public:
 	StatuesState state;
 	Upgrade upgrade;
 
-	bool PickItem(Vector<String> &tokens, int &InventorySlots, int num_words);
+	bool PickItem(Vector<String> &tokens, int &InventorySlots);
 	void LookInventory(int &InventorySlots)const;
-	bool DropItem(Vector<String> &tokens, int &InventorySlots, int num_words);
-	void LookItem(Vector<String> &tokens, int num_words)const;
-	bool EquipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCounter, int &ShieldCounter, int &QuiverCapacityCounter, unsigned int num_words);
-	bool UnequipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCounter, int &ShieldCounter, unsigned int num_words);
+	bool DropItem(Vector<String> &tokens, int &InventorySlots);
+	void LookItem(Vector<String> &tokens)const;
+	bool EquipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCounter, int &ShieldCounter, int &QuiverCapacityCounter);
+	bool UnequipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCounter, int &ShieldCounter);
 };
 
 #endif //_ITEM_
