@@ -9,7 +9,14 @@ void Player::ReceiveCommand()
 		if (Wor->command.ContainsString(" ") == true)
 		{
 			Vector<String> tokens;
-			unsigned int num_words = Wor->command.Tokenize(" ,.-_", tokens); //TODO num_words needed?
+			unsigned int num_words = Wor->command.Tokenize(" ,.-_", tokens);	//TODO num_words needed?
+			for (int i = 0; i < tokens.Size(); i++)
+			{
+				if (tokens[i].ContainsString(""""))
+				{
+					tokens[i].RemoveChar('"');
+				}
+			}
 			int CommandDir = Wor->exits->GetDirection(Wor->command, tokens);
 			if (CommandDir == 0 || CommandDir == 1 || CommandDir == 2 || CommandDir == 3)
 			{
@@ -31,7 +38,7 @@ void Player::ReceiveCommand()
 				else if (tokens[0] == ("look") && tokens[1] == ("south"))	{ Wor->command = "south"; }
 				else if (tokens[0] == ("look") && tokens[1] == ("east"))	{ Wor->command = "east"; }
 				else if (tokens[0] == ("look") && tokens[1] == ("west"))	{ Wor->command = "west"; }
-				if (Wor->rooms->LookDirection(CommandDir, tokens) == false)//Look Directions Commands Function
+				if (Wor->rooms->LookDirection(CommandDir, tokens) == false)			//Look Directions Commands Function
 				{
 					printf("Nothing to see here...\n\n");
 				}

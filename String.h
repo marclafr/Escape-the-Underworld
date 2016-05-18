@@ -175,12 +175,28 @@ public:
 		unsigned int num_words = 0;
 		char* context = nullptr;
 		char* save = nullptr;
+		String item;
 		save = strtok_s(buffer, symbols, &context);
 		while (save != NULL)
 		{
 			num_words++;
-			tokens.PushBack(save);
-			save = strtok_s(NULL, symbols, &context);
+			if (save[0] == '"')
+			{
+				if (save != NULL)
+				{
+					item = save;
+					save = strtok_s(NULL, symbols, &context);
+					item += " ";
+					item += save;
+					tokens.PushBack(item);
+				}
+				
+			}
+			else
+			{
+				tokens.PushBack(save);
+				save = strtok_s(NULL, symbols, &context);
+			}
 		}
 		return num_words;
 	}
@@ -190,8 +206,8 @@ public:
 	void RemoveChar(const char character)
 	{
 		int num_removed = 0;
-		int len = strlen(buffer);
-		for (int i = 0; i <= len; i++)
+		int len = strlen(buffer) + 1;
+		for (int i = 0; i < len; i++)
 		{
 			if (buffer[i] == character)
 			{
