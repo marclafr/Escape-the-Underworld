@@ -83,6 +83,11 @@ void Player::ReceiveCommand()
 			{
 				Wor->items->FuseItems(tokens, Wor->Counters[0], Wor->Counters[4]);
 			}
+			else if (tokens[0] == "get" && tokens[2] == "from")
+			{
+				Wor->items->UnfuseItems(tokens, Wor->Counters[0], Wor->Counters[4]);
+			}
+		
 
 			/*
 			else if (tokens[0] == "activate"){
@@ -96,8 +101,7 @@ void Player::ReceiveCommand()
 			}
 			}
 
-			if (num_words >= 4){		//if this is not used it asserts if you introduce get/put + <less than 2 words> e.g. "get stick"
-			if (num_words == 5){
+		
 			if (tokens[2] == "statue"){ printf("Statues can't be put into nothing.\n\n"); }
 			if (tokens[4] == "statue"){ printf("Statues can't be used to put nothing\n\n"); }
 			}

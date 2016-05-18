@@ -62,12 +62,12 @@ public:
 	void LookInventory(int &InventorySlots)const;
 	bool DropItem(Vector<String> &tokens, int &InventorySlots);
 	void LookItem(Vector<String> &tokens)const;
-	bool EquipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCounter, int &ShieldCounter, int &QuiverCapacityCounter);
-	bool UnequipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCounter, int &ShieldCounter);
-	void FuseItems(Vector<String> tokens, int &InventoryCapacity, int &QuiverCapacityCounter);
-	void UnfuseItems(Vector<String> tokens, int &InventoryCapacity, int &QuiverCapacityCounter)const;
-	bool ActivateStatue(Vector<String> tokens, int &ActiveStatues, int &InventorySlots);
-	bool DesactivateStatue(Vector<String> tokens, int &ActiveStatues);
+	bool EquipItem(Vector<String> &tokens, int &WeaponCounter, int &ArmourCounter, int &ShieldCounter, int &QuiverCapacityCounter);
+	bool UnequipItem(Vector<String> &tokens, int &WeaponCounter, int &ArmourCounter, int &ShieldCounter);
+	void FuseItems(Vector<String> &tokens, int &InventoryCapacity, int &QuiverCapacityCounter);
+	void UnfuseItems(Vector<String> &tokens, int &InventoryCapacity, int &QuiverCapacityCounter)const;
+	bool ActivateStatue(Vector<String> &tokens, int &ActiveStatues, int &InventorySlots);
+	bool DesactivateStatue(Vector<String> &tokens, int &ActiveStatues);
 };
 
 #endif //_ITEM_
