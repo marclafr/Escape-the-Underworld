@@ -176,11 +176,12 @@ public:
 		char* context = nullptr;
 		char* save = nullptr;
 		String item;
+		bool item_done = false;
 		save = strtok_s(buffer, symbols, &context);
 		while (save != NULL)
 		{
 			num_words++;
-			if (save[0] == '"')
+			if (save[0] == '"')		//TODO IF "QUIVER A A A" BREAKS
 			{
 				item = save;
 				save = strtok_s(NULL, symbols, &context);
@@ -190,12 +191,14 @@ public:
 					item += save;					
 				}
 				tokens.PushBack(item);
+				item_done = true;
 				
 			}
 			else
 			{
-				tokens.PushBack(save);
+				if (item_done == false){ tokens.PushBack(save); }
 				save = strtok_s(NULL, symbols, &context);
+				item_done = false;
 			}
 		}
 		return num_words;

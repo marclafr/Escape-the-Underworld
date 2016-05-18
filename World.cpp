@@ -109,7 +109,7 @@ void World::CreateWorld()
 	//--
 	
 	//Player:
-	Wor->entities.PushBack(new Player(player_name, "ain't using this description", Entrance, P_ORI_DAMAGE, P_ORI_DEFENSE, P_ORI_B_CHANCE, P_ORI_HP));
+	Wor->entities.PushBack(new Player(player_name, "ain't using this description", Entrance, P_ORI_DAMAGE + 7, P_ORI_DEFENSE, P_ORI_B_CHANCE, P_ORI_HP));
 	//--
 		//TODO CHANGE PLAYER DESCRIPTION//
 

@@ -79,6 +79,10 @@ void Player::ReceiveCommand()
 					printf("Unequip what??\n\n");
 				}
 			}
+			else if (tokens[0] == "put" && tokens[2] == "into")
+			{
+				Wor->items->FuseItems(tokens, Wor->Counters[0], Wor->Counters[4]);
+			}
 
 			/*
 			else if (tokens[0] == "activate"){
@@ -107,16 +111,7 @@ void Player::ReceiveCommand()
 			}
 			}
 			}
-			else if (CommandDir == 0 || CommandDir == 1 || CommandDir == 2 || CommandDir == 3){
-			if (tokens[0] == ("go") && tokens[1] == ("north") ||
-			tokens[0] == ("go") && tokens[1] == ("south") ||
-			tokens[0] == ("go") && tokens[1] == ("east") ||
-			tokens[0] == ("go") && tokens[1] == ("west"))  {
-			if (Wor->Move(CommandDir) == false){ //Move Commands Function
-			printf("You can't go that way.\n\n");
-			}
-			}
-			}*/
+			*/
 			else
 			{
 				printf("I can't understand that.\n\n");

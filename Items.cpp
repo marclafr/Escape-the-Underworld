@@ -256,7 +256,7 @@ bool Item::EquipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCount
 }
 //--
 
-//Drop Items
+//Unequip Items
 bool Item::UnequipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCounter, int &ShieldCounter)
 {
 	Player* player = (Player*)Wor->entities[0];
@@ -273,7 +273,6 @@ bool Item::UnequipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCou
 		if (Wor->entities[i]->type == ITEM)
 		{
 			item = (Item*)Wor->entities[i];
-
 			if ((tokens[1]) == item->name.c_str())
 			{
 				if (item->place == EQUIPPED)
@@ -328,5 +327,83 @@ bool Item::UnequipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCou
 		}
 	}
 	return false;
+}
+//--
+
+//Fuse Items
+void Item::FuseItems(Vector<String> tokens, int &InventoryCapacity, int &QuiverCapacityCounter)
+{
+	Player* player = (Player*)Wor->entities[0];
+	for (int i = 0; i <= NUM_ENTITIES; i++)
+	{
+		if (Wor->entities[i]->type == PLAYER)
+		{
+			player = (Player*)Wor->entities[i];
+		}
+	}
+	Item* item_1 = (Item*)Wor->entities[0];
+	Item* item_2 = (Item*)Wor->entities[0];
+	for (int i = 0; i <= NUM_ENTITIES; i++)
+	{
+		if (Wor->entities[i]->type == ITEM && tokens[1] == Wor->entities[i]->name)
+		{
+			item_1 = (Item*)Wor->entities[i]; 
+		}
+	}
+	for (int i = 0; i <= NUM_ENTITIES; i++)
+	{
+		if (Wor->entities[i]->type == ITEM && tokens[3] == Wor->entities[i]->name)
+		{
+			item_2 = (Item*)Wor->entities[i];
+		}
+	}
+	if (item_1->fuse == FUSABLE1 && item_2->fuse == FUSABLE2)		//F1 == can be fused; F2 == can be recipient
+	{
+		if (item_1->place == INVENTORY && item_2->place == INVENTORY)
+		{
+			if (item_2->value > QuiverCapacityCounter)
+			{
+				item_1->fuse = FUSED;
+				InventoryCapacity--;
+				QuiverCapacityCounter += item_1->value;
+				printf("%s put into %s.\n\n", item_1->name.c_str(), item_2->name.c_str());
+				//We must search for bows if they are equipped
+				Item* fire_bow = (Item*)Wor->entities[0];
+				Item* ice_bow = (Item*)Wor->entities[0];
+				for (int i = 0; i <= NUM_ENTITIES; i++)
+				{
+					if (Wor->entities[i]->type == ITEM && tokens[3] == Wor->entities[i]->name)
+					{
+						fire_bow = (Item*)Wor->entities[i];
+					}
+				}
+				for (int i = 0; i <= NUM_ENTITIES; i++)
+				{
+					if (Wor->entities[i]->type == ITEM && tokens[3] == Wor->entities[i]->name)
+					{
+						ice_bow = (Item*)Wor->entities[i];
+					}
+				}
+				if (fire_bow->place == EQUIPPED && player->attack == P_ORI_DAMAGE)
+				{
+					player->attack += fire_bow->value;
+					player->block_chance += fire_bow->value2;
+					printf("The stats from %s are now applied.\n\n", fire_bow->name.c_str());
+				}
+				else if (ice_bow->place == EQUIPPED && player->attack == P_ORI_DAMAGE)
+				{
+					player->attack += ice_bow->value;
+					player->block_chance += ice_bow->value2;
+					printf("The stats from %s are now applied.\n\n", ice_bow->name.c_str());
+				}
+
+			}
+			else{ printf("The capacity of %s has reached its limit.\n\n", item_2->name.c_str()); }
+		}
+		else{ printf("Both items must be in the inventory.\n\n"); }
+	}
+	else if (item_1->fuse == FUSED)		{ printf("%s already fused.\n\n", item_1->name.c_str()); }
+	else if (item_1->fuse != FUSABLE1)	{ printf("%s can't be put into anything.\n\n", item_1->name.c_str()); }
+	else								{ printf("%s can't be used as recipient.\n\n", item_2->name.c_str()); }
 }
 //--
