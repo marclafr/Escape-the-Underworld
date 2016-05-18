@@ -159,8 +159,7 @@ bool Item::EquipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCount
 	{
 		if (Wor->entities[i]->type == ITEM)
 		{
-			item = (Item*)Wor->entities[i];
-			
+			item = (Item*)Wor->entities[i];			
 			if ((tokens[1]) == item->name.c_str() && item->place == INVENTORY)
 			{
 				switch (item->item_type)
@@ -188,10 +187,12 @@ bool Item::EquipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCount
 								printf("%s equipped.\n\n", item->name.c_str());
 								player->attack += item->value;
 								player->block_chance += item->value2;
+								return true;
 							}
 							else		//in case the previous statments fails, the effects won't apply.
 							{
 								printf("%s equipped, but it won't have effect alone...\nYou should search for arrows and a quiver.\n\n", item->name.c_str());
+								return true;
 							}
 						}
 						else
@@ -204,6 +205,7 @@ bool Item::EquipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCount
 							return true;
 						}
 					}
+					break;
 				case ARMOUR:
 					if (ArmourCounter == 1)		//only 1 armour can be equipped, checks if there is any
 					{
@@ -219,6 +221,7 @@ bool Item::EquipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCount
 						ArmourCounter++;
 						return true;
 					}
+					break;
 				case SHIELD:
 					if (ShieldCounter == 1)		//only 1 shield can be equipped, checks if there is any
 					{
@@ -234,16 +237,94 @@ bool Item::EquipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCount
 						ShieldCounter++;
 						return true;
 					}
+					break;
 				case STATUE:
 					printf("You can't equip an statue...\n\n");
 					return true;
+					break;
 				case OTHER:
 					printf("You can't equip this item...\n\n");
 					return true;
+					break;
 				}
 			}
 			else if ((tokens[1]) == item->name.c_str() && item->place == EQUIPPED)	{ printf("Item already equipped dude.\n\n");							return true; }
 			else if ((tokens[1]) == item->name.c_str() && item->place == FLOOR)		{ printf("Item must be in the inventory in order to equip it.\n\n");	return true; }
+		}
+	}
+	return false;
+}
+//--
+
+//Drop Items
+bool Item::UnequipItem(Vector<String> tokens, int &WeaponCounter, int &ArmourCounter, int &ShieldCounter)
+{
+	Player* player = (Player*)Wor->entities[0];
+	for (int i = 0; i <= NUM_ENTITIES; i++)
+	{
+		if (Wor->entities[i]->type == PLAYER)
+		{
+			player = (Player*)Wor->entities[i];
+		}
+	}
+	Item* item = (Item*)Wor->entities[0];
+	for (int i = 0; i <= NUM_ENTITIES; i++)
+	{
+		if (Wor->entities[i]->type == ITEM)
+		{
+			item = (Item*)Wor->entities[i];
+
+			if ((tokens[1]) == item->name.c_str())
+			{
+				if (item->place == EQUIPPED)
+				{
+					item->place = INVENTORY;
+					switch (item->item_type)
+					{
+					case WEAPON:
+						if (tokens[1] == "fire bow" || tokens[1] == "ice bow")
+						{
+							if (player->attack > P_ORI_DAMAGE)
+							{
+								player->attack -= item->value;
+								player->block_chance -= item->value2;
+							}
+							printf("%s unequipped.\n\n", item->name.c_str());
+						}
+						else
+						{
+							printf("%s unequipped.\n\n", item->name.c_str());
+							player->attack -= item->value;
+							player->block_chance -= item->value2;
+						}
+						WeaponCounter--;
+						return true;
+						break;
+					case ARMOUR:
+						printf("%s unequipped.\n\n", item->name.c_str());
+						player->defense -= item->value;
+						player->block_chance -= item->value2;
+						ArmourCounter--;
+						return true;
+						break;
+					case SHIELD:
+						printf("%s unequipped.\n\n", item->name.c_str());
+						player->defense -= item->value;
+						player->block_chance -= item->value2;
+						ShieldCounter--;
+						return true;
+						break;
+					case STATUE:
+						return false;
+						break;
+					case OTHER:
+						return false;
+						break;
+					}
+				}
+				else if (item->place == INVENTORY){ printf("%s is in the inventory.\n\n", item->name.c_str()); return true; }
+				else if (item->place == FLOOR){ printf("%s is somewhere in the map...\n\n", item->name.c_str()); return true; }
+			}
 		}
 	}
 	return false;

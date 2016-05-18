@@ -72,13 +72,15 @@ void Player::ReceiveCommand()
 					printf("Equip what??\n");
 				}
 			}
+			else if (tokens[0] == "unequip")
+			{
+				if (Wor->items->UnequipItem(tokens, Wor->Counters[1], Wor->Counters[2], Wor->Counters[3]) == false)
+				{
+					printf("Unequip what??\n\n");
+				}
+			}
+
 			/*
-			
-			else if (tokens[0] == "unequip"){
-			if (Wor->item.UnequipItem(tokens, Counters[1], Counters[2], Counters[3]) == false){
-			printf("Unequip what??\n\n");
-			}
-			}
 			else if (tokens[0] == "activate"){
 			if (Wor->ActivateStatue(tokens, Counters[5], Counters[0]) == false){
 			printf("Activate what??\n");
