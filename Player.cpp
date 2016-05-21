@@ -87,14 +87,11 @@ void Player::ReceiveCommand()
 			{
 				Wor->items->UnfuseItems(tokens, Wor->Counters[0], Wor->Counters[4]);
 			}
-		
+			else if (tokens[0] == "activate"){ Wor->items->ActivateStatue(tokens, Wor->Counters[5], Wor->Counters[0]); }
+
 
 			/*
-			else if (tokens[0] == "activate"){
-			if (Wor->ActivateStatue(tokens, Counters[5], Counters[0]) == false){
-			printf("Activate what??\n");
-			}
-			}
+			
 			else if (tokens[0] == "desactivate"){
 			if (Wor->DesactivateStatue(tokens, Counters[5]) == false){
 			printf("Desactivate what??\n");

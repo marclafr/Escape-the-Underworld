@@ -21,14 +21,9 @@ public:
 	String name;
 	String description;	
 	typeE type;
-	LinkList<Entity*> list;
+	//LinkList<Entity*> list;  //deleteworld crashed cuz this was empty.
 
 	virtual void Update(){}
-
-	/*Entity(const char* n, const char* d){
-		name = n;
-		description = d;
-	}*/
 
 };
 

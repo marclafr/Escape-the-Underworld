@@ -465,3 +465,126 @@ void Item::UnfuseItems(Vector<String> &tokens, int &InventoryCapacity, int &Quiv
 	else								{ printf("%s can't be put into anything, so you can't take them from anywhere.\n\n", item_1->name.c_str()); }
 }
 //--
+
+//Activate Statues
+void Item::ActivateStatue(Vector<String> &tokens, int &ActiveStatues, int &InventorySlots)
+{
+	if (ActiveStatues < MAX_STATUES_ACTIVATED)
+	{
+		Item* statue = (Item*)Wor->entities[0];
+		for (int i = 0; i <= NUM_ENTITIES; i++)
+		{
+			if (Wor->entities[i]->type == ITEM && tokens[1] == Wor->entities[i]->name)
+			{
+				statue = (Item*)Wor->entities[i];
+			}
+		}
+		if (statue->item_type == STATUE)
+		{
+			if (statue->place == INVENTORY)
+			{
+				if (statue->state == DESACTIVATED)
+				{
+					if (statue->name.c_str() == "hades statue")
+					{
+						statue->state = ACTIVATED;
+						printf("Hades statue activated.\n\n");	//TODO: this statue won't have use yet, as its use is to speak with Hades, which is not implemented yet.
+						ActiveStatues++;
+					}
+					else if (statue->name == "hephaestus statue")
+					{
+						bool StatueUsed = false;
+						bool WeapDone = false;
+						bool ArmDone = false;
+						bool ShiDone = false;
+						Player* player = (Player*)Wor->entities[0];
+						for (int i = 0; i <= NUM_ENTITIES; i++)
+						{
+							if (Wor->entities[i]->type == PLAYER)
+							{
+								player = (Player*)Wor->entities[i];
+							}
+						}
+						Item* to_updrage = (Item*)Wor->entities[0];
+						for (int i = 0; i <= NUM_ENTITIES; i++)
+						{
+							if (Wor->entities[i]->type == ITEM)
+							{
+								to_updrage = (Item*)Wor->entities[i];
+							}
+							if (to_updrage->place == EQUIPPED)
+							{
+								switch (to_updrage->item_type)
+								{
+								case WEAPON:
+									if (WeapDone == false)
+									{
+										to_updrage->value += 50;		//Upgrade weapon stats
+										to_updrage->value2 += 8;
+										to_updrage->upgrade = UPGRADED;
+										to_updrage->description += "\tThis item is upgraded.\n\tIt has a bonus of 50 damage and 8 block chance.\n\n";
+										player->attack += 50;		//Same for the player (as the items are equipped)
+										player->block_chance += 8;
+										printf("Weapon upgrade complete.\n");
+										StatueUsed = true;
+										WeapDone = true;
+									}
+									break;
+								case ARMOUR:
+									if (ArmDone == false)
+									{
+										to_updrage->value += 40;		//Upgrade armour stats
+										to_updrage->value2 += 15;
+										to_updrage->upgrade = UPGRADED;
+										to_updrage->description += "\tThis item is upgraded.\n\tIt has a bonus of 40 defense and 15 block chance.\n\n";
+										player->defense += 40;		//Same for the player (as the items are equipped)
+										player->block_chance += 15;
+										printf("Armour upgrade complete.\n");
+										StatueUsed = true;
+										ArmDone = true;
+									}
+									break;
+								case SHIELD:
+									if (ShiDone == false)
+									{
+										to_updrage->value += 30;		//Upgrade shield stats
+										to_updrage->value2 += 25;
+										to_updrage->upgrade = UPGRADED;
+										to_updrage->description += "\tThis item is upgraded.\n\tIt has a bonus of 30 defense and 25 block chance.\n\n";
+										player->defense += 30;		//Same for the player (as the items are equipped)
+										player->block_chance += 25;
+										printf("Shield upgrade complete.\n");
+										StatueUsed = true;
+										ShiDone = true;
+									}
+									break;
+								}
+							}							
+						}
+						if (StatueUsed == true)
+						{
+							printf("This statue disappeared!!\n\n");
+							statue->state = DESTROYED;
+							statue->place = DISAPPEARED;
+							InventorySlots--;	//if it dissapears -> free slot in the inventory
+						}
+						if (StatueUsed == 0){ printf("Activation failed.\n\n"); }
+					}
+					else if (statue->name.c_str() == "aphrodite statue")
+					{
+						//TODO special attack possible??
+						statue->state = ACTIVATED;
+						printf("Aphrodite statue activated.\n\n");	//this statue won't have use yet, as its use is to speak with Hades, which is not implemented yet.
+						ActiveStatues++;
+					}
+				}
+				else if (statue->state == ACTIVATED){ printf("%s is already activated.\n\n"); }
+				else if (statue->state == DESTROYED){ printf("%s had been destroyed.\n\n"); }
+			}
+			else{ printf("%s must be in the inventory to be activated.\n\n", statue->name.c_str()); }
+		}
+		else{ printf("%s is not an statue. Only statues can be activated.\n\n"); }
+	}
+	else{ printf("You have the maximum number of statues activated.\n\n"); }
+}
+//--
