@@ -131,7 +131,8 @@ public:
 		else{ strcat_s(buffer, string.lenght() + 1, string.buffer); }
 	}
 
-	void operator +=(const char* string){
+	void operator +=(const char* string)
+{
 		if (max_size < lenght() + strlen(string) + 1)
 		{
 			char* temp = nullptr;
@@ -171,28 +172,30 @@ public:
 	//--
 
 	//Tokenize
-	unsigned int Tokenize(const char* symbols, Vector<String> &tokens){  //, char* string
+	unsigned int Tokenize(const char* symbols, Vector<String> &tokens)		//, char* string
+	{  
 		unsigned int num_words = 0;
 		char* context = nullptr;
 		char* save = nullptr;
 		String item;
 		bool item_done = false;
 		save = strtok_s(buffer, symbols, &context);
+		int i = 1, len = 0;
 		while (save != NULL)
 		{
 			num_words++;
 			if (save[0] == '"')		//TODO IF "QUIVER A A A" BREAKS
 			{
-				item = save;
-				save = strtok_s(NULL, symbols, &context);
-				if (save != NULL)
-				{					
-					item += " ";
-					item += save;					
-				}
-				tokens.PushBack(item);
+				do{
+					len = strlen(save);
+					if (i == 1)	{ item = save; }
+					else		{ item += save; }
+					save = strtok_s(NULL, symbols, &context);
+					if (save != NULL)	{ item += " "; }
+					i = 0;					
+				} while (save != NULL && save[i] != '"');
+				tokens.PushBack(item);				
 				item_done = true;
-				
 			}
 			else
 			{

@@ -10,7 +10,7 @@ void Player::ReceiveCommand()
 		{
 			Vector<String> tokens;
 			Wor->command.Tokenize(" ,.-_", tokens);	//TODO num_words needed?
-			for (int i = 0; i < tokens.Size(); i++)
+				for (int i = 0; i < tokens.Size(); i++)
 			{
 				if (tokens[i].ContainsString(""""))
 				{
@@ -26,7 +26,7 @@ void Player::ReceiveCommand()
 					tokens[0] == ("go") && tokens[1] == ("west"))
 				{
 					if (Wor->player->Move(CommandDir) == false)
-					{ //Move Commands Function
+					{	//Move Commands Function
 						printf("You can't go that way.\n\n");
 					}
 				}
