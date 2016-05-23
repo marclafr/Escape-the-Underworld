@@ -1,5 +1,6 @@
 #include "MemLeaks.h"
 #include "World.h"
+#include <conio.h>
 
 
 World* Wor = nullptr;
@@ -8,9 +9,40 @@ int main()
 {
 	ReportMemoryLeaks();
 	Wor = new World;
-	
+	char key = 'a';
+	Vector<String> tokens;
+
 	Wor->CreateWorld();
-	Wor->player->ReceiveCommand();
+	while (1)
+	{
+		if (_kbhit != 0)
+		{
+			key = _getch();
+			printf("%c", key);
+			if (key == '\r')	//enter
+			{
+				if (Wor->command.ContainsString(" ") == true)
+				{
+					Wor->command.Tokenize(" ,.-_", tokens);		//TODO num_words needed?
+					for (int i = 0; i < tokens.Size(); i++)
+					{
+						if (tokens[i].ContainsString(""""))
+						{
+							tokens[i].RemoveChar('"');
+						}
+					}
+				}
+				else{ Wor->command.Tokenize(" ,.-_", tokens); }
+				Wor->player->ReceiveCommand(tokens);
+				tokens.Clear();				
+			}
+			if (Wor->command == "quit")
+			{
+				break;
+			}
+		}
+	}
+	
 	Wor->DeleteWorld();
 
 	return 0;

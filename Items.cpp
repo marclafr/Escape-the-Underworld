@@ -467,7 +467,7 @@ void Item::UnfuseItems(Vector<String> &tokens, int &InventoryCapacity, int &Quiv
 //--
 
 //Activate Statues
-void Item::ActivateStatue(Vector<String> &tokens, int &ActiveStatues, int &InventorySlots)
+bool Item::ActivateStatue(Vector<String> &tokens, int &ActiveStatues, int &InventorySlots)
 {
 	if (ActiveStatues < MAX_STATUES_ACTIVATED)
 	{
@@ -490,6 +490,7 @@ void Item::ActivateStatue(Vector<String> &tokens, int &ActiveStatues, int &Inven
 						statue->state = ACTIVATED;
 						printf("Hades statue activated.\n\n");	//TODO: this statue won't have use yet, as its use is to speak with Hades, which is not implemented yet.
 						ActiveStatues++;
+						return true;
 					}
 					else if (statue->name == "hephaestus statue")
 					{
@@ -567,8 +568,9 @@ void Item::ActivateStatue(Vector<String> &tokens, int &ActiveStatues, int &Inven
 							statue->state = DESTROYED;
 							statue->place = DISAPPEARED;
 							InventorySlots--;	//if it dissapears -> free slot in the inventory
+							return true;
 						}
-						if (StatueUsed == 0){ printf("Activation failed.\n\n"); }
+						if (StatueUsed == 0){ printf("Activation failed.\n\n"); return true; }
 					}
 					else if (statue->name.c_str() == "aphrodite statue")
 					{
@@ -576,15 +578,17 @@ void Item::ActivateStatue(Vector<String> &tokens, int &ActiveStatues, int &Inven
 						statue->state = ACTIVATED;
 						printf("Aphrodite statue activated.\n\n");	//this statue won't have use yet, as its use is to speak with Hades, which is not implemented yet.
 						ActiveStatues++;
+						return true;
 					}
 				}
-				else if (statue->state == ACTIVATED){ printf("%s is already activated.\n\n"); }
-				else if (statue->state == DESTROYED){ printf("%s had been destroyed.\n\n"); }
+				else if (statue->state == ACTIVATED){ printf("%s is already activated.\n\n"); return true; }
+				else if (statue->state == DESTROYED){ printf("%s had been destroyed.\n\n"); return true; }
 			}
-			else{ printf("%s must be in the inventory to be activated.\n\n", statue->name.c_str()); }
+			else{ printf("%s must be in the inventory to be activated.\n\n", statue->name.c_str()); return true; }
 		}
-		else{ printf("%s is not an statue. Only statues can be activated.\n\n"); }
+		else{ printf("%s is not an statue. Only statues can be activated.\n\n"); return true; }
 	}
-	else{ printf("You have the maximum number of statues activated.\n\n"); }
+	else{ printf("You have the maximum number of statues activated.\n\n"); return true; }
+
 }
 //--

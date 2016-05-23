@@ -16,7 +16,7 @@ public:
 	Player(String n, const char* d, Room* pos, unsigned int att, unsigned int def, unsigned int block_chance, unsigned int hitpoints) :Creature(PLAYER, n, d, pos, att, def, block_chance, hitpoints), attack(att), defense(def), block_chance(block_chance), hp(hitpoints), position(pos){}
 	void Stats()const;
 	bool Move(int direction);
-	void ReceiveCommand();
+	void ReceiveCommand(Vector<String> &tokens);
 };
 
 #endif //__PLAYER__

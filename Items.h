@@ -66,7 +66,7 @@ public:
 	bool UnequipItem(Vector<String> &tokens, int &WeaponCounter, int &ArmourCounter, int &ShieldCounter);
 	void FuseItems(Vector<String> &tokens, int &InventoryCapacity, int &QuiverCapacityCounter);
 	void UnfuseItems(Vector<String> &tokens, int &InventoryCapacity, int &QuiverCapacityCounter)const;
-	void ActivateStatue(Vector<String> &tokens, int &ActiveStatues, int &InventorySlots);
+	bool ActivateStatue(Vector<String> &tokens, int &ActiveStatues, int &InventorySlots);
 	bool DesactivateStatue(Vector<String> &tokens, int &ActiveStatues);
 };
 
