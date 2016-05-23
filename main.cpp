@@ -10,6 +10,8 @@ int main()
 	ReportMemoryLeaks();
 	Wor = new World;
 	char key = 'a';
+	char input[50];
+	int num = 0;
 	Vector<String> tokens;
 
 	Wor->CreateWorld();
@@ -18,9 +20,13 @@ int main()
 		if (_kbhit != 0)
 		{
 			key = _getch();
+			input[num++] = key;
 			printf("%c", key);
 			if (key == '\r')	//enter
 			{
+				input[--num] = '\0';
+				num = 0;
+				Wor->command = input;
 				if (Wor->command.ContainsString(" ") == true)
 				{
 					Wor->command.Tokenize(" ,.-_", tokens);		//TODO num_words needed?
