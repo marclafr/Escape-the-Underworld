@@ -29,7 +29,7 @@ int main()
 				Wor->command = input;
 				if (Wor->command.ContainsString(" ") == true)
 				{
-					Wor->command.Tokenize(" ,.-_", tokens);		//TODO num_words needed?
+					Wor->command.Tokenize(" ,.-_", tokens);
 					for (int i = 0; i < tokens.Size(); i++)
 					{
 						if (tokens[i].ContainsString(""""))
@@ -41,6 +41,10 @@ int main()
 				else{ Wor->command.Tokenize(" ,.-_", tokens); }
 				if (tokens.Empty() == false) { Wor->player->ReceiveCommand(tokens); }
 				tokens.Clear();				
+			}
+			else if (key == '\b' && num > 1) //backspace
+			{
+				num -= 2;
 			}
 			if (Wor->command == "quit")
 			{

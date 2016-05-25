@@ -45,7 +45,42 @@ void Item::LookInventory(int &InventorySlots)const
 //Pick Items
 bool Item::PickItem(Vector<String> &tokens, int &InventorySlots)
 {
-	Item* item = (Item*)Wor->entities[0];
+	Room* room = (Room*)Wor->entities[0];
+	if (InventorySlots < NUM_INVENTORY_SLOTS)
+	{
+		for (int i = 0; i <= NUM_ENTITIES; i++)
+		{
+			room = (Room*)Wor->entities[i];
+			if (room->name == Wor->player->position->name)
+			{
+				DoubleLinkList<Entity*>::nodeD* room_node = room->list.first_node;
+				for (; room_node != nullptr; room_node = room_node->next)
+				{
+					if (tokens[1] == room_node->data->name)
+					{
+						printf("%s picked up.\n\n", room_node->data->name.c_str());
+						//item->place = INVENTORY;
+						Item* item = (Item*)Wor->entities[0];
+						for (int j = 0; j <= NUM_ENTITIES; j++)
+						{
+							item = (Item*)Wor->entities[j];
+							if (item->name == room_node->data->name)
+							{ 
+								item->place = INVENTORY;
+							}
+						}
+						Wor->player->list.push_back(room_node->data);
+						room->list.erase(room_node);
+						InventorySlots++;
+						return true;
+					}
+				}
+			}
+		}
+	}
+	else{ printf("Inventory full.\n\n"); return true; }
+
+	/*Item* item = (Item*)Wor->entities[0];
 	for (int i = 0; i <= NUM_ENTITIES; i++)
 	{
 		if (Wor->entities[i]->type == ITEM)
@@ -68,7 +103,7 @@ bool Item::PickItem(Vector<String> &tokens, int &InventorySlots)
 				else{ printf("%s is already in the inventory.\n\n", item->name.c_str()); return true; }
 			}
 		}
-	}
+	}*/
 	return false;
 }
 //--
@@ -76,7 +111,43 @@ bool Item::PickItem(Vector<String> &tokens, int &InventorySlots)
 //Drop Items
 bool Item::DropItem(Vector<String> &tokens, int &InventorySlots)
 {
-	Item* item = (Item*)Wor->entities[0];
+	Room* room = (Room*)Wor->entities[0];
+	
+	for (int i = 0; i <= NUM_ENTITIES; i++)
+	{
+		room = (Room*)Wor->entities[i];
+		if (room->name == Wor->player->position->name && room->type == ROOM)
+		{
+			DoubleLinkList<Entity*>::nodeD* player_node = Wor->player->list.first_node;
+			for (; player_node != nullptr; player_node = player_node->next)
+			{
+				if (tokens[1] == player_node->data->name)
+				{
+					Item* item = (Item*)Wor->entities[0];
+					for (int j = 0; j <= NUM_ENTITIES; j++)
+					{
+						item = (Item*)Wor->entities[j];
+						if (item->name == player_node->data->name)
+						{
+							if (item->place == INVENTORY)
+							{
+								item->place = FLOOR;
+								printf("%s dropped on the floor.\n\n", player_node->data->name.c_str());
+								//item->place = INVENTORY;
+								room->list.push_back(player_node->data);
+								Wor->player->list.erase(player_node);
+								InventorySlots--;
+								return true;
+							}
+							else if (item->place == EQUIPPED){ printf("Unequip item first.\n\n"); }
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	/*Item* item = (Item*)Wor->entities[0];
 	for (int i = 0; i <= NUM_ENTITIES; i++)
 	{
 		if (Wor->entities[i]->type == ITEM)
@@ -94,7 +165,7 @@ bool Item::DropItem(Vector<String> &tokens, int &InventorySlots)
 						item->item_position = Wor->player->position;
 						InventorySlots--;
 						return true;
-					}
+					}*/
 					/*else
 					{
 					for (int i = 0; i <= NUM_ENTITIES; i++)
@@ -110,11 +181,11 @@ bool Item::DropItem(Vector<String> &tokens, int &InventorySlots)
 					}
 					}
 					}*/
-				}
+				/*}
 				else{ printf("To drop an item it can't be into another item.\n\n"); return true; }
 			}
 		}
-	}
+	}*/
 }
 //--
 
