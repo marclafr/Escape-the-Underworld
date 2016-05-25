@@ -4,16 +4,8 @@
 //Look
 void Room::Look()const
 {
-	Player* player = (Player*)Wor->entities[0];
-	for (int i = 0; i <= NUM_ENTITIES; i++)
-	{
-		if (Wor->entities[i]->type == PLAYER)
-		{
-			player = (Player*)Wor->entities[i];
-		}
-	}
-	printf("%s\n", player->position->name.c_str());
-	printf("%s\n", player->position->description.c_str());
+	printf("%s\n", Wor->player->position->name.c_str());
+	printf("%s\n", Wor->player->position->description.c_str());
 	printf("This room contains this items:\n");
 	bool NoItems = true;
 	Item* item = (Item*)Wor->entities[0];
@@ -22,7 +14,7 @@ void Room::Look()const
 		if (Wor->entities[i]->type == ITEM)
 		{
 			item = (Item*)Wor->entities[i];
-			if (item->item_position->name == player->position->name && item->place == FLOOR)	//looks for the items that are in the same room as the player && are in the floor
+			if (item->item_position->name == Wor->player->position->name && item->place == FLOOR)	//looks for the items that are in the same room as the player && are in the floor
 			{
 				printf(" - %s: %s\n", item->name.c_str(), item->description.c_str());
 				NoItems = false;
@@ -37,14 +29,6 @@ void Room::Look()const
 //Looks other rooms
 	bool Room::LookDirection(int CommandDir, Vector<String> &tokens)const
 {
-		Player* player = (Player*)Wor->entities[0];
-		for (int i = 0; i <= NUM_ENTITIES; i++)
-		{
-			if (Wor->entities[i]->type == PLAYER)
-			{
-				player = (Player*)Wor->entities[i];
-			}
-		}
 		Exit* exit = (Exit*)Wor->entities[0];
 		Room* room = (Room*)Wor->entities[0];
 		for (int i = 0; i <= NUM_ENTITIES; i++)
@@ -52,7 +36,7 @@ void Room::Look()const
 			if (Wor->entities[i]->type == EXIT)
 			{
 				exit = (Exit*)Wor->entities[i];
-				if (exit->origin->name == player->position->name)
+				if (exit->origin->name == Wor->player->position->name)
 				{
 					CommandDir = Wor->exits->GetDirection(Wor->command, tokens);
 					if (CommandDir == exit->direction)			//checks if the direction is the same

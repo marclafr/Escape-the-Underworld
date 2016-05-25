@@ -48,6 +48,9 @@
     <ClInclude Include="MemLeaks.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
+    <ClInclude Include="DoubleList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Entity.cpp">

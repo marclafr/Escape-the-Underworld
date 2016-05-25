@@ -23,6 +23,8 @@ public:
 		return first_node == nullptr;
 	}
 
+	//TODO CLEAR 4 MEM LEAKS
+
 	unsigned int size()const
 	{
 		int num_elements = 0;
@@ -60,10 +62,10 @@ public:
 		{
 			while (temp->next != nullptr)
 			{
-				temp = temp->next;
+				temp = temp->next;				
 			}
 			new_node->previous = temp;
-			temp->next = new_node;
+			temp->next = new_node;			
 		}
 	}
 
@@ -145,7 +147,7 @@ public:
 			{
 				for (int i = 0; i < position - 1; i++)
 				{
-					temp = temp->next;
+					temp = temp->next;					
 				}
 				temp->next = new_node;
 				new_node->previous = temp;

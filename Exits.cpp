@@ -66,16 +66,8 @@ bool Exit::WayClear(int i)const
 bool Exit::OpenGate(int CommandDir)const
 {
 	Exit* exit = (Exit*)Wor->entities[0];
-	Player* player = (Player*)Wor->entities[0];
 	Room* room = (Room*)Wor->entities[0];
 	Item* keys = (Item*)Wor->entities[0];
-	for (int i = 0; i <= NUM_ENTITIES; i++)
-	{
-		if (Wor->entities[i]->type == PLAYER)
-		{
-			player = (Player*)Wor->entities[i];
-		}
-	}
 	for (int i = 0; i <= NUM_ENTITIES; i++)
 	{
 		if (Wor->entities[i]->type == EXIT)
@@ -88,7 +80,7 @@ bool Exit::OpenGate(int CommandDir)const
 				{
 					room = (Room*)Wor->entities[j];
 
-					if (exit->origin->name == player->position->name && CommandDir == exit->direction && exit->destination == room)
+					if (exit->origin->name == Wor->player->position->name && CommandDir == exit->direction && exit->destination == room)
 					{
 						if (exit->blocked == false){ printf("This door had been already opened dude.\n\n");	return true; }
 						else if (exit->blocked == 2){ printf("There is no door in this direction...\n\n"); return true; }
@@ -124,16 +116,8 @@ bool Exit::OpenGate(int CommandDir)const
 bool Exit::CloseGate(int CommandDir)const
 {
 	Exit* exit = (Exit*)Wor->entities[0];
-	Player* player = (Player*)Wor->entities[0];
 	Room* room = (Room*)Wor->entities[0];
 	Item* keys = (Item*)Wor->entities[0];
-	for (int i = 0; i <= NUM_ENTITIES; i++)
-	{
-		if (Wor->entities[i]->type == PLAYER)
-		{
-			player = (Player*)Wor->entities[i];
-		}
-	}
 	for (int i = 0; i <= NUM_ENTITIES; i++)
 	{
 		if (Wor->entities[i]->type == EXIT)
@@ -146,7 +130,7 @@ bool Exit::CloseGate(int CommandDir)const
 				{
 					room = (Room*)Wor->entities[j];
 
-					if (exit->origin->name == player->position->name && CommandDir == exit->direction && exit->destination == room)
+					if (exit->origin->name == Wor->player->position->name && CommandDir == exit->direction && exit->destination == room)
 					{
 						if (exit->blocked == true){ printf("This door is already closed dude.\n\n");	return true; }
 						else if (exit->blocked == 2){ printf("There is no door in this direction...\n\n"); return true; }

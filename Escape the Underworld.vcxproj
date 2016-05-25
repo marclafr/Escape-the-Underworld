@@ -65,6 +65,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Creatures.h" />
+    <ClInclude Include="DoubleList.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Exits.h" />
     <ClInclude Include="Items.h" />

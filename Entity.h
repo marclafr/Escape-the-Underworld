@@ -1,5 +1,5 @@
 #include "String.h"
-#include "List.h"
+#include "DoubleList.h"
 
 
 #ifndef _ENTITY_
@@ -21,7 +21,7 @@ public:
 	String name;
 	String description;	
 	typeE type;
-	//LinkList<Entity*> list;  //deleteworld crashed cuz this was empty.
+	DoubleLinkList<Entity*> list;
 
 	virtual void Update(){}
 

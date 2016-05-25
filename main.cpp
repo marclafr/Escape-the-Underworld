@@ -13,8 +13,8 @@ int main()
 	char input[50];
 	int num = 0;
 	Vector<String> tokens;
-
 	Wor->CreateWorld();
+
 	while (1)
 	{
 		if (_kbhit != 0)
@@ -39,7 +39,7 @@ int main()
 					}
 				}
 				else{ Wor->command.Tokenize(" ,.-_", tokens); }
-				Wor->player->ReceiveCommand(tokens);
+				if (tokens.Empty() == false) { Wor->player->ReceiveCommand(tokens); }
 				tokens.Clear();				
 			}
 			if (Wor->command == "quit")
@@ -50,7 +50,7 @@ int main()
 	}
 	
 	Wor->DeleteWorld();
-
+	delete Wor;
 	return 0;
 }
 /*Wor->entities[1]->type == ITEM;

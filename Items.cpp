@@ -1,25 +1,39 @@
 #include "World.h"
 #include "Items.h"
 #include "String.h"
+#include "DoubleList.h"
 
 //Look Inventory
 void Item::LookInventory(int &InventorySlots)const
 {
-	Item* item = (Item*)Wor->entities[0];
-	for (int i = 0; i <= NUM_ENTITIES; i++)
+	DoubleLinkList<Entity*>::nodeD* player_node = Wor->player->list.first_node;
+	for (; player_node!=nullptr; player_node = player_node->next)
 	{
-		if (Wor->entities[i]->type == ITEM)
+		if (player_node->data->type == ITEM)
 		{
-			item = (Item*)Wor->entities[i];
-			if (item->place == EQUIPPED)
+			Item* item = (Item*)Wor->entities[0];
+			for (int i = 0; i <= NUM_ENTITIES; i++)
 			{
-				printf("%s(Equipped):  %s\n", item->name.c_str(), item->description.c_str());
-			}
-			if (item->place == INVENTORY && (item->fuse == FUSABLE1 || item->fuse == FUSABLE2 || item->fuse == UNFUSABLE)){
-				printf("%s:  %s\n", item->name.c_str(), item->description.c_str());
-			}
-			if (item->place == INVENTORY && item->fuse == FUSED){
-				printf("%s(Fused):  %s \n", item->name.c_str(), item->description.c_str());
+				item = (Item*)Wor->entities[i];
+				if (item == player_node->data)
+				{
+					switch (item->place)
+					{
+					case EQUIPPED:
+						printf("%s(Equipped):  %s\n", player_node->data->name.c_str(), player_node->data->description.c_str());
+						break;
+					case INVENTORY:
+						if (item->fuse == FUSABLE1 || item->fuse == FUSABLE2 || item->fuse == UNFUSABLE)
+						{
+							printf("%s:  %s\n", player_node->data->name.c_str(), player_node->data->description.c_str());
+						}
+						else if (item->place == INVENTORY && item->fuse == FUSED)
+						{
+							printf("%s(Fused):  %s \n", player_node->data->name.c_str(), player_node->data->description.c_str());
+						}
+						break;
+					}
+				}
 			}
 		}
 	}
@@ -32,21 +46,13 @@ void Item::LookInventory(int &InventorySlots)const
 bool Item::PickItem(Vector<String> &tokens, int &InventorySlots)
 {
 	Item* item = (Item*)Wor->entities[0];
-	Player* player = (Player*)Wor->entities[0];
-	for (int i = 0; i <= NUM_ENTITIES; i++)
-	{
-		if (Wor->entities[i]->type == PLAYER)
-		{
-			player = (Player*)Wor->entities[i];
-		}
-	}
 	for (int i = 0; i <= NUM_ENTITIES; i++)
 	{
 		if (Wor->entities[i]->type == ITEM)
 		{
 			item = (Item*)Wor->entities[i];
 			
-			if ((tokens[1]) == item->name.c_str() && item->item_position == player->position)
+			if ((tokens[1]) == item->name.c_str() && item->item_position == Wor->player->position)
 			{
 				if (item->place == FLOOR)
 				{
@@ -71,14 +77,6 @@ bool Item::PickItem(Vector<String> &tokens, int &InventorySlots)
 bool Item::DropItem(Vector<String> &tokens, int &InventorySlots)
 {
 	Item* item = (Item*)Wor->entities[0];
-	Player* player = (Player*)Wor->entities[0];
-	for (int i = 0; i <= NUM_ENTITIES; i++)
-	{
-		if (Wor->entities[i]->type == PLAYER)
-		{
-			player = (Player*)Wor->entities[i];
-		}
-	}
 	for (int i = 0; i <= NUM_ENTITIES; i++)
 	{
 		if (Wor->entities[i]->type == ITEM)
@@ -93,7 +91,7 @@ bool Item::DropItem(Vector<String> &tokens, int &InventorySlots)
 					{
 						printf("%s dropped on the floor.\n\n", item->name.c_str());		//TODO: active statues cant be dropped
 						item->place = FLOOR;
-						item->item_position = player->position;
+						item->item_position = Wor->player->position;
 						InventorySlots--;
 						return true;
 					}
@@ -146,14 +144,6 @@ void Item::LookItem(Vector<String> &tokens)const
 bool Item::EquipItem(Vector<String> &tokens, int &WeaponCounter, int &ArmourCounter, int &ShieldCounter, int &QuiverCapacityCounter)
 {
 	
-	Player* player = (Player*)Wor->entities[0];
-	for (int i = 0; i <= NUM_ENTITIES; i++)
-	{
-		if (Wor->entities[i]->type == PLAYER)
-		{
-			player = (Player*)Wor->entities[i];
-		}
-	}
 	Item* item = (Item*)Wor->entities[0];
 	for (int i = 0; i <= NUM_ENTITIES; i++)
 	{
@@ -186,8 +176,8 @@ bool Item::EquipItem(Vector<String> &tokens, int &WeaponCounter, int &ArmourCoun
 							{
 								item->place = EQUIPPED;
 								printf("%s equipped.\n\n", item->name.c_str());
-								player->attack += item->value;
-								player->block_chance += item->value2;
+								Wor->player->attack += item->value;
+								Wor->player->block_chance += item->value2;
 								return true;
 							}
 							else		//in case the previous statments fails, the effects won't apply.
@@ -201,8 +191,8 @@ bool Item::EquipItem(Vector<String> &tokens, int &WeaponCounter, int &ArmourCoun
 						{
 							item->place = EQUIPPED;
 							printf("%s equipped.\n\n", item->name.c_str());
-							player->attack += item->value;
-							player->block_chance += item->value2;
+							Wor->player->attack += item->value;
+							Wor->player->block_chance += item->value2;
 							WeaponCounter++;
 							return true;
 						}
@@ -218,8 +208,8 @@ bool Item::EquipItem(Vector<String> &tokens, int &WeaponCounter, int &ArmourCoun
 					{
 						item->place = EQUIPPED;
 						printf("%s equipped.\n\n", item->name.c_str());
-						player->defense += item->value;
-						player->block_chance += item->value2;
+						Wor->player->defense += item->value;
+						Wor->player->block_chance += item->value2;
 						ArmourCounter++;
 						return true;
 					}
@@ -234,8 +224,8 @@ bool Item::EquipItem(Vector<String> &tokens, int &WeaponCounter, int &ArmourCoun
 					{
 						item->place = EQUIPPED;
 						printf("%s equipped.\n\n", item->name.c_str());
-						player->defense += item->value;
-						player->block_chance += item->value2;
+						Wor->player->defense += item->value;
+						Wor->player->block_chance += item->value2;
 						ShieldCounter++;
 						return true;
 					}
@@ -261,14 +251,6 @@ bool Item::EquipItem(Vector<String> &tokens, int &WeaponCounter, int &ArmourCoun
 //Unequip Items
 bool Item::UnequipItem(Vector<String> &tokens, int &WeaponCounter, int &ArmourCounter, int &ShieldCounter)
 {
-	Player* player = (Player*)Wor->entities[0];
-	for (int i = 0; i <= NUM_ENTITIES; i++)
-	{
-		if (Wor->entities[i]->type == PLAYER)
-		{
-			player = (Player*)Wor->entities[i];
-		}
-	}
 	Item* item = (Item*)Wor->entities[0];
 	for (int i = 0; i <= NUM_ENTITIES; i++)
 	{
@@ -285,33 +267,33 @@ bool Item::UnequipItem(Vector<String> &tokens, int &WeaponCounter, int &ArmourCo
 					case WEAPON:
 						if (tokens[1] == "fire bow" || tokens[1] == "ice bow")
 						{
-							if (player->attack > P_ORI_DAMAGE)
+							if (Wor->player->attack > P_ORI_DAMAGE)
 							{
-								player->attack -= item->value;
-								player->block_chance -= item->value2;
+								Wor->player->attack -= item->value;
+								Wor->player->block_chance -= item->value2;
 							}
 							printf("%s unequipped.\n\n", item->name.c_str());
 						}
 						else
 						{
 							printf("%s unequipped.\n\n", item->name.c_str());
-							player->attack -= item->value;
-							player->block_chance -= item->value2;
+							Wor->player->attack -= item->value;
+							Wor->player->block_chance -= item->value2;
 						}
 						WeaponCounter--;
 						return true;
 						break;
 					case ARMOUR:
 						printf("%s unequipped.\n\n", item->name.c_str());
-						player->defense -= item->value;
-						player->block_chance -= item->value2;
+						Wor->player->defense -= item->value;
+						Wor->player->block_chance -= item->value2;
 						ArmourCounter--;
 						return true;
 						break;
 					case SHIELD:
 						printf("%s unequipped.\n\n", item->name.c_str());
-						player->defense -= item->value;
-						player->block_chance -= item->value2;
+						Wor->player->defense -= item->value;
+						Wor->player->block_chance -= item->value2;
 						ShieldCounter--;
 						return true;
 						break;
@@ -335,14 +317,6 @@ bool Item::UnequipItem(Vector<String> &tokens, int &WeaponCounter, int &ArmourCo
 //Fuse Items
 void Item::FuseItems(Vector<String> &tokens, int &InventoryCapacity, int &QuiverCapacityCounter)
 {
-	Player* player = (Player*)Wor->entities[0];
-	for (int i = 0; i <= NUM_ENTITIES; i++)
-	{
-		if (Wor->entities[i]->type == PLAYER)
-		{
-			player = (Player*)Wor->entities[i];
-		}
-	}
 	Item* item_1 = (Item*)Wor->entities[0];
 	Item* item_2 = (Item*)Wor->entities[0];
 	for (int i = 0; i <= NUM_ENTITIES; i++)
@@ -383,16 +357,16 @@ void Item::FuseItems(Vector<String> &tokens, int &InventoryCapacity, int &Quiver
 						ice_bow = (Item*)Wor->entities[i];
 					}
 				}
-				if (fire_bow->place == EQUIPPED && player->attack == P_ORI_DAMAGE)
+				if (fire_bow->place == EQUIPPED && Wor->player->attack == P_ORI_DAMAGE)
 				{
-					player->attack += fire_bow->value;
-					player->block_chance += fire_bow->value2;
+					Wor->player->attack += fire_bow->value;
+					Wor->player->block_chance += fire_bow->value2;
 					printf("The stats from %s are now applied.\n\n", fire_bow->name.c_str());
 				}
-				else if (ice_bow->place == EQUIPPED && player->attack == P_ORI_DAMAGE)
+				else if (ice_bow->place == EQUIPPED && Wor->player->attack == P_ORI_DAMAGE)
 				{
-					player->attack += ice_bow->value;
-					player->block_chance += ice_bow->value2;
+					Wor->player->attack += ice_bow->value;
+					Wor->player->block_chance += ice_bow->value2;
 					printf("The stats from %s are now applied.\n\n", ice_bow->name.c_str());
 				}
 
@@ -498,14 +472,6 @@ bool Item::ActivateStatue(Vector<String> &tokens, int &ActiveStatues, int &Inven
 						bool WeapDone = false;
 						bool ArmDone = false;
 						bool ShiDone = false;
-						Player* player = (Player*)Wor->entities[0];
-						for (int i = 0; i <= NUM_ENTITIES; i++)
-						{
-							if (Wor->entities[i]->type == PLAYER)
-							{
-								player = (Player*)Wor->entities[i];
-							}
-						}
 						Item* to_updrage = (Item*)Wor->entities[0];
 						for (int i = 0; i <= NUM_ENTITIES; i++)
 						{
@@ -524,8 +490,8 @@ bool Item::ActivateStatue(Vector<String> &tokens, int &ActiveStatues, int &Inven
 										to_updrage->value2 += 8;
 										to_updrage->upgrade = UPGRADED;
 										to_updrage->description += "\tThis item is upgraded.\n\tIt has a bonus of 50 damage and 8 block chance.\n\n";
-										player->attack += 50;		//Same for the player (as the items are equipped)
-										player->block_chance += 8;
+										Wor->player->attack += 50;		//Same for the player (as the items are equipped)
+										Wor->player->block_chance += 8;
 										printf("Weapon upgrade complete.\n");
 										StatueUsed = true;
 										WeapDone = true;
@@ -538,8 +504,8 @@ bool Item::ActivateStatue(Vector<String> &tokens, int &ActiveStatues, int &Inven
 										to_updrage->value2 += 15;
 										to_updrage->upgrade = UPGRADED;
 										to_updrage->description += "\tThis item is upgraded.\n\tIt has a bonus of 40 defense and 15 block chance.\n\n";
-										player->defense += 40;		//Same for the player (as the items are equipped)
-										player->block_chance += 15;
+										Wor->player->defense += 40;		//Same for the player (as the items are equipped)
+										Wor->player->block_chance += 15;
 										printf("Armour upgrade complete.\n");
 										StatueUsed = true;
 										ArmDone = true;
@@ -552,8 +518,8 @@ bool Item::ActivateStatue(Vector<String> &tokens, int &ActiveStatues, int &Inven
 										to_updrage->value2 += 25;
 										to_updrage->upgrade = UPGRADED;
 										to_updrage->description += "\tThis item is upgraded.\n\tIt has a bonus of 30 defense and 25 block chance.\n\n";
-										player->defense += 30;		//Same for the player (as the items are equipped)
-										player->block_chance += 25;
+										Wor->player->defense += 30;		//Same for the player (as the items are equipped)
+										Wor->player->block_chance += 25;
 										printf("Shield upgrade complete.\n");
 										StatueUsed = true;
 										ShiDone = true;
