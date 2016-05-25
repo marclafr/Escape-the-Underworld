@@ -167,13 +167,15 @@ public:
 
 	void erase(nodeD* del)
 	{
+		bool first = false;
 		nodeD* temp = first_node;
 		if (temp != nullptr)
 		{
 			if (del->previous == nullptr)
 			{
-				first_node = temp->next;
-				first_node->previous = nullptr;
+				first = true;
+				//first_node = temp->next;
+				//first_node->previous = nullptr;
 			}
 			else if (del->next == nullptr)
 			{
@@ -188,6 +190,7 @@ public:
 				temp->next->previous = del->previous;
 			}
 			delete del;
+			if (first == true){ first_node = nullptr; }
 		}
 	}
 };

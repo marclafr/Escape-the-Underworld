@@ -8,18 +8,25 @@ void Room::Look()const
 	printf("%s\n", Wor->player->position->description.c_str());
 	printf("This room contains this items:\n");
 	bool NoItems = true;
-	Item* item = (Item*)Wor->entities[0];
+	Room* room = (Room*)Wor->entities[0];
 	for (int i = 0; i <= NUM_ENTITIES; i++)
 	{
-		if (Wor->entities[i]->type == ITEM)
+		room = (Room*)Wor->entities[i];
+		if (room->name == Wor->player->position->name && room->type == ROOM)
 		{
-			item = (Item*)Wor->entities[i];
-			if (item->item_position->name == Wor->player->position->name && item->place == FLOOR)	//looks for the items that are in the same room as the player && are in the floor
+			DoubleLinkList<Entity*>::nodeD* room_node = room->list.first_node;
+			if (room->list.Empty() == false)
 			{
-				printf(" - %s: %s\n", item->name.c_str(), item->description.c_str());
-				NoItems = false;
+				for (; room_node != nullptr; room_node = room_node->next)
+				{
+					if (room_node->data->type == ITEM)
+					{
+						printf(" - %s: %s\n", room_node->data->name.c_str(), room_node->data->description.c_str());
+						NoItems = false;
+					}
+				}
 			}
-		}		
+		}
 	}
 	if (NoItems == true){ printf("This room has no items on the floor.\n\n"); }
 

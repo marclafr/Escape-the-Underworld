@@ -105,7 +105,7 @@ void World::CreateWorld()
 	Wor->entities.PushBack(Shield = new Item("shield", "A big shield to protect you.\nDefense: 25.\nBlock chance: 30.\n\n", Tartarus, 25, 30, SHIELD, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
 	Tartarus->list.push_back(Shield);
 	Wor->entities.PushBack(Arrows = new Item("arrows", "A pack of arrows. Useless without a bow. You should put them into a quiver...\nAmount: 50.\n\n", Elm, 50, 0, OTHER, FLOOR, FUSABLE1, UNACTIVABLE, REGULAR));	//TODO PREVIOUS WAS WEAPON
-	Entrance->list.push_back(Arrows);
+	Elm->list.push_back(Arrows);
 	Wor->entities.PushBack(Quiver = new Item("quiver", "Use it to store and use your arrows.\nCapacity: 50.\n", Entrance, 50, 0, OTHER, FLOOR, FUSABLE2, UNACTIVABLE, REGULAR));
 	Entrance->list.push_back(Quiver);
 	Wor->entities.PushBack(FireBow = new Item("fire bow", "A bow in flames? Yep you see that right, this bow has flames but they don't burn you...\nDamage: 150.\nBlock chance: 0.\n\n", Phelgethon, 150, 0, WEAPON, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
@@ -161,7 +161,7 @@ void World::DeleteWorld()
 	{
 		delete entities[i];
 	}
-	//TODO CLEAR LIST
+	//TODO CLEAR LIST 
 }
 //MEM_LEAKS at: 0x00720640    0x00721998  0x00721B50
 
