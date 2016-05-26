@@ -1,5 +1,4 @@
 #include "Entity.h"
-#include "Rooms.h"
 
 #ifndef _ITEM_
 #define _ITEM_
@@ -48,8 +47,7 @@ class Item :public Entity{
 public:
 	Item(){}
 	~Item(){}
-	Item(const char* n, const char* d, Room* position, int val, int val2, ItemType t, ItemPlace p, Union f, StatuesState s, Upgrade upgr) :Entity(ITEM, n, d), item_position(position), value(val), value2(val2), item_type(t), place(p), fuse(f), state(s), upgrade(upgr) {}
-	Room* item_position = nullptr;
+	Item(const char* n, const char* d, int val, int val2, ItemType t, ItemPlace p, Union f, StatuesState s, Upgrade upgr) :Entity(ITEM, n, d), value(val), value2(val2), item_type(t), place(p), fuse(f), state(s), upgrade(upgr) {}
 	int value;
 	int value2;
 	ItemType item_type;

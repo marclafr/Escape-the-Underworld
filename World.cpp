@@ -94,39 +94,39 @@ void World::CreateWorld()
 	Item* HadesStatue;
 	Item* HephaestusStatue;
 	Item* AphroditeStatue;
-	Wor->entities.PushBack(Coins = new Item( "coins", "Coins needed to cross the river.\n\n", Elm, 0, 0, OTHER, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
+	Wor->entities.PushBack(Coins = new Item( "coins", "Coins needed to cross the river.\n\n", 0, 0, OTHER, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
 	Elm->list.push_back(Coins);
-	Wor->entities.PushBack(Keys = new Item("keys", "keys needed to open gates.\n\n", Marsh, 0, 0, OTHER, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
+	Wor->entities.PushBack(Keys = new Item("keys", "keys needed to open gates.\n\n", 0, 0, OTHER, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
 	Marsh->list.push_back(Keys);
-	Wor->entities.PushBack(Stick = new Item("stick", "Just a large stick.\nDamage: 7.\nBlock chance: 3.\n\n", Entrance, 7, 3, WEAPON, EQUIPPED, UNFUSABLE, UNACTIVABLE, REGULAR));
+	Wor->entities.PushBack(Stick = new Item("stick", "Just a large stick.\nDamage: 7.\nBlock chance: 3.\n\n", 7, 3, WEAPON, EQUIPPED, UNFUSABLE, UNACTIVABLE, REGULAR));
 	player->list.push_back(Stick);
-	Wor->entities.PushBack(Sword = new Item("sword", "A shiny sword\nDamage: 70.\nBlock chance: 10.\n\n", StyxLeft, 70, 10, WEAPON, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
+	Wor->entities.PushBack(Sword = new Item("sword", "A shiny sword\nDamage: 70.\nBlock chance: 10.\n\n", 70, 10, WEAPON, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
 	StyxLeft->list.push_back(Sword);
-	Wor->entities.PushBack(Shield = new Item("shield", "A big shield to protect you.\nDefense: 25.\nBlock chance: 30.\n\n", Tartarus, 25, 30, SHIELD, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
+	Wor->entities.PushBack(Shield = new Item("shield", "A big shield to protect you.\nDefense: 25.\nBlock chance: 30.\n\n", 25, 30, SHIELD, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
 	Tartarus->list.push_back(Shield);
-	Wor->entities.PushBack(Arrows = new Item("arrows", "A pack of arrows. Useless without a bow. You should put them into a quiver...\nAmount: 50.\n\n", Elm, 50, 0, OTHER, FLOOR, FUSABLE1, UNACTIVABLE, REGULAR));	//TODO PREVIOUS WAS WEAPON
+	Wor->entities.PushBack(Arrows = new Item("arrows", "A pack of arrows. Useless without a bow. You should put them into a quiver...\nAmount: 50.\n\n", 50, 0, OTHER, FLOOR, FUSABLE1, UNACTIVABLE, REGULAR));	//TODO PREVIOUS WAS WEAPON
 	Elm->list.push_back(Arrows);
-	Wor->entities.PushBack(Quiver = new Item("quiver", "Use it to store and use your arrows.\nCapacity: 50.\n", Entrance, 50, 0, OTHER, FLOOR, FUSABLE2, UNACTIVABLE, REGULAR));
+	Wor->entities.PushBack(Quiver = new Item("quiver", "Use it to store and use your arrows.\nCapacity: 50.\n", 50, 0, OTHER, FLOOR, FUSABLE2, UNACTIVABLE, REGULAR));
 	Entrance->list.push_back(Quiver);
-	Wor->entities.PushBack(FireBow = new Item("fire bow", "A bow in flames? Yep you see that right, this bow has flames but they don't burn you...\nDamage: 150.\nBlock chance: 0.\n\n", Phelgethon, 150, 0, WEAPON, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
+	Wor->entities.PushBack(FireBow = new Item("fire bow", "A bow in flames? Yep you see that right, this bow has flames but they don't burn you...\nDamage: 150.\nBlock chance: 0.\n\n", 150, 0, WEAPON, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
 	Phelgethon->list.push_back(FireBow);
-	Wor->entities.PushBack(IceBow = new Item("ice bow", "A bow covered in ice. Seems fragile but strong.\nDamage: 120.\nBlock chance: 0.\n\n", PalaceHades, 120, 0, WEAPON, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
+	Wor->entities.PushBack(IceBow = new Item("ice bow", "A bow covered in ice. Seems fragile but strong.\nDamage: 120.\nBlock chance: 0.\n\n", 120, 0, WEAPON, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
 	PalaceHades->list.push_back(IceBow);
-	Wor->entities.PushBack(WornArmour = new Item("worn armour", "This armour doesn't seem to be really useful anymore...\nDefense: 5.\nBlock chance: 1.\n\n", Entrance, 5, 1, ARMOUR, EQUIPPED, UNFUSABLE, UNACTIVABLE, REGULAR));
+	Wor->entities.PushBack(WornArmour = new Item("worn armour", "This armour doesn't seem to be really useful anymore...\nDefense: 5.\nBlock chance: 1.\n\n", 5, 1, ARMOUR, EQUIPPED, UNFUSABLE, UNACTIVABLE, REGULAR));
 	player->list.push_back(WornArmour);
-	Wor->entities.PushBack(SilverArmour = new Item("silver armour", "This shiny armour looks so resistant and\nDefense: 95.\nBlock chance: 5.\n\n", PalaceHades, 95, 5, ARMOUR, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
+	Wor->entities.PushBack(SilverArmour = new Item("silver armour", "This shiny armour looks so resistant and\nDefense: 95.\nBlock chance: 5.\n\n", 95, 5, ARMOUR, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
 	PalaceHades->list.push_back(SilverArmour);
-	Wor->entities.PushBack(DestroyedShield = new Item("destroyed shield", "This shield isn't a shield anymore...\nDefense: 1.\nBlock chance: 0.\n\n", Entrance, 1, 0, SHIELD, EQUIPPED, UNFUSABLE, UNACTIVABLE, REGULAR));
+	Wor->entities.PushBack(DestroyedShield = new Item("destroyed shield", "This shield isn't a shield anymore...\nDefense: 1.\nBlock chance: 0.\n\n", 1, 0, SHIELD, EQUIPPED, UNFUSABLE, UNACTIVABLE, REGULAR));
 	player->list.push_back(DestroyedShield);
-	Wor->entities.PushBack(UnknownShield = new Item("unknown shield", "You have never seen a shield like this one, its colours change...\nDefense: 140.\nBlock chance: 50.\n\n", ValeMourning, 140, 50, SHIELD, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
+	Wor->entities.PushBack(UnknownShield = new Item("unknown shield", "You have never seen a shield like this one, its colours change...\nDefense: 140.\nBlock chance: 50.\n\n", 140, 50, SHIELD, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
 	ValeMourning->list.push_back(UnknownShield);
-	Wor->entities.PushBack(StrangeArtifact = new Item("strange artifact", "You had never seen something like this, maybe it is the artifact you were looking for?\n\n", PalaceHades, 0, 0, OTHER, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
+	Wor->entities.PushBack(StrangeArtifact = new Item("strange artifact", "You had never seen something like this, maybe it is the artifact you were looking for?\n\n", 0, 0, OTHER, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
 	PalaceHades->list.push_back(StrangeArtifact);
-	Wor->entities.PushBack(HadesStatue = new Item("hades statue", "A shiny statue of the god Hades.\nIt may be useful in his world.\n\n", ElysianFields, 0, 0, STATUE, FLOOR, UNFUSABLE, DESACTIVATED, REGULAR));
-	ElysianFields->list.push_back(HadesStatue);
-	Wor->entities.PushBack(HephaestusStatue = new Item("hephaestus statue", "A shiny statue of the god Hephaestus.\nIt may be useful in his world.\n\n", Phelgethon, 0, 0, STATUE, FLOOR, UNFUSABLE, DESACTIVATED, REGULAR));
+	Wor->entities.PushBack(HadesStatue = new Item("hades statue", "A shiny statue of the god Hades.\nIt may be useful in his world.\n\n", 0, 0, STATUE, FLOOR, UNFUSABLE, DESACTIVATED, REGULAR));
+	Entrance->list.push_back(HadesStatue);
+	Wor->entities.PushBack(HephaestusStatue = new Item("hephaestus statue", "A shiny statue of the god Hephaestus.\nIt may be useful in his world.\n\n", 0, 0, STATUE, FLOOR, UNFUSABLE, DESACTIVATED, REGULAR));
 	Phelgethon->list.push_back(HephaestusStatue);
-	Wor->entities.PushBack(AphroditeStatue = new Item("aphrodite statue", "A shiny statue of the goddess Aphrodite.\nIt may be useful in his world.\n\n", Entrance, 0, 0, STATUE, FLOOR, UNFUSABLE, DESACTIVATED, REGULAR));
+	Wor->entities.PushBack(AphroditeStatue = new Item("aphrodite statue", "A shiny statue of the goddess Aphrodite.\nIt may be useful in his world.\n\n", 0, 0, STATUE, FLOOR, UNFUSABLE, DESACTIVATED, REGULAR));
 	Entrance->list.push_back(AphroditeStatue);
 	//--
 

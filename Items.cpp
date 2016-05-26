@@ -457,7 +457,7 @@ bool Item::ActivateStatue(Vector<String> &tokens, int &ActiveStatues, int &Inven
 			{
 				if (statue->state == DESACTIVATED)
 				{
-					if (statue->name.c_str() == "hades statue")
+					if (statue->name == "hades statue")
 					{
 						statue->state = ACTIVATED;
 						printf("Hades statue activated.\n\n");	//TODO: this statue won't have use yet, as its use is to speak with Hades, which is not implemented yet.
@@ -537,7 +537,7 @@ bool Item::ActivateStatue(Vector<String> &tokens, int &ActiveStatues, int &Inven
 						}
 						if (StatueUsed == 0){ printf("Activation failed.\n\n"); return true; }
 					}
-					else if (statue->name.c_str() == "aphrodite statue")
+					else if (statue->name == "aphrodite statue")
 					{
 						//TODO special attack possible??
 						statue->state = ACTIVATED;
@@ -546,14 +546,57 @@ bool Item::ActivateStatue(Vector<String> &tokens, int &ActiveStatues, int &Inven
 						return true;
 					}
 				}
-				else if (statue->state == ACTIVATED){ printf("%s is already activated.\n\n"); return true; }
-				else if (statue->state == DESTROYED){ printf("%s had been destroyed.\n\n"); return true; }
+				else if (statue->state == ACTIVATED){ printf("%s is already activated.\n\n", statue->name.c_str()); return true; }
+				else if (statue->state == DESTROYED){ printf("%s had been destroyed.\n\n", statue->name.c_str()); return true; }
 			}
 			else{ printf("%s must be in the inventory to be activated.\n\n", statue->name.c_str()); return true; }
 		}
-		else{ printf("%s is not an statue. Only statues can be activated.\n\n"); return true; }
+		else{ printf("This item is not an statue. Only statues can be activated.\n\n"); return true; }
 	}
 	else{ printf("You have the maximum number of statues activated.\n\n"); return true; }
+	return false;
+}
+//--
 
+//Desactivate Statues
+bool Item::DesactivateStatue(Vector<String> &tokens, int &ActiveStatues)
+{
+	Item* statue = (Item*)Wor->entities[0];
+	for (int i = 0; i <= NUM_ENTITIES; i++)
+	{
+		if (Wor->entities[i]->type == ITEM && tokens[1] == Wor->entities[i]->name)
+		{
+			statue = (Item*)Wor->entities[i];
+		}
+	}
+	if (statue->item_type == STATUE)
+	{
+		if (statue->place == INVENTORY)
+		{
+			if (statue->state == ACTIVATED)
+			{
+				if (statue->name == "hades statue")
+				{
+					statue->state = DESACTIVATED;
+					printf("Hades statue desactivated.\n\n");	//TODO: this statue won't have use yet, as its use is to speak with Hades, which is not implemented yet.
+					ActiveStatues--;
+					return true;
+				}
+				else if (statue->name == "aphrodite statue")
+				{
+					//TODO special attack possible??
+					statue->state = DESACTIVATED;
+					printf("Aphrodite statue desactivated.\n\n");	//this statue won't have use yet, as its use is to speak with Hades, which is not implemented yet.
+					ActiveStatues--;
+					return true;
+				}
+			}
+			else if (statue->state == DESACTIVATED){ printf("%s is already desactivated.\n\n", statue->name.c_str()); return true; }
+			else if (statue->state == DESTROYED){ printf("%s had been destroyed.\n\n", statue->name.c_str()); return true; }
+		}
+		else{ printf("%s must be in the inventory to be activated.\n\n", statue->name.c_str()); return true; }
+	}
+	else{ printf("This item is not an statue. Only statues can be activated and desactivated.\n\n"); return true; }
+	return false;
 }
 //--
