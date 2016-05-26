@@ -137,8 +137,8 @@ void World::CreateWorld()
 	//NPCs, enemies or not
 	entities.PushBack(new Monster(MONSTER_AGG, "harpy", "A monster with a big bird body and a human face, her claws seems sharpy", 50, 0, 30, 400, 100));
 	Entrance->list.push_back(entities[i++]);
-	entities.PushBack(new Monster(MONSTER_AGG, "harpy", "A monster with a big bird body and a human face, her claws seems sharpy", 50, 0, 30, 400, 100));
-	Entrance->list.push_back(entities[i++]);
+	/*entities.PushBack(new Monster(MONSTER_AGG, "harpy", "A monster with a big bird body and a human face, her claws seems sharpy", 50, 0, 30, 400, 100));
+	Elm->list.push_back(entities[i++]);*/
 
 	Counters.PushBack(3);	// 0 - Inventory capacity counter: starts with 3 items
 	Counters.PushBack(1);	// 1 - Weapon equipped counter

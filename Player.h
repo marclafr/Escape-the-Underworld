@@ -12,6 +12,8 @@ public:
 	void Stats()const;
 	bool Move(int direction);
 	void ReceiveCommand(Vector<String> &tokens, int num_words);
+	void Combat(Vector<String> &tokens);
+	uint start_time;
 };
 
 #endif //__PLAYER__

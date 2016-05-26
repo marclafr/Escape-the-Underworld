@@ -56,9 +56,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Entity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Exits.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
