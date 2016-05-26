@@ -6,7 +6,7 @@ void Room::Look()const
 {
 	printf("%s\n", Wor->player->position->name.c_str());
 	printf("%s\n", Wor->player->position->description.c_str());
-	printf("This room contains this items:\n");
+	printf("This room contains the following:\n");
 	bool NoItems = true;
 	Room* room = (Room*)Wor->entities[0];
 	for (int i = 0; i <= NUM_ENTITIES; i++)
@@ -19,7 +19,7 @@ void Room::Look()const
 			{
 				for (; room_node != nullptr; room_node = room_node->next)
 				{
-					if (room_node->data->type == ITEM)
+					if (room_node->data->type == ITEM || room_node->data->type == MONSTER_AGG || room_node->data->type == MONSTER_NON_AGG)
 					{
 						printf(" - %s: %s\n", room_node->data->name.c_str(), room_node->data->description.c_str());
 						NoItems = false;

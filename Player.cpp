@@ -146,12 +146,14 @@ void Player::ReceiveCommand(Vector<String> &tokens, int num_words)
 //--
 
 //Player stats
-void Player::Stats()const{
+void Player::Stats()const
+{
 	printf("%s stats are:\n", Wor->player->name);
 	printf("HP: %i.\n", Wor->player->hp);
 	printf("Attack: %i.\n", Wor->player->attack);
 	printf("Defense: %i.\n", Wor->player->defense);
-	printf("Block chance: %i.\n\n", Wor->player->block_chance);
+	printf("Block chance: %i.\n", Wor->player->block_chance);
+	printf("Gold: %i.\n\n", Wor->player->gold);
 }
 //--
 

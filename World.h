@@ -5,6 +5,7 @@
 #include "Exits.h"
 #include "Player.h"
 #include "Items.h"
+#include "Monsters.h"
 
 #ifndef WORLD
 #define WORLD

@@ -71,6 +71,7 @@
     <ClInclude Include="Items.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="MemLeaks.h" />
+    <ClInclude Include="Monsters.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Rooms.h" />
     <ClInclude Include="String.h" />

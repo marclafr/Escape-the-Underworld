@@ -16,9 +16,6 @@ enum dir{
 
 class Exit :public Entity{
 public:
-	Exit(){}
-	~Exit(){}
-
 	Room* origin;
 	Room* destination;
 	dir direction;
