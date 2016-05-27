@@ -29,6 +29,7 @@ public:
 	Item* items;
 	Room* rooms;
 	Player* player;
+	Monster* monster;
 	void CreateWorld();
 	bool ExitGame()const;
 	void DeleteWorld();

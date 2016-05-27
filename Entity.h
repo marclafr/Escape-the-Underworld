@@ -23,8 +23,7 @@ public:
 	typeE type;
 	DoubleLinkList<Entity*> list;
 
-	virtual void Update(){}
-
+	virtual void Update(Vector<String> &tokens){}
 };
 
 

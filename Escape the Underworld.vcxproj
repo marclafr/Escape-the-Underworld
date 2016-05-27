@@ -82,6 +82,7 @@
     <ClCompile Include="Exits.cpp" />
     <ClCompile Include="Items.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Monsters.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Rooms.cpp" />
     <ClCompile Include="World.cpp" />

@@ -1,6 +1,6 @@
 #include "Player.h"
 #include "World.h"
-
+#include <Windows.h>
 
 void Player::ReceiveCommand(Vector<String> &tokens, int num_words)
 {
@@ -77,7 +77,7 @@ void Player::ReceiveCommand(Vector<String> &tokens, int num_words)
 		}
 		else if (tokens[0] == "activate"){ Wor->items->ActivateStatue(tokens, Wor->Counters[5], Wor->Counters[0]); }
 		else if (tokens[0] == "desactivate"){ Wor->items->DesactivateStatue(tokens, Wor->Counters[5]); }
-		else if (tokens[0] == "attack"){ Wor->player->Combat(tokens); }
+		else if (tokens[0] == "attack"){ Wor->player->EnterCombat(tokens); }
 		else
 		{
 			printf("I can't understand that.\n\n");
@@ -154,7 +154,6 @@ bool Player::Move(int direction)
 		if (Wor->entities[i]->type == EXIT)
 		{
 			Exit* exit = (Exit*)Wor->entities[i];
-
 			if (exit->origin->name == Wor->player->position->name){	 //Compares if the position of the player and the origin of the exit is the same.
 				if (direction == exit->direction) {			 //compares if the direction of the exit and the direction of the command is the same.
 					if (exit->WayClear(i) == true){				 //Looks if the path is looked or not.
@@ -171,10 +170,53 @@ bool Player::Move(int direction)
 	return false;
 }
 
-#include <Windows.h>
-void Player::Combat(Vector<String> &tokens)
+void Player::ReceiveCombatCommand(Vector<String> &tokens, Monster* enemy)
 {
-	start_time = GetTickCount();
+	if (tokens[0] == "attack")
+	{
+		int random = rand() % 100;
+		if (random <= enemy->block_chance)
+		{
+			printf("%s dodged your attack!!\n\n", enemy->name);
+		}
+		else
+		{
+			int damage = Wor->player->attack - enemy->defense;
+			if (damage > 0){
+				printf("You hit %s for %i damage.\n\n", enemy->name.c_str(), damage);
+				enemy->hp -= damage;
+			}
+			else { printf("Your attacks seem to do nothing...\n\n"); }
+		}
+	}
+	else if (tokens[0] == "protect")
+	{
+		printf("Defense raised");//TODO
+	}
+	else if (tokens[0] == "special")
+	{
+		if (GetTickCount() - special_att_timer > (SPECIAL_CD * 1000))
+		{
+			int extra_damage = rand() % Wor->player->attack;
+			special_att_timer = GetTickCount();
+			printf("You used your special attack!!\n");		//special attack can't be dodged
+			printf("You hit %s for %i damage.\n\n", enemy->name.c_str(), (Wor->player->attack - enemy->defense) + extra_damage);
+		}
+		else
+		{
+			printf("Your special attack is in cooldown. Time remaining to use it: %d seconds\n\n", SPECIAL_CD - ((GetTickCount() - special_att_timer) / 1000));
+		}
+	}
+	if (enemy->hp <= 0)
+	{
+		CombatMode = false;
+		printf("%s died, you received %i gold.\n\n", enemy->name.c_str(), enemy->gold);
+		Wor->player->gold += enemy->gold;
+	}
+}
+
+void Player::EnterCombat(Vector<String> &tokens)
+{
 	Room* room = (Room*)Wor->entities[0];
 	for (int i = 0; i <= NUM_ENTITIES; i++)
 	{
@@ -184,33 +226,14 @@ void Player::Combat(Vector<String> &tokens)
 			DoubleLinkList<Entity*>::nodeD* room_node = room->list.first_node;
 			for (; room_node != nullptr; room_node = room_node->next)
 			{
-				if (room_node->data->name == tokens[1])		//TODO: 2+ same minion same room?
+				if (room_node->data->name == tokens[1])
 				{
-					Monster* enemy = (Monster*)Wor->entities[0];
 					for (int i = 0; i <= NUM_ENTITIES; i++)
 					{
 						if (Wor->entities[i]->name == tokens[1])
 						{
 							enemy = (Monster*)Wor->entities[i];
-						}
-					}
-					while (Wor->player->hp > 0 && enemy->hp > 0)
-					{
-						if (GetTickCount() - start_time > 3000)		//TODO: This should be in UPDATE
-						{
-							start_time = GetTickCount();
-							int random = rand() % 100;
-							if (random <= Wor->player->block_chance){ printf("You dodged %s's attack!!\n\n", enemy->name); }
-							else
-							{
-								int damage = (enemy->attack - Wor->player->defense);
-								printf("%s attacks you and causes ", enemy->name);	//idk why but if i put both printf's together the nuber is always 6.
-								if (damage > 0){
-									printf("%i damage.\n\n", damage);
-									Wor->player->hp -= damage;
-								}
-								else{ printf("no damage, you have a nice defense. :)\n\n"); }
-							}
+							CombatMode = true;
 						}
 					}
 				}
