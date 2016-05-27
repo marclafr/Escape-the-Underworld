@@ -97,48 +97,55 @@ void World::CreateWorld()
 	Item* HadesStatue;
 	Item* HephaestusStatue;
 	Item* AphroditeStatue;
-	entities.PushBack(Coins = new Item( "coins", "Coins needed to cross the river.\n\n", 0, 0, OTHER, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
+	entities.PushBack(Coins = new Item( "coins", "Coins needed to cross the river.\n\n", 0, 0, 0, OTHER, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
 	Elm->list.push_back(Coins);
-	entities.PushBack(Keys = new Item("keys", "keys needed to open gates.\n\n", 0, 0, OTHER, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
+	entities.PushBack(Keys = new Item("keys", "keys needed to open gates.\n\n", 0, 0, 0, OTHER, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
 	Marsh->list.push_back(Keys);
-	entities.PushBack(Stick = new Item("stick", "Just a large stick.\nDamage: 7.\nBlock chance: 3.\n\n", 7, 3, WEAPON, EQUIPPED, UNFUSABLE, UNACTIVABLE, REGULAR));
+	entities.PushBack(Stick = new Item("stick", "Just a large stick.\nDamage: 7.\nBlock chance: 3.\n\n", 7, 3, 25, WEAPON, EQUIPPED, UNFUSABLE, UNACTIVABLE, REGULAR));
 	player->list.push_back(Stick);
-	entities.PushBack(Sword = new Item("sword", "A shiny sword\nDamage: 70.\nBlock chance: 10.\n\n", 70, 10, WEAPON, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
+	entities.PushBack(Sword = new Item("sword", "A shiny sword\nDamage: 70.\nBlock chance: 10.\n\n", 70, 10, 200, WEAPON, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
 	StyxLeft->list.push_back(Sword);
-	entities.PushBack(Shield = new Item("shield", "A big shield to protect you.\nDefense: 25.\nBlock chance: 30.\n\n", 25, 30, SHIELD, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
+	entities.PushBack(Shield = new Item("shield", "A big shield to protect you.\nDefense: 25.\nBlock chance: 30.\n\n", 25, 30, 125, SHIELD, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
 	Tartarus->list.push_back(Shield);
-	entities.PushBack(Arrows = new Item("arrows", "A pack of arrows. Useless without a bow. You should put them into a quiver...\nAmount: 50.\n\n", 50, 0, OTHER, FLOOR, FUSABLE1, UNACTIVABLE, REGULAR));	//TODO PREVIOUS WAS WEAPON
+	entities.PushBack(Arrows = new Item("arrows", "A pack of arrows. Useless without a bow. You should put them into a quiver...\nAmount: 50.\n\n", 50, 0, 25, OTHER, FLOOR, FUSABLE1, UNACTIVABLE, REGULAR));	//TODO PREVIOUS WAS WEAPON
 	Elm->list.push_back(Arrows);
-	entities.PushBack(Quiver = new Item("quiver", "Use it to store and use your arrows.\nCapacity: 50.\n", 50, 0, OTHER, FLOOR, FUSABLE2, UNACTIVABLE, REGULAR));
+	entities.PushBack(Quiver = new Item("quiver", "Use it to store and use your arrows.\nCapacity: 50.\n", 50, 0, 10, OTHER, FLOOR, FUSABLE2, UNACTIVABLE, REGULAR));
 	Entrance->list.push_back(Quiver);
-	entities.PushBack(FireBow = new Item("fire bow", "A bow in flames? Yep you see that right, this bow has flames but they don't burn you...\nDamage: 150.\nBlock chance: 0.\n\n", 150, 0, WEAPON, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
+	entities.PushBack(FireBow = new Item("fire bow", "A bow in flames? Yep you see that right, this bow has flames but they don't burn you...\nDamage: 150.\nBlock chance: 0.\n\n", 150, 0, 750, WEAPON, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
 	Phelgethon->list.push_back(FireBow);
-	entities.PushBack(IceBow = new Item("ice bow", "A bow covered in ice. Seems fragile but strong.\nDamage: 120.\nBlock chance: 0.\n\n", 120, 0, WEAPON, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
-	PalaceHades->list.push_back(IceBow);
-	entities.PushBack(WornArmour = new Item("worn armour", "This armour doesn't seem to be really useful anymore...\nDefense: 5.\nBlock chance: 1.\n\n", 5, 1, ARMOUR, EQUIPPED, UNFUSABLE, UNACTIVABLE, REGULAR));
+	entities.PushBack(IceBow = new Item("ice bow", "A bow covered in ice. Seems fragile but strong.\nDamage: 120.\nBlock chance: 0.\n\n", 120, 0, 1000, WEAPON, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
+	//PalaceHades->list.push_back(IceBow);
+	entities.PushBack(WornArmour = new Item("worn armour", "This armour doesn't seem to be really useful anymore...\nDefense: 5.\nBlock chance: 1.\n\n", 5, 1, 20, ARMOUR, EQUIPPED, UNFUSABLE, UNACTIVABLE, REGULAR));
 	player->list.push_back(WornArmour);
-	entities.PushBack(SilverArmour = new Item("silver armour", "This shiny armour looks so resistant and\nDefense: 95.\nBlock chance: 5.\n\n", 95, 5, ARMOUR, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
-	PalaceHades->list.push_back(SilverArmour);
-	entities.PushBack(DestroyedShield = new Item("destroyed shield", "This shield isn't a shield anymore...\nDefense: 1.\nBlock chance: 0.\n\n", 1, 0, SHIELD, EQUIPPED, UNFUSABLE, UNACTIVABLE, REGULAR));
+	entities.PushBack(SilverArmour = new Item("silver armour", "This shiny armour looks so resistant and\nDefense: 95.\nBlock chance: 5.\n\n", 95, 5, 400, ARMOUR, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
+	//PalaceHades->list.push_back(SilverArmour);
+	entities.PushBack(DestroyedShield = new Item("destroyed shield", "This shield isn't a shield anymore...\nDefense: 1.\nBlock chance: 0.\n\n", 1, 0, 15, SHIELD, EQUIPPED, UNFUSABLE, UNACTIVABLE, REGULAR));
 	player->list.push_back(DestroyedShield);
-	entities.PushBack(UnknownShield = new Item("unknown shield", "You have never seen a shield like this one, its colours change...\nDefense: 140.\nBlock chance: 50.\n\n", 140, 50, SHIELD, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
+	entities.PushBack(UnknownShield = new Item("unknown shield", "You have never seen a shield like this one, its colours change...\nDefense: 140.\nBlock chance: 50.\n\n", 140, 50, 1000, SHIELD, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
 	ValeMourning->list.push_back(UnknownShield);
-	entities.PushBack(StrangeArtifact = new Item("strange artifact", "You had never seen something like this, maybe it is the artifact you were looking for?\n\n", 0, 0, OTHER, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
+	entities.PushBack(StrangeArtifact = new Item("strange artifact", "You had never seen something like this, maybe it is the artifact you were looking for?\n\n", 0, 0, 1500, OTHER, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
 	PalaceHades->list.push_back(StrangeArtifact);
-	entities.PushBack(HadesStatue = new Item("hades statue", "A shiny statue of the god Hades.\nIt may be useful in his world.\n\n", 0, 0, STATUE, FLOOR, UNFUSABLE, DESACTIVATED, REGULAR));
+	entities.PushBack(HadesStatue = new Item("hades statue", "A shiny statue of the god Hades.\nIt may be useful in his world.\n\n", 0, 0, 1000, STATUE, FLOOR, UNFUSABLE, DESACTIVATED, REGULAR));
 	Entrance->list.push_back(HadesStatue);
-	entities.PushBack(HephaestusStatue = new Item("hephaestus statue", "A shiny statue of the god Hephaestus.\nIt may be useful in his world.\n\n", 0, 0, STATUE, FLOOR, UNFUSABLE, DESACTIVATED, REGULAR));
+	entities.PushBack(HephaestusStatue = new Item("hephaestus statue", "A shiny statue of the god Hephaestus.\nIt may be useful in his world.\n\n", 0, 0, 2000, STATUE, FLOOR, UNFUSABLE, DESACTIVATED, REGULAR));
 	Phelgethon->list.push_back(HephaestusStatue);
-	entities.PushBack(AphroditeStatue = new Item("aphrodite statue", "A shiny statue of the goddess Aphrodite.\nIt may be useful in his world.\n\n", 0, 0, STATUE, FLOOR, UNFUSABLE, DESACTIVATED, REGULAR));
+	entities.PushBack(AphroditeStatue = new Item("aphrodite statue", "A shiny statue of the goddess Aphrodite.\nIt may be useful in his world.\n\n", 0, 0, 750, STATUE, FLOOR, UNFUSABLE, DESACTIVATED, REGULAR));
 	Entrance->list.push_back(AphroditeStatue);
 	//--
 	i += 17;	//NUM_ITEMS
 
-	//NPCs, enemies or not
-	entities.PushBack(new Monster(MONSTER_AGG, "harpy", "A monster with a big bird body and a human face, her claws seems sharpy", 50, 0, 30, 400, 100));
+	//NPCs
+		//enemies
+	entities.PushBack(new Monster(MONSTER_AGG, "harpy", "A monster with a big bird body and a human face, her claws seems sharpy.\n", 50, 0, 30, 400, 100));
 	Entrance->list.push_back(entities[i++]);
 	/*entities.PushBack(new Monster(MONSTER_AGG, "harpy", "A monster with a big bird body and a human face, her claws seems sharpy", 50, 0, 30, 400, 100));
 	Elm->list.push_back(entities[i++]);*/
+
+		//no enemies
+	entities.PushBack(new Monster(MONSTER_NON_AGG, "friendly shadow", "A shadow from this world, he doesn't seem agressive like others.\n", 50, 0, 30, 400, 100));
+	entities[i]->list.push_back(SilverArmour);
+	entities[i]->list.push_back(IceBow);
+	Entrance->list.push_back(entities[i++]);
 
 	Counters.PushBack(3);	// 0 - Inventory capacity counter: starts with 3 items
 	Counters.PushBack(1);	// 1 - Weapon equipped counter

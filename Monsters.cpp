@@ -2,6 +2,7 @@
 #include "Monsters.h"
 #include <Windows.h>
 
+//Combat update
 void Monster::Update(String &command, Monster* enemy)
 {
 	printf("Update\n");
@@ -25,3 +26,40 @@ void Monster::Update(String &command, Monster* enemy)
 		printf("Our hero %s died...", Wor->player->name.c_str());
 	}
 }
+//--
+
+//Look store
+void Monster::LookStore()
+{
+	bool NoItems = false;
+	for (int i = 0; i <= NUM_ENTITIES; i++)
+	{
+		if (Wor->entities[i]->type == MONSTER_NON_AGG)
+		{
+			Monster* monster = (Monster*)Wor->entities[i];
+			DoubleLinkList<Entity*>::nodeD* npc_node = monster->list.first_node;
+			printf("Hello there stranger, would you like any of this?\n");
+			for (; npc_node != nullptr; npc_node = npc_node->next)
+			{
+				for (int j = 0; j <= NUM_ENTITIES; j++)
+				{
+					if (npc_node->data->name == Wor->entities[j]->name)
+					{
+						Item* item = (Item*)Wor->entities[j];
+						printf(" - %s: %sPrice: %i souls.\n\n\n", npc_node->data->name.c_str(), npc_node->data->description.c_str(), item->price);
+						NoItems = true;
+					}
+				}
+			}
+		}
+	}
+	if (NoItems == false){ printf("Opps... I have nothing to sell sorry.\n\n"); }
+}
+//--
+
+//Buy item
+void Monster::BuyItem()
+{
+
+}
+//--

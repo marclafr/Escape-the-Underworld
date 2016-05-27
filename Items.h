@@ -45,9 +45,11 @@ enum Upgrade{
 
 class Item :public Entity{
 public:
-	Item(const char* n, const char* d, int val, int val2, ItemType t, ItemPlace p, Union f, StatuesState s, Upgrade upgr) :Entity(ITEM, n, d), value(val), value2(val2), item_type(t), place(p), fuse(f), state(s), upgrade(upgr) {}
-	int value;
-	int value2;
+	Item(const char* n, const char* d, uint val, uint val2, uint price, ItemType t, ItemPlace p, Union f, StatuesState s, Upgrade upgr) 
+		:Entity(ITEM, n, d), value(val), value2(val2), price(price), item_type(t), place(p), fuse(f), state(s), upgrade(upgr) {}
+	uint value;
+	uint value2;
+	uint price;
 	ItemType item_type;
 	ItemPlace place;
 	Union fuse;

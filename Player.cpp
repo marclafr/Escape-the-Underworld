@@ -67,17 +67,35 @@ void Player::ReceiveCommand(Vector<String> &tokens, int num_words)
 				printf("Unequip what??\n\n");
 			}
 		}
-		else if (tokens[0] == "put" && tokens[2] == "into")
+		else if (tokens[0] == "put" && num_words == 4)
 		{
-			Wor->items->FuseItems(tokens, Wor->Counters[0], Wor->Counters[4]);
+			if (tokens[2] == "into")
+			{
+				Wor->items->FuseItems(tokens, Wor->Counters[0], Wor->Counters[4]);
+			}
 		}
-		else if (tokens[0] == "get" && tokens[2] == "from")
+		else if (tokens[0] == "get" && num_words == 4)
 		{
-			Wor->items->UnfuseItems(tokens, Wor->Counters[0], Wor->Counters[4]);
+			if (tokens[2] == "from")
+			{
+				Wor->items->UnfuseItems(tokens, Wor->Counters[0], Wor->Counters[4]);
+			}
 		}
 		else if (tokens[0] == "activate"){ Wor->items->ActivateStatue(tokens, Wor->Counters[5], Wor->Counters[0]); }
 		else if (tokens[0] == "desactivate"){ Wor->items->DesactivateStatue(tokens, Wor->Counters[5]); }
-		else if (tokens[0] == "attack"){ Wor->player->EnterCombat(tokens); }
+		else if (tokens[0] == "attack")
+		{
+			if (Wor->player->EnterCombat(tokens) == false)
+			{
+				printf("Attack what?.\n");
+			}
+		}
+		else if (tokens[0] == "buy")
+		{
+			if (num_words == 2){ Wor->monster->LookStore(); }
+			else if (num_words == 4){ Wor->monster->BuyItem(); }
+			else{ printf("Buy what?\n"); }
+		}
 		else
 		{
 			printf("I can't understand that.\n\n");
@@ -143,7 +161,7 @@ void Player::Stats()const
 	printf("Attack: %i.\n", Wor->player->attack);
 	printf("Defense: %i.\n", Wor->player->defense);
 	printf("Block chance: %i.\n", Wor->player->block_chance);
-	printf("Gold: %i.\n\n", Wor->player->gold);
+	printf("Souls: %i.\n\n", Wor->player->souls);
 }
 //--
 
@@ -210,17 +228,16 @@ void Player::ReceiveCombatCommand(Vector<String> &tokens)
 	if (enemy->hp <= 0)
 	{
 		CombatMode = false;
-		printf("%s died, you received %i gold.\n\n", enemy->name.c_str(), enemy->gold);
-		Wor->player->gold += enemy->gold;
+		printf("%s died, you received %i souls.\n\n", enemy->name.c_str(), enemy->souls);
+		Wor->player->souls += enemy->souls;
 	}
 }
 
-void Player::EnterCombat(Vector<String> &tokens)
+bool Player::EnterCombat(Vector<String> &tokens)
 {
-	Room* room = (Room*)Wor->entities[0];
 	for (int i = 0; i <= NUM_ENTITIES; i++)
 	{
-		room = (Room*)Wor->entities[i];
+		Room* room = (Room*)Wor->entities[i];
 		if (room->name == Wor->player->position->name && room->type == ROOM)
 		{
 			DoubleLinkList<Entity*>::nodeD* room_node = room->list.first_node;
@@ -230,14 +247,16 @@ void Player::EnterCombat(Vector<String> &tokens)
 				{
 					for (int i = 0; i <= NUM_ENTITIES; i++)
 					{
-						if (Wor->entities[i]->name == tokens[1])
+						if (Wor->entities[i]->name == tokens[1] && Wor->entities[i]->type == MONSTER_AGG)
 						{
 							enemy = (Monster*)Wor->entities[i];
 							CombatMode = true;
+							return true;
 						}
 					}
 				}
 			}
 		}
 	}
+	return false;
 }

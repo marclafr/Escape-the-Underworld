@@ -12,13 +12,13 @@
 class Player :public Creature{
 public:
 	Room* position = nullptr;
-	Player(String n, const char* d, Room* pos, uint att, uint def, uint block_chance, int hitpoints, uint gold)
-		:Creature(PLAYER, n, d, pos, att, def, block_chance, hitpoints, gold), position(pos){}
+	Player(String n, const char* d, Room* pos, uint att, uint def, uint block_chance, int hitpoints, uint souls)
+		:Creature(PLAYER, n, d, pos, att, def, block_chance, hitpoints, souls), position(pos){}
 	void Stats()const;
 	bool Move(int direction);
 	void ReceiveCommand(Vector<String> &tokens, int num_words);
 	void ReceiveCombatCommand(Vector<String> &tokens);	
-	void EnterCombat(Vector<String> &tokens);
+	bool EnterCombat(Vector<String> &tokens);
 	uint special_att_timer = GetTickCount();
 	Monster* enemy = nullptr;
 	bool CombatMode = false;

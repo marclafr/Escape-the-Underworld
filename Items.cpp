@@ -45,12 +45,11 @@ void Item::LookInventory(int &InventorySlots)const
 //Pick Items
 bool Item::PickItem(Vector<String> &tokens, int &InventorySlots)
 {
-	Room* room = (Room*)Wor->entities[0];
 	if (InventorySlots < NUM_INVENTORY_SLOTS)
 	{
 		for (int i = 0; i <= NUM_ENTITIES; i++)
 		{
-			room = (Room*)Wor->entities[i];
+			Room* room = (Room*)Wor->entities[i];
 			if (room->name == Wor->player->position->name)
 			{
 				DoubleLinkList<Entity*>::nodeD* room_node = room->list.first_node;
@@ -84,11 +83,10 @@ bool Item::PickItem(Vector<String> &tokens, int &InventorySlots)
 
 //Drop Items
 bool Item::DropItem(Vector<String> &tokens, int &InventorySlots)
-{
-	Room* room = (Room*)Wor->entities[0];	
+{	
 	for (int i = 0; i <= NUM_ENTITIES; i++)
 	{
-		room = (Room*)Wor->entities[i];
+		Room* room = (Room*)Wor->entities[i];
 		if (room->name == Wor->player->position->name && room->type == ROOM)
 		{
 			DoubleLinkList<Entity*>::nodeD* player_node = Wor->player->list.first_node;
@@ -96,10 +94,9 @@ bool Item::DropItem(Vector<String> &tokens, int &InventorySlots)
 			{
 				if (tokens[1] == player_node->data->name)
 				{
-					Item* item = (Item*)Wor->entities[0];
 					for (int j = 0; j <= NUM_ENTITIES; j++)
 					{
-						item = (Item*)Wor->entities[j];
+						Item* item = (Item*)Wor->entities[j];
 						if (item->name == player_node->data->name)
 						{
 							if (item->place == INVENTORY)
@@ -141,13 +138,11 @@ void Item::LookItem(Vector<String> &tokens)const
 //Equip Items
 bool Item::EquipItem(Vector<String> &tokens, int &WeaponCounter, int &ArmourCounter, int &ShieldCounter, int &QuiverCapacityCounter)
 {
-	
-	Item* item = (Item*)Wor->entities[0];
 	for (int i = 0; i <= NUM_ENTITIES; i++)
 	{
 		if (Wor->entities[i]->type == ITEM)
 		{
-			item = (Item*)Wor->entities[i];			
+			Item* item = (Item*)Wor->entities[i];
 			if ((tokens[1]) == item->name.c_str() && item->place == INVENTORY)
 			{
 				switch (item->item_type)
@@ -249,12 +244,11 @@ bool Item::EquipItem(Vector<String> &tokens, int &WeaponCounter, int &ArmourCoun
 //Unequip Items
 bool Item::UnequipItem(Vector<String> &tokens, int &WeaponCounter, int &ArmourCounter, int &ShieldCounter)
 {
-	Item* item = (Item*)Wor->entities[0];
 	for (int i = 0; i <= NUM_ENTITIES; i++)
 	{
 		if (Wor->entities[i]->type == ITEM)
 		{
-			item = (Item*)Wor->entities[i];
+			Item* item = (Item*)Wor->entities[i];
 			if ((tokens[1]) == item->name.c_str())
 			{
 				if (item->place == EQUIPPED)

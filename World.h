@@ -15,13 +15,10 @@
 #define P_ORI_B_CHANCE 5
 #define P_ORI_HP 2500
 
-#define NUM_ENTITIES 55
+#define NUM_ENTITIES 56
 
 class World{
 public:
-	World(){}
-	~World(){}
-	
 	Vector<Entity*> entities;
 	Vector<int>Counters;
 	String command;
