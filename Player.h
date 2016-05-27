@@ -17,7 +17,7 @@ public:
 	void Stats()const;
 	bool Move(int direction);
 	void ReceiveCommand(Vector<String> &tokens, int num_words);
-	void ReceiveCombatCommand(Vector<String> &tokens, Monster* enemy);	
+	void ReceiveCombatCommand(Vector<String> &tokens);	
 	void EnterCombat(Vector<String> &tokens);
 	uint special_att_timer = GetTickCount();
 	Monster* enemy = nullptr;

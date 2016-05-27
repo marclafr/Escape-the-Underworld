@@ -3,7 +3,6 @@
 #include <conio.h>
 #include <Windows.h>
 
-
 World* Wor = nullptr;
 
 int main()
@@ -11,17 +10,17 @@ int main()
 	ReportMemoryLeaks();
 	Wor = new World;
 	char key = 'a';
-	char input[50];
+	char input[100];
 	int num = 0;
 	Vector<String> tokens;
 	Wor->CreateWorld();
 	uint start_time = GetTickCount();
 	while (1)
 	{
-		if (GetTickCount() - start_time > 3000 && Wor->player->CombatMode == true)
+		if (GetTickCount() - start_time > 3000 && Wor->player->CombatMode == true)	//TODO: Only enters here if you click some key.
 		{
 			start_time = GetTickCount();
-			Wor->monster->Update(Wor->command);
+			Wor->monster->Update(Wor->command, Wor->player->enemy);
 		}
 		if (_kbhit != 0)
 		{
@@ -55,7 +54,7 @@ int main()
 					}
 					else
 					{
-						Wor->player->ReceiveCombatCommand(tokens, Wor->player->enemy);
+						Wor->player->ReceiveCombatCommand(tokens);
 					}
 				}
 				tokens.Clear();	
@@ -65,6 +64,7 @@ int main()
 			{
 				num -= 2;
 			}
+			
 			if (Wor->command == "quit")
 			{
 				break;
@@ -76,6 +76,3 @@ int main()
 	delete Wor;
 	return 0;
 }
-/*Wor->entities[1]->type == ITEM;
-Item* i = (Item*)Wor->entities[1];
-int a = i->value;*/

@@ -170,7 +170,7 @@ bool Player::Move(int direction)
 	return false;
 }
 
-void Player::ReceiveCombatCommand(Vector<String> &tokens, Monster* enemy)
+void Player::ReceiveCombatCommand(Vector<String> &tokens)
 {
 	if (tokens[0] == "attack")
 	{
