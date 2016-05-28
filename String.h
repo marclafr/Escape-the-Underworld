@@ -178,30 +178,32 @@ public:
 		char* context = nullptr;
 		char* save = nullptr;
 		String item;
-		bool item_done = false;
 		save = strtok_s(buffer, symbols, &context);
-		int i = 1, len = 0;
+		int len = 0;
 		while (save != NULL)
 		{
 			num_words++;
-			if (save[0] == '"')		//TODO IF "QUIVER A A A" BREAKS
+			if (save[0] == '"')
 			{
-				do{
-					len = strlen(save);
-					if (i == 1)	{ item = save; }
+				do{					
+					if (save[0] == '"')	{ item = save; }
 					else		{ item += save; }
-					save = strtok_s(NULL, symbols, &context);
-					if (save != NULL)	{ item += " "; }
-					i = 0;					
-				} while (save != NULL && save[i] != '"');
-				tokens.PushBack(item);				
-				item_done = true;
+					save = strtok_s(NULL, symbols, &context);					
+					if (save != NULL)
+					{
+						len = strlen(save);
+						if (save[len - 1] == '\"')
+						{
+							item += " ";
+						}
+					}			
+				} while (save != NULL && save[len-1] == '\"');
+				tokens.PushBack(item);			
 			}
 			else
-			{
-				if (item_done == false){ tokens.PushBack(save); }
+			{				 
+				tokens.PushBack(save); 
 				save = strtok_s(NULL, symbols, &context);
-				item_done = false;
 			}
 		}
 		return num_words;

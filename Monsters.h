@@ -10,7 +10,7 @@ public:
 		:Creature(type, n, desc, att, def, b_ch, hp, souls){}
 	void Update(String&, Monster*);
 	void LookStore();
-	void BuyItem();
+	bool BuyItem(Vector<String>&);
 };
 
 #endif //__MONSTERS__

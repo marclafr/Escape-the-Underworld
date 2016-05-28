@@ -136,7 +136,7 @@ void World::CreateWorld()
 
 	//NPCs
 		//enemies
-	entities.PushBack(new Monster(MONSTER_AGG, "harpy", "A monster with a big bird body and a human face, her claws seems sharpy.\n", 50, 0, 30, 400, 100));
+	entities.PushBack(new Monster(MONSTER_AGG, "harpy", "A monster with a big bird body and a human face, her claws seems sharpy.\n", 50, 0, 30, 400, 500));
 	Entrance->list.push_back(entities[i++]);
 	/*entities.PushBack(new Monster(MONSTER_AGG, "harpy", "A monster with a big bird body and a human face, her claws seems sharpy", 50, 0, 30, 400, 100));
 	Elm->list.push_back(entities[i++]);*/

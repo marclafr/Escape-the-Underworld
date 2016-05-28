@@ -4,7 +4,8 @@
 
 void Player::ReceiveCommand(Vector<String> &tokens, int num_words)
 {
-	if (num_words > 1){
+	if (num_words > 1)
+	{
 		int CommandDir = Wor->exits->GetDirection(Wor->command, tokens);
 		if (CommandDir == 0 || CommandDir == 1 || CommandDir == 2 || CommandDir == 3)
 		{
@@ -93,7 +94,13 @@ void Player::ReceiveCommand(Vector<String> &tokens, int num_words)
 		else if (tokens[0] == "buy")
 		{
 			if (num_words == 2){ Wor->monster->LookStore(); }
-			else if (num_words == 4){ Wor->monster->BuyItem(); }
+			else if (num_words == 4)
+			{
+				if (Wor->monster->BuyItem(tokens) == false)
+				{
+					printf("I haven't this.\n\n");
+				}
+			}
 			else{ printf("Buy what?\n"); }
 		}
 		else
@@ -103,6 +110,34 @@ void Player::ReceiveCommand(Vector<String> &tokens, int num_words)
 	}
 	else if (num_words == 1)
 	{
+		if (Wor->command == "@money"){ Wor->player->souls = 999999; printf("Souls adquired.\n\n"); }
+		if (Wor->command == "@upgrade")
+		{
+			Wor->player->hp = 10000;
+			Wor->player->attack = 2500;
+			Wor->player->defense = 1000;
+			Wor->player->block_chance = 90;
+			printf("Stats upgraded.\n\n"); 
+		}
+		if (Wor->command == "@items")
+		{
+			Item* item;
+			for (int i = 0; i <= NUM_ENTITIES; i++)
+			{
+				if (Wor->entities[i]->type == ITEM)
+				{
+					item = (Item*)Wor->entities[i];
+					if (item->place != EQUIPPED && item->place!=INVENTORY)
+					{
+						item->place = INVENTORY; 
+						Wor->player->list.push_back(item);
+						Wor->Counters[0]++;
+					}
+					
+				}
+			}
+			printf("All items are now in your inventory.\n");
+		}
 		int CommandDir = Wor->exits->GetDirection(Wor->command);
 		if (CommandDir == -1)
 		{
@@ -156,15 +191,16 @@ void Player::ReceiveCommand(Vector<String> &tokens, int num_words)
 //Player stats
 void Player::Stats()const
 {
-	printf("%s stats are:\n", Wor->player->name);
-	printf("HP: %i.\n", Wor->player->hp);
-	printf("Attack: %i.\n", Wor->player->attack);
-	printf("Defense: %i.\n", Wor->player->defense);
-	printf("Block chance: %i.\n", Wor->player->block_chance);
-	printf("Souls: %i.\n\n", Wor->player->souls);
+	printf("%s stats are:\n",		 Wor->player->name);
+	printf("HP: %i.\n",				 Wor->player->hp);
+	printf("Attack: %i.\n",			 Wor->player->attack);
+	printf("Defense: %i.\n",		 Wor->player->defense);
+	printf("Block chance: %i.\n",	 Wor->player->block_chance);
+	printf("Souls: %i.\n\n",		 Wor->player->souls);
 }
 //--
 
+//Player Movement
 bool Player::Move(int direction)
 {
 	for (int i = 0; i <= NUM_ENTITIES; i++)
@@ -187,7 +223,9 @@ bool Player::Move(int direction)
 	}
 	return false;
 }
+//--
 
+//Combat commands
 void Player::ReceiveCombatCommand(Vector<String> &tokens)
 {
 	if (tokens[0] == "attack")
@@ -232,7 +270,9 @@ void Player::ReceiveCombatCommand(Vector<String> &tokens)
 		Wor->player->souls += enemy->souls;
 	}
 }
+//--
 
+//Enter combat true/false
 bool Player::EnterCombat(Vector<String> &tokens)
 {
 	for (int i = 0; i <= NUM_ENTITIES; i++)
@@ -253,6 +293,11 @@ bool Player::EnterCombat(Vector<String> &tokens)
 							CombatMode = true;
 							return true;
 						}
+						else if (Wor->entities[i]->name == tokens[1] && Wor->entities[i]->type == MONSTER_NON_AGG)
+						{
+							printf("Why would you like to attack this poor friend...?\n");
+							return true;
+						}
 					}
 				}
 			}
@@ -260,3 +305,4 @@ bool Player::EnterCombat(Vector<String> &tokens)
 	}
 	return false;
 }
+//--
