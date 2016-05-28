@@ -368,8 +368,8 @@ void Item::FuseItems(Vector<String> &tokens, int &InventoryCapacity, int &Quiver
 		else{ printf("Both items must be in the inventory.\n\n"); }
 	}
 	else if (item_1->fuse == FUSED)		{ printf("%s already fused.\n\n", item_1->name.c_str()); }
-	else if (item_1->fuse != FUSABLE1)	{ printf("%s can't be put into anything.\n\n", item_1->name.c_str()); }
-	else								{ printf("%s can't be used as recipient.\n\n", item_2->name.c_str()); }
+	else if (item_1->fuse != FUSABLE1)	{ printf("This can't be put into anything.\n\n", item_1->name.c_str()); }
+	else								{ printf("This can't be used as recipient.\n\n", item_2->name.c_str()); }
 }
 //--
 
@@ -428,7 +428,7 @@ void Item::UnfuseItems(Vector<String> &tokens, int &InventoryCapacity, int &Quiv
 		else{ printf(" both items must be in the inventory.\n\n"); }
 	}
 	else if (item_1->fuse == FUSABLE1)	{ printf("There are no %s in that.\n\n", item_1->name.c_str()); }
-	else								{ printf("%s can't be put into anything, so you can't take them from anywhere.\n\n", item_1->name.c_str()); }
+	else								{ printf("This can't be put into anything, so you can't take them from anywhere.\n\n", item_1->name.c_str()); }
 }
 //--
 
@@ -455,6 +455,7 @@ bool Item::ActivateStatue(Vector<String> &tokens, int &ActiveStatues, int &Inven
 					{
 						statue->state = ACTIVATED;
 						printf("Hades statue activated.\n\n");	//TODO: this statue won't have use yet, as its use is to speak with Hades, which is not implemented yet.
+						//TODO BOWS MORE ATTACK?
 						ActiveStatues++;
 						return true;
 					}
@@ -578,7 +579,7 @@ bool Item::DesactivateStatue(Vector<String> &tokens, int &ActiveStatues)
 				}
 				else if (statue->name == "aphrodite statue")
 				{
-					//TODO special attack possible??
+					//TODO Heal and disappear?
 					statue->state = DESACTIVATED;
 					printf("Aphrodite statue desactivated.\n\n");	//this statue won't have use yet, as its use is to speak with Hades, which is not implemented yet.
 					ActiveStatues--;

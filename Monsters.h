@@ -12,6 +12,7 @@ public:
 	void UpdateCombat(String&, Monster*);
 	void LookStore();
 	bool BuyItem(Vector<String>&);
+	bool SellItem(Vector<String>&);
 };
 
 #endif //__MONSTERS__

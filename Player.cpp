@@ -96,12 +96,26 @@ void Player::ReceiveCommand(Vector<String> &tokens, int num_words)
 			if (num_words == 2){ Wor->monster->LookStore(); }
 			else if (num_words == 4)
 			{
-				if (Wor->monster->BuyItem(tokens) == false)
+				if (tokens[2] == "from")
 				{
-					printf("I haven't this.\n\n");
+					if (Wor->monster->BuyItem(tokens) == false)
+					{
+						printf("I haven't this.\n\n");
+					}
 				}
 			}
 			else{ printf("Buy what?\n"); }
+		}
+		else if (tokens[0] == "sell")
+		{
+			if (num_words == 4)
+			{
+				if (tokens[2] == "to")
+				{
+					Wor->monster->SellItem(tokens);
+				}
+			}
+			else{ printf("Sell what?\n"); }
 		}
 		else
 		{
@@ -110,7 +124,7 @@ void Player::ReceiveCommand(Vector<String> &tokens, int num_words)
 	}
 	else if (num_words == 1)
 	{
-		//God Mode commands (@before)
+		//God Mode commands (@ before command)
 		if (Wor->command == "@money"){ Wor->player->souls = 999999; printf("Souls adquired.\n\n"); }
 		if (Wor->command == "@upgrade")
 		{
@@ -118,7 +132,7 @@ void Player::ReceiveCommand(Vector<String> &tokens, int num_words)
 			Wor->player->attack = 2500;
 			Wor->player->defense = 1000;
 			Wor->player->block_chance = 90;
-			printf("Stats upgraded.\n\n"); 
+			printf("Stats upgraded.\n\n");
 		}
 		if (Wor->command == "@items")
 		{

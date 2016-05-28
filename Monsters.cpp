@@ -115,6 +115,54 @@ bool Monster::BuyItem(Vector<String> &tokens)
 }
 //--
 
+//Sell item
+bool Monster::SellItem(Vector<String>& tokens)
+{
+	for (int i = 0; i <= NUM_ENTITIES; i++)
+	{
+		if (Wor->entities[i]->type == MONSTER_NON_AGG && tokens[3] == Wor->entities[i]->name)
+		{
+			Monster* monster = (Monster*)Wor->entities[i];
+			Room* room = (Room*)Wor->entities[0];
+			for (int i = 0; i <= NUM_ENTITIES; i++)
+			{
+				if (Wor->entities[i]->type == ROOM && Wor->entities[i]->name == "Entrance")
+					room = (Room*)Wor->entities[i];
+			}
+			if (room == Wor->player->position)
+			{
+				//DoubleLinkList<Entity*>::nodeD* npc_node = monster->list.first_node;
+				DoubleLinkList<Entity*>::nodeD* player_node = Wor->player->list.first_node;
+				for (; player_node != nullptr; player_node = player_node->next)
+				{
+					if (player_node->data->name == tokens[1])
+					{
+						for (int j = 0; j <= NUM_ENTITIES; j++)
+						{
+							if (player_node->data->name == Wor->entities[j]->name)
+							{
+								Item* item = (Item*)Wor->entities[j];
+								if (item->place != INVENTORY){ printf("%s must be in the inventory.\n\n", item->name.c_str()); }
+								else
+								{
+									printf("%s sold succesfully!\nYou received %i souls\n\n", item->name.c_str(), item->price);
+									Wor->player->souls += item->price;
+									Wor->player->list.erase(player_node);
+									item->place = STORE;
+									monster->list.push_back(item);
+									return true;
+								}
+							}
+						}
+					}
+				}
+			}
+			else{ printf("%s is not here...\n\n", monster->name.c_str()); return true; }
+		}
+	}
+}
+//--
+
 //Movement Update
 void Monster::Update()
 {

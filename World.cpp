@@ -113,11 +113,11 @@ void World::CreateWorld()
 	Entrance->list.push_back(Quiver);
 	entities.PushBack(FireBow = new Item("fire bow", "A bow in flames? Yep you see that right, this bow has flames but they don't burn you...\nDamage: 150.\nBlock chance: 0.\n\n", 150, 0, 750, WEAPON, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
 	Phelgethon->list.push_back(FireBow);
-	entities.PushBack(IceBow = new Item("ice bow", "A bow covered in ice. Seems fragile but strong.\nDamage: 120.\nBlock chance: 0.\n\n", 120, 0, 1000, WEAPON, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
+	entities.PushBack(IceBow = new Item("ice bow", "A bow covered in ice. Seems fragile but strong.\nDamage: 120.\nBlock chance: 0.\n\n", 120, 0, 1000, WEAPON, STORE, UNFUSABLE, UNACTIVABLE, REGULAR));
 	//PalaceHades->list.push_back(IceBow);
 	entities.PushBack(WornArmour = new Item("worn armour", "This armour doesn't seem to be really useful anymore...\nDefense: 5.\nBlock chance: 1.\n\n", 5, 1, 20, ARMOUR, EQUIPPED, UNFUSABLE, UNACTIVABLE, REGULAR));
 	player->list.push_back(WornArmour);
-	entities.PushBack(SilverArmour = new Item("silver armour", "This shiny armour looks so resistant and\nDefense: 95.\nBlock chance: 5.\n\n", 95, 5, 400, ARMOUR, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
+	entities.PushBack(SilverArmour = new Item("silver armour", "This shiny armour looks so resistant and\nDefense: 95.\nBlock chance: 5.\n\n", 95, 5, 400, ARMOUR, STORE, UNFUSABLE, UNACTIVABLE, REGULAR));
 	//PalaceHades->list.push_back(SilverArmour);
 	entities.PushBack(DestroyedShield = new Item("destroyed shield", "This shield isn't a shield anymore...\nDefense: 1.\nBlock chance: 0.\n\n", 1, 0, 15, SHIELD, EQUIPPED, UNFUSABLE, UNACTIVABLE, REGULAR));
 	player->list.push_back(DestroyedShield);

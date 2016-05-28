@@ -20,6 +20,7 @@ enum ItemPlace{
 	EQUIPPED,
 	INVENTORY,
 	FLOOR,
+	STORE,
 	DISAPPEARED	//only for statues, make them disappear from the map.
 };
 enum Union{
