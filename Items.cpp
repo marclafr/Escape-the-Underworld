@@ -534,9 +534,9 @@ bool Item::ActivateStatue(Vector<String> &tokens, int &ActiveStatues, int &Inven
 					}
 					else if (statue->name == "aphrodite statue")
 					{
-						//TODO special attack possible??
 						statue->state = ACTIVATED;
-						printf("Aphrodite statue activated.\n\n");	//this statue won't have use yet, as its use is to speak with Hades, which is not implemented yet.
+						//TODO
+						printf("Aphrodite statue activated.\n\n");
 						ActiveStatues++;
 						return true;
 					}
@@ -579,7 +579,7 @@ bool Item::DesactivateStatue(Vector<String> &tokens, int &ActiveStatues)
 				}
 				else if (statue->name == "aphrodite statue")
 				{
-					//TODO Heal and disappear?
+					//TODO Heal and disappear?/over time?
 					statue->state = DESACTIVATED;
 					printf("Aphrodite statue desactivated.\n\n");	//this statue won't have use yet, as its use is to speak with Hades, which is not implemented yet.
 					ActiveStatues--;
@@ -593,5 +593,27 @@ bool Item::DesactivateStatue(Vector<String> &tokens, int &ActiveStatues)
 	}
 	else{ printf("This item is not an statue. Only statues can be activated and desactivated.\n\n"); return true; }
 	return false;
+}
+//--
+
+//Items Update
+//Aphrodite statue activated will heal you over time
+void Item::Update()
+{
+	Item* aphrodite_statue = (Item*)Wor->entities[0];
+	for (int i = 0; i <= NUM_ENTITIES; i++)
+	{
+		if (Wor->entities[i]->name == "aphrodite statue")
+		{
+			aphrodite_statue = (Item*)Wor->entities[i];
+		}
+	}
+	if (aphrodite_statue->state == ACTIVATED && Wor->player->hp < P_ORI_HP)
+	{
+		printf("Aphrodite statue is healing you!\n");
+		Wor->player->hp += aphrodite_statue->value;
+		if (Wor->player->hp >= P_ORI_HP){ Wor->player->hp = P_ORI_HP; }
+		printf("HP:%i / %i\n\n", Wor->player->hp, P_ORI_HP);
+	}
 }
 //--

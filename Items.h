@@ -67,6 +67,8 @@ public:
 	void UnfuseItems(Vector<String> &tokens, int &InventoryCapacity, int &QuiverCapacityCounter)const;
 	bool ActivateStatue(Vector<String> &tokens, int &ActiveStatues, int &InventorySlots);
 	bool DesactivateStatue(Vector<String> &tokens, int &ActiveStatues);
+
+	void Update();
 };
 
 #endif //_ITEM_

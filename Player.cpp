@@ -209,7 +209,7 @@ void Player::ReceiveCommand(Vector<String> &tokens, int num_words)
 void Player::Stats()const
 {
 	printf("%s stats are:\n",		 Wor->player->name);
-	printf("HP: %i.\n",				 Wor->player->hp);
+	printf("HP: %i / %i.\n",		 Wor->player->hp, P_ORI_HP);
 	printf("Attack: %i.\n",			 Wor->player->attack);
 	printf("Defense: %i.\n",		 Wor->player->defense);
 	printf("Block chance: %i.\n",	 Wor->player->block_chance);
@@ -296,11 +296,13 @@ void Player::ReceiveCombatCommand(Vector<String> &tokens)
 	else if (tokens[0] == "@kill")
 	{
 		enemy->hp = 0;
+		enemy->type = CORPSE;
 		printf("%s defeated\n\n", enemy->name.c_str());
 	}
 	//
 	if (enemy->hp <= 0)
 	{
+		enemy->type = CORPSE;
 		CombatMode = false;
 		printf("%s died, you received %i souls.\n\n", enemy->name.c_str(), enemy->souls);
 		Wor->player->souls += enemy->souls;

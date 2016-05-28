@@ -23,11 +23,16 @@ void Room::Look()const
 						printf(" - %s: %s\n", room_node->data->name.c_str(), room_node->data->description.c_str());
 						NoItems = false;
 					}
+					else if (room_node->data->type == CORPSE)
+					{
+						printf(" - There is an %s corpse\n", room_node->data->name.c_str());
+						NoItems = false;
+					}
 				}
 			}
 		}
 	}
-	if (NoItems == true){ printf("This room has no items on the floor.\n\n"); }
+	if (NoItems == true){ printf("This room has nothing.\n\n"); }
 }
 //--
 

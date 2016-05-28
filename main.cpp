@@ -15,12 +15,24 @@ int main()
 	Vector<String> tokens;
 	Wor->CreateWorld();
 	uint start_time = GetTickCount();
+	uint start_time_item = GetTickCount();
 	while (1)
 	{
 		if (GetTickCount() - start_time > 3000 && Wor->player->CombatMode == true)
 		{
 			start_time = GetTickCount();
 			Wor->monster->UpdateCombat(Wor->command, Wor->player->enemy);
+		}
+		if (GetTickCount() - start_time_item > 1500)
+		{
+			start_time_item = GetTickCount();
+			for (int i = 0; i <= NUM_ENTITIES; i++)
+			{
+				if (Wor->entities[i]->type == ITEM)
+				{
+					Wor->entities[i]->Update();
+				}
+			}
 		}
 		if (_kbhit() != 0)
 		{

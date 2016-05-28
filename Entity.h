@@ -12,7 +12,8 @@ enum typeE{
 	ITEM,
 	PLAYER,
 	MONSTER_AGG,
-	MONSTER_NON_AGG
+	MONSTER_NON_AGG,
+	CORPSE
 };
 
 class Entity{

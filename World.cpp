@@ -129,7 +129,7 @@ void World::CreateWorld()
 	Entrance->list.push_back(HadesStatue);
 	entities.PushBack(HephaestusStatue = new Item("hephaestus statue", "A shiny statue of the god Hephaestus.\nIt may be useful in his world.\n\n", 0, 0, 2000, STATUE, FLOOR, UNFUSABLE, DESACTIVATED, REGULAR));
 	Phelgethon->list.push_back(HephaestusStatue);
-	entities.PushBack(AphroditeStatue = new Item("aphrodite statue", "A shiny statue of the goddess Aphrodite.\nIt may be useful in his world.\n\n", 0, 0, 750, STATUE, FLOOR, UNFUSABLE, DESACTIVATED, REGULAR));
+	entities.PushBack(AphroditeStatue = new Item("aphrodite statue", "A shiny statue of the goddess Aphrodite.\nIt may be useful in his world.\n\n", 25, 0, 750, STATUE, FLOOR, UNFUSABLE, DESACTIVATED, REGULAR));
 	Entrance->list.push_back(AphroditeStatue);
 	//--
 	i += 17;	//NUM_ITEMS
