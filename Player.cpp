@@ -110,6 +110,7 @@ void Player::ReceiveCommand(Vector<String> &tokens, int num_words)
 	}
 	else if (num_words == 1)
 	{
+		//God Mode commands (@before)
 		if (Wor->command == "@money"){ Wor->player->souls = 999999; printf("Souls adquired.\n\n"); }
 		if (Wor->command == "@upgrade")
 		{
@@ -138,6 +139,8 @@ void Player::ReceiveCommand(Vector<String> &tokens, int num_words)
 			}
 			printf("All items are now in your inventory.\n");
 		}
+		//--
+
 		int CommandDir = Wor->exits->GetDirection(Wor->command);
 		if (CommandDir == -1)
 		{
@@ -238,7 +241,8 @@ void Player::ReceiveCombatCommand(Vector<String> &tokens)
 		else
 		{
 			int damage = Wor->player->attack - enemy->defense;
-			if (damage > 0){
+			if (damage > 0)
+			{
 				printf("You hit %s for %i damage.\n\n", enemy->name.c_str(), damage);
 				enemy->hp -= damage;
 			}
@@ -253,16 +257,34 @@ void Player::ReceiveCombatCommand(Vector<String> &tokens)
 	{
 		if (GetTickCount() - special_att_timer > (SPECIAL_CD * 1000))
 		{
+			int damage = Wor->player->attack - enemy->defense;
 			int extra_damage = rand() % Wor->player->attack;
 			special_att_timer = GetTickCount();
 			printf("You used your special attack!!\n");		//special attack can't be dodged
-			printf("You hit %s for %i damage.\n\n", enemy->name.c_str(), (Wor->player->attack - enemy->defense) + extra_damage);
+			printf("You hit %s for %i damage.\n\n", enemy->name.c_str(), (damage + extra_damage));
+			enemy->hp -= (damage + extra_damage);
 		}
 		else
 		{
 			printf("Your special attack is in cooldown. Time remaining to use it: %d seconds\n\n", SPECIAL_CD - ((GetTickCount() - special_att_timer) / 1000));
 		}
 	}
+	else if (tokens[0] == "check")
+	{
+		printf("%s stats:\n", enemy->name.c_str());
+		printf("HP: %i.\n", enemy->hp);
+		printf("Attack: %i.\n", enemy->attack);
+		printf("Defense: %i.\n", enemy->defense);
+		printf("Block chance: %i.\n", enemy->block_chance);
+		printf("Souls: %i.\n\n", enemy->souls);
+	}
+	//God Mode
+	else if (tokens[0] == "@kill")
+	{
+		enemy->hp = 0;
+		printf("%s defeated\n\n", enemy->name.c_str());
+	}
+	//
 	if (enemy->hp <= 0)
 	{
 		CombatMode = false;
@@ -291,6 +313,13 @@ bool Player::EnterCombat(Vector<String> &tokens)
 						{
 							enemy = (Monster*)Wor->entities[i];
 							CombatMode = true;
+							int damage = Wor->player->attack - enemy->defense;
+							if (damage > 0)
+							{
+								printf("You hit %s for %i damage.\n\n", enemy->name.c_str(), damage);
+								enemy->hp -= damage;
+							}
+							else { printf("Your attacks seem to do nothing...\n\n"); }
 							return true;
 						}
 						else if (Wor->entities[i]->name == tokens[1] && Wor->entities[i]->type == MONSTER_NON_AGG)

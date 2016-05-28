@@ -17,12 +17,12 @@ int main()
 	uint start_time = GetTickCount();
 	while (1)
 	{
-		if (GetTickCount() - start_time > 3000 && Wor->player->CombatMode == true)	//TODO: Only enters here if you click some key.
+		if (GetTickCount() - start_time > 3000 && Wor->player->CombatMode == true)
 		{
 			start_time = GetTickCount();
-			Wor->monster->Update(Wor->command, Wor->player->enemy);
+			Wor->monster->UpdateCombat(Wor->command, Wor->player->enemy);
 		}
-		if (_kbhit != 0)
+		if (_kbhit() != 0)
 		{
 			key = _getch();
 			input[num++] = key;

@@ -8,7 +8,8 @@ class Monster :public Creature{
 public:
 	Monster(typeE type, const char* n, const char* desc, uint att, uint def, uint b_ch, int hp, uint souls)
 		:Creature(type, n, desc, att, def, b_ch, hp, souls){}
-	void Update(String&, Monster*);
+	void Update();
+	void UpdateCombat(String&, Monster*);
 	void LookStore();
 	bool BuyItem(Vector<String>&);
 };

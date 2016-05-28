@@ -28,7 +28,6 @@ void Room::Look()const
 		}
 	}
 	if (NoItems == true){ printf("This room has no items on the floor.\n\n"); }
-
 }
 //--
 

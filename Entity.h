@@ -22,8 +22,8 @@ public:
 	String description;	
 	typeE type;
 	DoubleLinkList<Entity*> list;
-
-	virtual void Update(Vector<String> &tokens){}
+	
+	virtual void Update(){}
 };
 
 

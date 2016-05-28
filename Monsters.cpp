@@ -3,15 +3,14 @@
 #include <Windows.h>
 
 //Combat update
-void Monster::Update(String &command, Monster* enemy)
+void Monster::UpdateCombat(String &command, Monster* enemy)
 {
-	printf("Update\n");
 	int random = rand() % 100;
 	if (random <= Wor->player->block_chance){ printf("You dodged %s's attack!!\n\n", enemy->name); }
 	else
 	{
 		int damage = (enemy->attack - Wor->player->defense);
-		printf("%s attacks you and causes %i\n", enemy->name.c_str(), damage);
+		printf("%s attacks you and causes ", enemy->name.c_str(), damage);
 		if (damage > 0)
 		{
 			printf("%i damage.\n\n", damage);
@@ -113,5 +112,12 @@ bool Monster::BuyItem(Vector<String> &tokens)
 		}
 	}
 	return false;
+}
+//--
+
+//Movement Update
+void Monster::Update()
+{
+
 }
 //--
