@@ -454,8 +454,37 @@ bool Item::ActivateStatue(Vector<String> &tokens, int &ActiveStatues, int &Inven
 					if (statue->name == "hades statue")
 					{
 						statue->state = ACTIVATED;
-						printf("Hades statue activated.\n\n");	//TODO: this statue won't have use yet, as its use is to speak with Hades, which is not implemented yet.
-						//TODO BOWS MORE ATTACK?
+						printf("Hades statue activated.\nThis statue upgrades the damages from all bows (including the one that centaur has!!)\n");	
+						Item* ice_bow = (Item*)Wor->entities[0];
+						Item* fire_bow = (Item*)Wor->entities[0];
+						Monster* centaur = (Monster*)Wor->entities[0];
+						Item* arrows = (Item*)Wor->entities[0];
+						for (int i = 0; i <= NUM_ENTITIES; i++)
+						{
+							if (Wor->entities[i]->name == "ice bow")
+							{
+								ice_bow = (Item*)Wor->entities[i];
+							}
+							if (Wor->entities[i]->name == "fire bow")
+							{
+								fire_bow = (Item*)Wor->entities[i];
+							}
+							if (Wor->entities[i]->name == "centaur")
+							{
+								centaur = (Monster*)Wor->entities[i];
+							}
+							if (Wor->entities[i]->name == "arrows")
+							{
+								arrows = (Item*)Wor->entities[i];
+							}
+						}
+						ice_bow->value += 50;
+						fire_bow->value += 50;
+						centaur->attack += 50;
+						if ((ice_bow->place == EQUIPPED || fire_bow->place == EQUIPPED) && arrows->fuse == FUSED)
+						{
+							Wor->player->attack += 50;
+						}
 						ActiveStatues++;
 						return true;
 					}
@@ -572,14 +601,44 @@ bool Item::DesactivateStatue(Vector<String> &tokens, int &ActiveStatues)
 				if (statue->name == "hades statue")
 				{
 					statue->state = DESACTIVATED;
-					printf("Hades statue desactivated.\n\n");	//TODO: this statue won't have use yet, as its use is to speak with Hades, which is not implemented yet.
+					printf("Hades statue desactivated.\n\n");
+					Item* ice_bow = (Item*)Wor->entities[0];
+					Item* fire_bow = (Item*)Wor->entities[0];
+					Monster* centaur = (Monster*)Wor->entities[0];
+					Item* arrows = (Item*)Wor->entities[0];
+					for (int i = 0; i <= NUM_ENTITIES; i++)
+					{
+						if (Wor->entities[i]->name == "ice bow")
+						{
+							ice_bow = (Item*)Wor->entities[i];
+						}
+						if (Wor->entities[i]->name == "fire bow")
+						{
+							fire_bow = (Item*)Wor->entities[i];
+						}
+						if (Wor->entities[i]->name == "centaur")
+						{
+							centaur = (Monster*)Wor->entities[i];
+						}
+						if (Wor->entities[i]->name == "arrows")
+						{
+							arrows = (Item*)Wor->entities[i];
+						}
+					}
+					ice_bow->value -= 50;
+					fire_bow->value -= 50;
+					centaur->attack -= 50;
+					if ((ice_bow->place == EQUIPPED || fire_bow->place == EQUIPPED) && arrows->fuse == FUSED)
+					{
+						Wor->player->attack -= 50;
+					}
 					ActiveStatues--;
 					return true;
 				}
 				else if (statue->name == "aphrodite statue")
 				{
 					statue->state = DESACTIVATED;
-					printf("Aphrodite statue desactivated.\n\n");	//this statue won't have use yet, as its use is to speak with Hades, which is not implemented yet.
+					printf("Aphrodite statue desactivated.\n\n");
 					ActiveStatues--;
 					return true;
 				}
