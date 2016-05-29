@@ -165,56 +165,71 @@ bool Monster::SellItem(Vector<String>& tokens)
 //Movement Update
 void Monster::Update()
 {
-	Monster* centaur = (Monster*)Wor->entities[0];
-	for (int i = 0; i <= NUM_ENTITIES; i++)
+	if (Wor->player->CombatMode == false)
 	{
-		if (Wor->entities[i]->name == "centaur")
+		Monster* harpy = (Monster*)Wor->entities[0];
+		for (int i = 0; i <= NUM_ENTITIES; i++)
 		{
-			centaur = (Monster*)Wor->entities[i];	//centaur is the only one that will move
-		}
-	}
-	Room* room = (Room*)Wor->entities[0];
-	for (int i = 0; i <= NUM_ENTITIES; i++)
-	{
-		if (Wor->entities[i]->type == ROOM && Wor->entities[i]->name == "The Elm from which False Dreams cling")	//TODO change elm for look 4 room
-		{
-			room = (Room*)Wor->entities[i];			//centaur actual room
-		}
-	}
-	DoubleLinkList<Entity*>::nodeD* room_node = room->list.first_node;
-	DoubleLinkList<Exit*> possible_exits;
-	for (int i = 0; i <= NUM_ENTITIES; i++)
-	{
-		if (Wor->entities[i]->type == EXIT)
-		{
-			Exit* exit = (Exit*)Wor->entities[i];
-			if (exit->origin->name == room->name)
+			if (Wor->entities[i]->name == "harpy")
 			{
-				possible_exits.push_back(exit);		//create a list of the possible exits the centaur can take
+				harpy = (Monster*)Wor->entities[i];	//harpy is the only one that will move
 			}
 		}
-	}
-	int random = rand() % possible_exits.size();
-	DoubleLinkList<Exit*>::nodeD* p_exits_node = possible_exits.first_node;
-	for (int i = 0; i < random; i++)
-	{
-		p_exits_node = p_exits_node->next;		//takes the path randomly
-	}
-	Room* new_room = (Room*)Wor->entities[0];
-	for (int i = 0; i <= NUM_ENTITIES; i++)
-	{
-		if (Wor->entities[i]->type == ROOM && p_exits_node->data->destination->name == Wor->entities[i]->name)
+		if (harpy->type != CORPSE)
 		{
-			new_room = (Room*)Wor->entities[i];
-		}
-	}
-	new_room->list.push_back(centaur);
-	for (; room_node != nullptr; room_node = room_node->next)
-	{
-		if (room_node->data->name == "centaur")
-		{
-			room->list.erase(room_node);
-			break;
+			Room* room = (Room*)Wor->entities[0];
+			bool RoomCorrect = false;
+			for (int i = 0; i <= NUM_ENTITIES; i++)
+			{
+				if (Wor->entities[i]->type == ROOM)	//TODO change elm for look 4 room
+				{
+					if (RoomCorrect == true){ RoomCorrect = false; break; }
+					room = (Room*)Wor->entities[i];			//harpy actual room
+					DoubleLinkList<Entity*>::nodeD* room_node = room->list.first_node;
+					for (; room_node != nullptr; room_node = room_node->next)
+					{
+						if (room_node->data->name == "harpy")
+							RoomCorrect = true;
+					}
+				}
+			}
+			DoubleLinkList<Entity*>::nodeD* room_node = room->list.first_node;
+			DoubleLinkList<Exit*> possible_exits;
+			for (int i = 0; i <= NUM_ENTITIES; i++)
+			{
+				if (Wor->entities[i]->type == EXIT)
+				{
+					Exit* exit = (Exit*)Wor->entities[i];
+					if (exit->origin->name == room->name)
+					{
+						possible_exits.push_back(exit);		//create a list of the possible exits the harpy can take
+					}
+				}
+			}
+			int random = rand() % possible_exits.size();
+			DoubleLinkList<Exit*>::nodeD* p_exits_node = possible_exits.first_node;
+			for (int i = 0; i < random; i++)
+			{
+				p_exits_node = p_exits_node->next;		//takes the path randomly
+			}
+			Room* new_room = (Room*)Wor->entities[0];
+			for (int i = 0; i <= NUM_ENTITIES; i++)
+			{
+				if (Wor->entities[i]->type == ROOM && p_exits_node->data->destination->name == Wor->entities[i]->name)
+				{
+					new_room = (Room*)Wor->entities[i];
+				}
+			}
+			new_room->list.push_back(harpy);
+			for (; room_node != nullptr; room_node = room_node->next)
+			{
+				if (room_node->data->name == "harpy")
+				{
+					room->list.erase(room_node);
+					break;
+				}
+			}
+			//TODO CREATE CLEAR && clear possible_exits list
 		}
 	}
 }
