@@ -98,7 +98,7 @@ void Player::ReceiveCommand(Vector<String> &tokens, int num_words)
 			{
 				if (tokens[2] == "from")
 				{
-					if (Wor->monster->BuyItem(tokens) == false)
+					if (Wor->monster->BuyItem(tokens, Wor->Counters[0]) == false)
 					{
 						printf("I haven't this.\n\n");
 					}
@@ -112,7 +112,7 @@ void Player::ReceiveCommand(Vector<String> &tokens, int num_words)
 			{
 				if (tokens[2] == "to")
 				{
-					Wor->monster->SellItem(tokens);
+					Wor->monster->SellItem(tokens, Wor->Counters[0]);
 				}
 			}
 			else{ printf("Sell what?\n"); }
@@ -231,6 +231,25 @@ bool Player::Move(int direction)
 						Wor->player->position = exit->destination;
 						printf("%s\n", Wor->player->position->name);
 						printf("%s\n\n", Wor->player->position->description);
+						DoubleLinkList<Entity*>::nodeD* room_node = Wor->player->position->list.first_node;
+						for (; room_node != nullptr; room_node = room_node->next)
+						{
+							if (room_node->data->name == "harpy")
+							{
+								printf("You moved into the room harpy actually is. Prepare to fight!\n");
+								Monster* harpy = (Monster*)Wor->entities[0];
+								for (int j = 0; j <= NUM_ENTITIES; j++)
+								{
+									if (Wor->entities[j] == room_node->data)
+									{
+										harpy = (Monster*)Wor->entities[j];
+									}
+								}
+								Wor->player->enemy = harpy;
+								Sleep(1250);
+								Wor->player->CombatMode = true;
+							}
+						}
 						return true;
 						break;
 					}
@@ -267,7 +286,7 @@ void Player::ReceiveCombatCommand(Vector<String> &tokens)
 	{
 		if (ExtraDef == false)
 		{
-			printf("Defense raised for this combat");
+			printf("Defense raised for this combat.\n\n");
 			random_protection = rand() % (Wor->player->defense / 2);
 			Wor->player->defense += random_protection;
 			ExtraDef = true;

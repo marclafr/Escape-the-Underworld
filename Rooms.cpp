@@ -20,12 +20,12 @@ void Room::Look()const
 				{
 					if (room_node->data->type == ITEM || room_node->data->type == MONSTER_AGG || room_node->data->type == MONSTER_NON_AGG)
 					{
-						printf(" - %s: %s\n", room_node->data->name.c_str(), room_node->data->description.c_str());
+						printf(" - %s: %s\n\n", room_node->data->name.c_str(), room_node->data->description.c_str());
 						NoItems = false;
 					}
 					else if (room_node->data->type == CORPSE)
 					{
-						printf(" - There is an %s corpse\n", room_node->data->name.c_str());
+						printf(" - There is an %s corpse\n\n", room_node->data->name.c_str());
 						NoItems = false;
 					}
 				}

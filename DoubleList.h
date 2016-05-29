@@ -23,7 +23,7 @@ public:
 		return first_node == nullptr;
 	}
 
-	//TODO CLEAR 4 MEM LEAKS
+	//TODO CLEAR MEM LEAKS
 
 	unsigned int size()const
 	{

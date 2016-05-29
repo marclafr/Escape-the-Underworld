@@ -67,7 +67,7 @@ void Monster::LookStore()
 //--
 
 //Buy item
-bool Monster::BuyItem(Vector<String> &tokens)
+bool Monster::BuyItem(Vector<String> &tokens, int &InventorySlots)
 {
 	for (int i = 0; i <= NUM_ENTITIES; i++)
 	{
@@ -97,6 +97,7 @@ bool Monster::BuyItem(Vector<String> &tokens)
 								else
 								{
 									printf("Thank you for your purshase!\n\n");
+									InventorySlots++;
 									Wor->player->list.push_back(item);
 									item->place = INVENTORY;
 									Wor->player->souls -= item->price;
@@ -116,7 +117,7 @@ bool Monster::BuyItem(Vector<String> &tokens)
 //--
 
 //Sell item
-bool Monster::SellItem(Vector<String>& tokens)
+bool Monster::SellItem(Vector<String>& tokens, int &InventorySlots)
 {
 	for (int i = 0; i <= NUM_ENTITIES; i++)
 	{
@@ -145,6 +146,7 @@ bool Monster::SellItem(Vector<String>& tokens)
 								else
 								{
 									printf("%s sold succesfully!\nYou received %i souls\n\n", item->name.c_str(), item->price);
+									InventorySlots--;
 									Wor->player->souls += item->price;
 									Wor->player->list.erase(player_node);
 									item->place = STORE;
@@ -221,6 +223,14 @@ void Monster::Update()
 				}
 			}
 			new_room->list.push_back(harpy);
+
+			if (Wor->player->position == new_room)	//harpy is the only monster that will attack you if its in the same room
+			{ 
+				printf("Harpy just moved into this room and saw you. Get ready to fight!\n");
+				Wor->player->enemy = harpy;
+				Sleep(1250);
+				Wor->player->CombatMode = true; 
+			}	
 			for (; room_node != nullptr; room_node = room_node->next)
 			{
 				if (room_node->data->name == "harpy")

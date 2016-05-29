@@ -23,7 +23,7 @@ void World::CreateWorld()
 	Room *PalaceHades;
 	Room *ValeMourning;
 	Room *ExitUnderworld;
-	entities.PushBack(Entrance = new Room("Entrance", "You are back in the entrance, you see a big door in the south and a path in the north.\n"));
+	entities.PushBack(Entrance = new Room("Entrance", "You are back in the entrance, you see a big door in the south, a path in the north and there still is the friendly shadow.\n"));
 	entities.PushBack(Elm = new Room("The Elm from which False Dreams cling", "You don't believe you eyes, it is the most beautiful place you have ever seen, and in a place like in the Underworld! In the middle there are trees.\n"));
 	entities.PushBack(Marsh = new Room("Marsh", "You see a marsh, in the middle of it you see Charon the ferryan.\n"));
 	entities.PushBack(StyxLeft = new Room("Left side of river Styx", "After Charon take you here you only see one path, but you feel it is a dangerous place.\n"));
@@ -74,7 +74,7 @@ void World::CreateWorld()
 	//--
 
 	//Player:
-	entities.PushBack(player = new Player(player_name, "ain't using this description yet", Entrance, P_ORI_DAMAGE + 7, P_ORI_DEFENSE, P_ORI_B_CHANCE, P_ORI_HP, 0));
+	entities.PushBack(player = new Player(player_name, " ", Entrance, P_ORI_DAMAGE + 7, P_ORI_DEFENSE, P_ORI_B_CHANCE, P_ORI_HP, 0));
 	//--
 	i++; //PLAYER
 			//TODO CHANGE PLAYER DESCRIPTION//
@@ -157,7 +157,7 @@ void World::CreateWorld()
 
 	//First place name and description
 	printf("%s\n", player->position->name);
-	printf("After crossing the portal you lose your vision for a few seconds, you feel strange in here. \nOnce you recover you see a big door in the south and a path in the north.\nThe portal destroyed your shield, your spear is now just a stick and your armour is highly damaged, but you seem to be fine.\n\n");
+	printf("After crossing the portal you lose your vision for a few seconds, you feel strange in here. \nOnce you recover you see a big door in the south and a path in the north.\nYou also see a shadow close to you, but he doesn't seem agressive.\nThe portal destroyed your shield, your spear is now just a stick and your armour is highly damaged, but you seem to be fine.\n\n");
 	//Different description once you return in the entrance.
 	//--
 }

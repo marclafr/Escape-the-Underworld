@@ -32,7 +32,8 @@ int main()
 				if (Wor->entities[i]->type == ITEM)
 				{
 					Wor->entities[i]->Update();
-				}
+					break;
+				}				
 			}
 		}
 		if (GetTickCount() - start_time > 30000)	//the rest of updates every 30 seconds

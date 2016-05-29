@@ -604,14 +604,14 @@ void Item::Update()
 		if (Wor->entities[i]->name == "aphrodite statue")
 		{
 			aphrodite_statue = (Item*)Wor->entities[i];
+			if (aphrodite_statue->state == ACTIVATED && Wor->player->hp < P_ORI_HP)
+			{
+				printf("Aphrodite statue is healing you!\n");
+				Wor->player->hp += aphrodite_statue->value;
+				if (Wor->player->hp >= P_ORI_HP){ Wor->player->hp = P_ORI_HP; }
+				printf("HP:%i / %i\n\n", Wor->player->hp, P_ORI_HP);
+			}
 		}
-	}
-	if (aphrodite_statue->state == ACTIVATED && Wor->player->hp < P_ORI_HP)
-	{
-		printf("Aphrodite statue is healing you!\n");
-		Wor->player->hp += aphrodite_statue->value;
-		if (Wor->player->hp >= P_ORI_HP){ Wor->player->hp = P_ORI_HP; }
-		printf("HP:%i / %i\n\n", Wor->player->hp, P_ORI_HP);
-	}
+	}	
 }
 //--

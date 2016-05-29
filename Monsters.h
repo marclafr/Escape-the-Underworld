@@ -11,8 +11,8 @@ public:
 	void Update();
 	void UpdateCombat(String&, Monster*);
 	void LookStore();
-	bool BuyItem(Vector<String>&);
-	bool SellItem(Vector<String>&);
+	bool BuyItem(Vector<String>&, int &);
+	bool SellItem(Vector<String>&, int &);
 };
 
 #endif //__MONSTERS__
