@@ -15,15 +15,16 @@ int main()
 	Vector<String> tokens;
 	Wor->CreateWorld();
 	uint start_time = GetTickCount();
+	uint start_time_combat = GetTickCount();
 	uint start_time_item = GetTickCount();
 	while (1)
 	{
-		if (GetTickCount() - start_time > 3000 && Wor->player->CombatMode == true)
+		if (GetTickCount() - start_time_combat > 2500 && Wor->player->CombatMode == true)
 		{
-			start_time = GetTickCount();
+			start_time_combat = GetTickCount();
 			Wor->monster->UpdateCombat(Wor->command, Wor->player->enemy);
 		}
-		if (GetTickCount() - start_time_item > 1500)
+		if (GetTickCount() - start_time_item > 15000)	//items update are every 15 seconds
 		{
 			start_time_item = GetTickCount();
 			for (int i = 0; i <= NUM_ENTITIES; i++)
@@ -31,6 +32,17 @@ int main()
 				if (Wor->entities[i]->type == ITEM)
 				{
 					Wor->entities[i]->Update();
+				}
+			}
+		}
+		if (GetTickCount() - start_time > 15000)	//the rest of updates every 30 seconds
+		{
+			start_time = GetTickCount();
+			for (int i = 0; i <= NUM_ENTITIES; i++)
+			{
+				if (Wor->entities[i]->name == "centaur")
+				{
+ 					Wor->entities[i]->Update();
 				}
 			}
 		}

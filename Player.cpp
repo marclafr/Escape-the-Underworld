@@ -265,7 +265,14 @@ void Player::ReceiveCombatCommand(Vector<String> &tokens)
 	}
 	else if (tokens[0] == "protect")
 	{
-		printf("Defense raised");//TODO
+		if (ExtraDef == false)
+		{
+			printf("Defense raised for this combat");
+			random_protection = rand() % (Wor->player->defense / 2);
+			Wor->player->defense += random_protection;
+			ExtraDef = true;
+		}
+		else{ printf("Defense already raised! Try something else\n"); }
 	}
 	else if (tokens[0] == "special")
 	{
@@ -296,12 +303,12 @@ void Player::ReceiveCombatCommand(Vector<String> &tokens)
 	else if (tokens[0] == "@kill")
 	{
 		enemy->hp = 0;
-		enemy->type = CORPSE;
 		printf("%s defeated\n\n", enemy->name.c_str());
 	}
 	//
 	if (enemy->hp <= 0)
 	{
+		ExtraDef = false;
 		enemy->type = CORPSE;
 		CombatMode = false;
 		printf("%s died, you received %i souls.\n\n", enemy->name.c_str(), enemy->souls);

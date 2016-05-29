@@ -22,6 +22,8 @@ public:
 	uint special_att_timer = GetTickCount();
 	Monster* enemy = nullptr;
 	bool CombatMode = false;
+	uint random_protection;
+	bool ExtraDef = false;
 };
 
 #endif //__PLAYER__

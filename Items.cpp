@@ -535,7 +535,6 @@ bool Item::ActivateStatue(Vector<String> &tokens, int &ActiveStatues, int &Inven
 					else if (statue->name == "aphrodite statue")
 					{
 						statue->state = ACTIVATED;
-						//TODO
 						printf("Aphrodite statue activated.\n\n");
 						ActiveStatues++;
 						return true;
@@ -579,7 +578,6 @@ bool Item::DesactivateStatue(Vector<String> &tokens, int &ActiveStatues)
 				}
 				else if (statue->name == "aphrodite statue")
 				{
-					//TODO Heal and disappear?/over time?
 					statue->state = DESACTIVATED;
 					printf("Aphrodite statue desactivated.\n\n");	//this statue won't have use yet, as its use is to speak with Hades, which is not implemented yet.
 					ActiveStatues--;

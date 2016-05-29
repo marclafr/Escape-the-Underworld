@@ -15,7 +15,7 @@
 #define P_ORI_B_CHANCE 5
 #define P_ORI_HP 2500
 
-#define NUM_ENTITIES 56
+#define NUM_ENTITIES 57
 
 class World{
 public:

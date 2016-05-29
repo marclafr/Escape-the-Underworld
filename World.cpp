@@ -107,7 +107,7 @@ void World::CreateWorld()
 	StyxLeft->list.push_back(Sword);
 	entities.PushBack(Shield = new Item("shield", "A big shield to protect you.\nDefense: 25.\nBlock chance: 30.\n\n", 25, 30, 125, SHIELD, FLOOR, UNFUSABLE, UNACTIVABLE, REGULAR));
 	Tartarus->list.push_back(Shield);
-	entities.PushBack(Arrows = new Item("arrows", "A pack of arrows. Useless without a bow. You should put them into a quiver...\nAmount: 50.\n\n", 50, 0, 25, OTHER, FLOOR, FUSABLE1, UNACTIVABLE, REGULAR));	//TODO PREVIOUS WAS WEAPON
+	entities.PushBack(Arrows = new Item("arrows", "A pack of arrows. Useless without a bow. You should put them into a quiver...\nAmount: 50.\n\n", 50, 0, 25, OTHER, FLOOR, FUSABLE1, UNACTIVABLE, REGULAR));
 	Elm->list.push_back(Arrows);
 	entities.PushBack(Quiver = new Item("quiver", "Use it to store and use your arrows.\nCapacity: 50.\n", 50, 0, 10, OTHER, FLOOR, FUSABLE2, UNACTIVABLE, REGULAR));
 	Entrance->list.push_back(Quiver);
@@ -138,10 +138,10 @@ void World::CreateWorld()
 		//enemies
 	entities.PushBack(new Monster(MONSTER_AGG, "harpy", "A monster with a big bird body and a human face, her claws seems sharpy.\n", 50, 0, 30, 400, 500));
 	Entrance->list.push_back(entities[i++]);
-	/*entities.PushBack(new Monster(MONSTER_AGG, "harpy", "A monster with a big bird body and a human face, her claws seems sharpy", 50, 0, 30, 400, 100));
-	Elm->list.push_back(entities[i++]);*/
+	entities.PushBack(new Monster(MONSTER_AGG, "centaur", "A centaur with a bow equipped, doesn't seem really friendly, like nearly everything on this world.", 75, 40, 15, 700, 750));
+	Elm->list.push_back(entities[i++]);
 
-		//no enemies
+		//non enemies
 	entities.PushBack(new Monster(MONSTER_NON_AGG, "friendly shadow", "A shadow from this world, he doesn't seem agressive like others.\n", 50, 0, 30, 400, 100));
 	entities[i]->list.push_back(SilverArmour);
 	entities[i]->list.push_back(IceBow);
