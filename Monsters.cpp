@@ -21,8 +21,7 @@ void Monster::UpdateCombat(String &command, Monster* enemy)
 
 	if (Wor->player->hp <= 0)
 	{
-		Wor->player->CombatMode = false;	
-		printf("Our hero %s died...", Wor->player->name.c_str());
+		Wor->player->CombatMode = false;
 	}
 }
 //--

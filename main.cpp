@@ -17,6 +17,12 @@ int main()
 	uint start_time = GetTickCount();
 	uint start_time_combat = GetTickCount();
 	uint start_time_item = GetTickCount();
+	Monster* cerberus = (Monster*)Wor->entities[0];
+	for (int i = 0; i <= NUM_ENTITIES; i++)
+	{
+		if (Wor->entities[i]->name == "cerberus")
+			cerberus = (Monster*)Wor->entities[i];
+	}
 	while (1)
 	{
 		if (GetTickCount() - start_time_combat > 2250 && Wor->player->CombatMode == true)
@@ -92,9 +98,17 @@ int main()
 			
 			if (Wor->player->hp <= 0)
 			{
-				printf("Our hero %s died in this adventure...\n\nThanks for playing Escape the Underworld!", Wor->player->name.c_str());
+				printf("Our hero %s died in this adventure...\n\n", Wor->player->name.c_str());
+				printf("Thanks for playing Escape the Underworld!\n\n\t- Created by Marc Latorre");
+				getchar();
 				break;
 			}
+			if (cerberus->hp <= 0)
+			{
+				Wor->Victory();
+				break;
+			}
+			
 
 			if (Wor->command == "quit")
 			{

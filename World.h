@@ -29,6 +29,8 @@ public:
 	Monster* monster;
 	void CreateWorld();
 	bool ExitGame()const;
+	void Victory();
+	bool GoodEnding = false;
 	void DeleteWorld();
 };
 

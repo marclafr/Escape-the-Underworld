@@ -189,6 +189,26 @@ bool World::ExitGame()const
 	return false;
 }
 
+void World::Victory()
+{
+	DoubleLinkList<Entity*>::nodeD* player_node = Wor->player->list.first_node;
+	for (; player_node != nullptr; player_node = player_node->next)
+	{
+		if (player_node->data->name == "strange artifact")
+			GoodEnding = true;
+	}
+	if (GoodEnding == true)
+	{
+		printf("Congratulations on your victory, you not only escaped, but got the artifact with you and now you can save your city from your enemies.\nYou are a truly hero!\n\n");
+	}
+	else
+	{
+		printf("Congratulations on your victory, you were able to escape the underworld, unfortunately you couldn't get the artifact you were looking for and your city is condemned... at least you are alive.\n\n");
+	}
+	printf("Thanks for playing Escape the Underworld!\n\n\t- Created by Marc Latorre");
+	getchar();
+}
+
 void World::DeleteWorld()
 {
 	for (int i = 0; i <= NUM_ENTITIES; i++)
