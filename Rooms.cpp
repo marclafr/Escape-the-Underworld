@@ -25,7 +25,7 @@ void Room::Look()const
 					}
 					else if (room_node->data->type == CORPSE)
 					{
-						printf(" - There is an %s corpse\n\n", room_node->data->name.c_str());
+						printf(" - There is a %s corpse\n\n", room_node->data->name.c_str());
 						NoItems = false;
 					}
 				}

@@ -7,7 +7,8 @@
 #ifndef __PLAYER__
 #define __PLAYER__
 
-#define SPECIAL_CD 20
+#define SPECIAL_ATT_CD 20
+#define SPECIAL_DEF_CD 120
 
 class Player :public Creature{
 public:
@@ -20,6 +21,7 @@ public:
 	void ReceiveCombatCommand(Vector<String> &tokens);	
 	bool EnterCombat(Vector<String> &tokens);
 	uint special_att_timer = GetTickCount();
+	uint special_def_timer = GetTickCount();
 	Monster* enemy = nullptr;
 	bool CombatMode = false;
 	uint random_protection;

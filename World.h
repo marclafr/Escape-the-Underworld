@@ -10,12 +10,12 @@
 #ifndef WORLD
 #define WORLD
 
-#define P_ORI_DAMAGE 45
+#define P_ORI_DAMAGE 95
 #define P_ORI_DEFENSE 26
 #define P_ORI_B_CHANCE 5
-#define P_ORI_HP 2500
+#define P_ORI_HP 3500
 
-#define NUM_ENTITIES 57
+#define NUM_ENTITIES 68
 
 class World{
 public:

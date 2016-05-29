@@ -90,6 +90,12 @@ int main()
 				num -= 2;
 			}
 			
+			if (Wor->player->hp <= 0)
+			{
+				printf("Our hero %s died in this adventure...\n\nThanks for playing Escape the Underworld!", Wor->player->name.c_str());
+				break;
+			}
+
 			if (Wor->command == "quit")
 			{
 				break;

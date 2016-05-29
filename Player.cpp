@@ -284,18 +284,26 @@ void Player::ReceiveCombatCommand(Vector<String> &tokens)
 	}
 	else if (tokens[0] == "protect")
 	{
-		if (ExtraDef == false)
+		if (GetTickCount() - special_def_timer > (SPECIAL_DEF_CD * 1000))
 		{
-			printf("Defense raised for this combat.\n\n");
-			random_protection = rand() % (Wor->player->defense / 2);
-			Wor->player->defense += random_protection;
-			ExtraDef = true;
+			if (ExtraDef == false)
+			{
+				special_def_timer = GetTickCount();
+				printf("Defense raised for this combat.\n\n");
+				random_protection = rand() % (Wor->player->defense / 2);
+				Wor->player->defense += random_protection;
+				ExtraDef = true;
+			}
+			else{ printf("Defense already raised! Try something else\n"); }
 		}
-		else{ printf("Defense already raised! Try something else\n"); }
+		else
+		{
+			printf("Your protect ability is in cooldown. Time remaining to use it again: %d seconds\n\n", SPECIAL_DEF_CD - ((GetTickCount() - special_def_timer) / 1000));
+		}
 	}
 	else if (tokens[0] == "special")
 	{
-		if (GetTickCount() - special_att_timer > (SPECIAL_CD * 1000))
+		if (GetTickCount() - special_att_timer > (SPECIAL_ATT_CD * 1000))
 		{
 			int damage = Wor->player->attack - enemy->defense;
 			int extra_damage = rand() % Wor->player->attack;
@@ -306,7 +314,7 @@ void Player::ReceiveCombatCommand(Vector<String> &tokens)
 		}
 		else
 		{
-			printf("Your special attack is in cooldown. Time remaining to use it: %d seconds\n\n", SPECIAL_CD - ((GetTickCount() - special_att_timer) / 1000));
+			printf("Your special attack is in cooldown. Time remaining to use it again: %d seconds\n\n", SPECIAL_ATT_CD - ((GetTickCount() - special_att_timer) / 1000));
 		}
 	}
 	else if (tokens[0] == "check")
