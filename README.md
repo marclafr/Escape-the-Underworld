@@ -32,6 +32,7 @@ VERSION 1.0
 ____________
 
 New commands:
+
 	BUY *MONSTER*:
 		In the entrance there is a shop (the monster is called "friendly shadow"). In order to look what he can sell you type 'buy "friendly shadow"'. You will need souls (earned by defeating enemies) to buy those items.
 
