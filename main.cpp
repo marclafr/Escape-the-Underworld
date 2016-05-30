@@ -42,7 +42,7 @@ int main()
 				}				
 			}
 		}
-		if (GetTickCount() - start_time > 30000)	//the rest of updates every 30 seconds
+		if (GetTickCount() - start_time > 20000)	//the rest of updates every 20 seconds
 		{
 			start_time = GetTickCount();
 			for (int i = 0; i <= NUM_ENTITIES; i++)

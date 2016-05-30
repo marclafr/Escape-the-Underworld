@@ -236,7 +236,15 @@ bool Player::Move(int direction)const
 						DoubleLinkList<Entity*>::nodeD* room_node = Wor->player->position->list.first_node;
 						for (; room_node != nullptr; room_node = room_node->next)
 						{
-							if (room_node->data->name == "harpy")
+							Monster* harpy = (Monster*)Wor->entities[0];
+							for (int i = 0; i <= NUM_ENTITIES; i++)
+							{
+								if (Wor->entities[i]->type == MONSTER_AGG && Wor->entities[i]->name == "harpy")
+								{
+									harpy = (Monster*)Wor->entities[i];
+								}
+							}
+							if (room_node->data->name == harpy->name && harpy->type != CORPSE)
 							{
 								printf("You moved into the room harpy actually is. Prepare to fight!\n");
 								Monster* harpy = (Monster*)Wor->entities[0];

@@ -508,12 +508,12 @@ bool Item::ActivateStatue(Vector<String> &tokens, int &ActiveStatues, int &Inven
 									case WEAPON:
 										if (WeapDone == false)
 										{
-											to_updrage->value += 50;		//Upgrade weapon stats
-											to_updrage->value2 += 8;
+											to_updrage->value += 80;		//Upgrade weapon stats
+											to_updrage->value2 += 1;
 											to_updrage->upgrade = UPGRADED;
 											to_updrage->description += "\tThis item is upgraded.\n\tIt has a bonus of 50 damage and 8 block chance.\n\n";
 											Wor->player->attack += 50;		//Same for the player (as the items are equipped)
-											Wor->player->block_chance += 8;
+											Wor->player->block_chance += 1;
 											printf("Weapon upgrade complete.\n");
 											StatueUsed = true;
 											WeapDone = true;
@@ -527,7 +527,7 @@ bool Item::ActivateStatue(Vector<String> &tokens, int &ActiveStatues, int &Inven
 											to_updrage->upgrade = UPGRADED;
 											to_updrage->description += "\tThis item is upgraded.\n\tIt has a bonus of 40 defense and 15 block chance.\n\n";
 											Wor->player->defense += 40;		//Same for the player (as the items are equipped)
-											Wor->player->block_chance += 15;
+											Wor->player->block_chance += 5;
 											printf("Armour upgrade complete.\n");
 											StatueUsed = true;
 											ArmDone = true;
@@ -537,11 +537,11 @@ bool Item::ActivateStatue(Vector<String> &tokens, int &ActiveStatues, int &Inven
 										if (ShiDone == false)
 										{
 											to_updrage->value += 30;		//Upgrade shield stats
-											to_updrage->value2 += 25;
+											to_updrage->value2 += 13;
 											to_updrage->upgrade = UPGRADED;
 											to_updrage->description += "\tThis item is upgraded.\n\tIt has a bonus of 30 defense and 25 block chance.\n\n";
 											Wor->player->defense += 30;		//Same for the player (as the items are equipped)
-											Wor->player->block_chance += 25;
+											Wor->player->block_chance += 13;
 											printf("Shield upgrade complete.\n");
 											StatueUsed = true;
 											ShiDone = true;

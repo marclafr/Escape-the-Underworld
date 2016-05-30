@@ -10,6 +10,7 @@ void Monster::UpdateCombat(String &command, Monster* enemy)
 	{
 		printf("Cerberus eyes had turned red!! that's not good... ");
 		enemy->attack += 100;
+		Wor->player->block_chance -= 10;
 		enemy->CerberusEnraged = true;
 	}
 	if (random <= Wor->player->block_chance){ printf("You dodged %s's attack!!\n\n", enemy->name); }
@@ -185,11 +186,14 @@ void Monster::Update()
 				{
 					if (RoomCorrect == true){ RoomCorrect = false; break; }
 					room = (Room*)Wor->entities[i];			//harpy actual room
-					DoubleLinkList<Entity*>::nodeD* room_node = room->list.first_node;
-					for (; room_node != nullptr; room_node = room_node->next)
+					if (room->list.size() > 1)
 					{
-						if (room_node->data->name == "harpy")
-							RoomCorrect = true;
+						DoubleLinkList<Entity*>::nodeD* room_node = room->list.first_node;
+						for (; room_node != nullptr; room_node = room_node->next)
+						{
+							if (room_node->data->name == "harpy")
+								RoomCorrect = true;
+						}
 					}
 				}
 			}

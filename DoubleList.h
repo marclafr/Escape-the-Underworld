@@ -167,27 +167,31 @@ public:
 
 	void erase(nodeD* del)
 	{
-		nodeD* temp = first_node;
-		if (temp != nullptr)
+		if (size() == 1){ delete del; }
+		else
 		{
-			if (del->previous == nullptr)
+			nodeD* temp = first_node;
+			if (temp != nullptr)
 			{
-				first_node = temp->next;
-				first_node->previous = nullptr;
+				if (del->previous == nullptr)
+				{
+					first_node = temp->next;
+					first_node->previous = nullptr;
+
+				}
+				else if (del->next == nullptr)
+				{
+					temp = del->previous;
+					temp->next = nullptr;
+				}
+				else
+				{
+					temp = del->previous;
+					temp->next = del->next;
+					temp->next->previous = del->previous;
+				}
+				delete del;
 			}
-			else if (del->next == nullptr)
-			{
-				temp = del->previous;
-				temp->next = nullptr;
-			}
-			else
-			{
-				temp = del->previous;
-				temp->next = del->next;
-				//temp = temp->next;
-				temp->next->previous = del->previous;
-			}
-			delete del;
 		}
 	}
 
