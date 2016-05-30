@@ -215,9 +215,8 @@ void World::DeleteWorld()const
 {
 	for (int i = 0; i <= NUM_ENTITIES; i++)
 	{
+		entities[i]->list.clear();
 		delete entities[i];
 	}
-	//TODO CLEAR LISTS 
 }
-//MEM_LEAKS at: 0x00720640    0x00721998  0x00721B50
 

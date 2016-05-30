@@ -50,7 +50,7 @@ void Monster::LookStore()
 			if (room == Wor->player->position)
 			{
 				DoubleLinkList<Entity*>::nodeD* npc_node = monster->list.first_node;
-				printf("Hello there stranger, would you like any of this?\n");
+				printf("Hello there stranger, would you like any of this?\n\n");
 				for (; npc_node != nullptr; npc_node = npc_node->next)
 				{
 					printf(" - %s: %s", npc_node->data->name.c_str(), npc_node->data->description.c_str());
@@ -237,7 +237,7 @@ void Monster::Update()
 					break;
 				}
 			}
-			//TODO CREATE CLEAR && clear possible_exits list
+			possible_exits.clear();
 		}
 	}
 }

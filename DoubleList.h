@@ -193,6 +193,29 @@ public:
 			if (first == true){ first_node = nullptr; }
 		}
 	}
+
+	void clear()
+	{
+		if (first_node != nullptr)
+		{
+			nodeD* temp = end();
+			if (temp->previous != nullptr)
+			{
+				nodeD* temp_prev = temp->previous;
+				for (; temp_prev->previous != nullptr; temp_prev = temp_prev->previous)
+				{
+					temp_prev->next = nullptr;
+					temp->previous = nullptr;
+					delete temp;
+					temp = temp_prev;
+				}
+				temp_prev->next = nullptr;
+				delete temp_prev;
+			}
+			else { delete temp; }
+			first_node = nullptr;
+		}
+	}
 };
 
 #endif //__DOUBLELINKEDLISTS__

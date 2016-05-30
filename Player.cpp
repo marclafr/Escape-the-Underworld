@@ -93,7 +93,10 @@ void Player::ReceiveCommand(Vector<String> &tokens, int num_words)const
 		}
 		else if (tokens[0] == "buy")
 		{
-			if (num_words == 2){ Wor->monster->LookStore(); }
+			if (num_words == 2){ 
+				if (tokens[1] == "friendly shadow"){ Wor->monster->LookStore(); } 
+				else{ printf("Buy what?\n"); }
+			}
 			else if (num_words == 4)
 			{
 				if (tokens[2] == "from")
