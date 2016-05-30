@@ -306,7 +306,7 @@ bool Item::UnequipItem(Vector<String> &tokens, int &WeaponCounter, int &ArmourCo
 }
 //--
 
-//Fuse Items TODO: AIN'T USING LISTS YET.
+//Fuse Items
 void Item::FuseItems(Vector<String> &tokens, int &InventoryCapacity, int &QuiverCapacityCounter)
 {
 	Item* item_1 = (Item*)Wor->entities[0];

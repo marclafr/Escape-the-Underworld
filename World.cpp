@@ -77,7 +77,6 @@ void World::CreateWorld()
 	entities.PushBack(player = new Player(player_name, " ", Entrance, P_ORI_DAMAGE + 7, P_ORI_DEFENSE, P_ORI_B_CHANCE, P_ORI_HP, 0));
 	//--
 	i++; //PLAYER
-			//TODO CHANGE PLAYER DESCRIPTION//
 
 	//Items:
 	Item* Coins;
