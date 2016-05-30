@@ -211,7 +211,7 @@ void World::Victory()
 	getchar();
 }
 
-void World::DeleteWorld()
+void World::DeleteWorld()const
 {
 	for (int i = 0; i <= NUM_ENTITIES; i++)
 	{

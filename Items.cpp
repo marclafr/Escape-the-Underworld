@@ -43,7 +43,7 @@ void Item::LookInventory(int &InventorySlots)const
 //--
 
 //Pick Items
-bool Item::PickItem(Vector<String> &tokens, int &InventorySlots)
+bool Item::PickItem(Vector<String> &tokens, int &InventorySlots)const
 {
 	if (InventorySlots < NUM_INVENTORY_SLOTS)
 	{
@@ -82,7 +82,7 @@ bool Item::PickItem(Vector<String> &tokens, int &InventorySlots)
 //--
 
 //Drop Items
-bool Item::DropItem(Vector<String> &tokens, int &InventorySlots)
+bool Item::DropItem(Vector<String> &tokens, int &InventorySlots)const
 {	
 	for (int i = 0; i <= NUM_ENTITIES; i++)
 	{
@@ -136,7 +136,7 @@ void Item::LookItem(Vector<String> &tokens)const
 //--
 
 //Equip Items
-bool Item::EquipItem(Vector<String> &tokens, int &WeaponCounter, int &ArmourCounter, int &ShieldCounter, int &QuiverCapacityCounter)
+bool Item::EquipItem(Vector<String> &tokens, int &WeaponCounter, int &ArmourCounter, int &ShieldCounter, int &QuiverCapacityCounter)const
 {
 	for (int i = 0; i <= NUM_ENTITIES; i++)
 	{
@@ -242,7 +242,7 @@ bool Item::EquipItem(Vector<String> &tokens, int &WeaponCounter, int &ArmourCoun
 //--
 
 //Unequip Items
-bool Item::UnequipItem(Vector<String> &tokens, int &WeaponCounter, int &ArmourCounter, int &ShieldCounter)
+bool Item::UnequipItem(Vector<String> &tokens, int &WeaponCounter, int &ArmourCounter, int &ShieldCounter)const
 {
 	for (int i = 0; i <= NUM_ENTITIES; i++)
 	{
@@ -307,7 +307,7 @@ bool Item::UnequipItem(Vector<String> &tokens, int &WeaponCounter, int &ArmourCo
 //--
 
 //Fuse Items
-void Item::FuseItems(Vector<String> &tokens, int &InventoryCapacity, int &QuiverCapacityCounter)
+void Item::FuseItems(Vector<String> &tokens, int &InventoryCapacity, int &QuiverCapacityCounter)const
 {
 	Item* item_1 = (Item*)Wor->entities[0];
 	Item* item_2 = (Item*)Wor->entities[0];
@@ -433,7 +433,7 @@ void Item::UnfuseItems(Vector<String> &tokens, int &InventoryCapacity, int &Quiv
 //--
 
 //Activate Statues
-bool Item::ActivateStatue(Vector<String> &tokens, int &ActiveStatues, int &InventorySlots)
+bool Item::ActivateStatue(Vector<String> &tokens, int &ActiveStatues, int &InventorySlots)const
 {
 	if (ActiveStatues < MAX_STATUES_ACTIVATED)
 	{
@@ -591,7 +591,7 @@ bool Item::ActivateStatue(Vector<String> &tokens, int &ActiveStatues, int &Inven
 //--
 
 //Desactivate Statues
-bool Item::DesactivateStatue(Vector<String> &tokens, int &ActiveStatues)
+bool Item::DesactivateStatue(Vector<String> &tokens, int &ActiveStatues)const
 {
 	Item* statue = (Item*)Wor->entities[0];
 	for (int i = 0; i <= NUM_ENTITIES; i++)

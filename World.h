@@ -31,7 +31,7 @@ public:
 	bool ExitGame()const;
 	void Victory();
 	bool GoodEnding = false;
-	void DeleteWorld();
+	void DeleteWorld()const;
 };
 
 extern World* Wor;

@@ -2,7 +2,7 @@
 #include "World.h"
 #include <Windows.h>
 
-void Player::ReceiveCommand(Vector<String> &tokens, int num_words)
+void Player::ReceiveCommand(Vector<String> &tokens, int num_words)const
 {
 	if (num_words > 1)
 	{
@@ -217,7 +217,7 @@ void Player::Stats()const
 //--
 
 //Player Movement
-bool Player::Move(int direction)
+bool Player::Move(int direction)const
 {
 	for (int i = 0; i <= NUM_ENTITIES; i++)
 	{
