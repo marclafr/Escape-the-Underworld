@@ -284,7 +284,7 @@ void Player::ReceiveCombatCommand(Vector<String> &tokens)
 	}
 	else if (tokens[0] == "protect")
 	{
-		if (GetTickCount() - special_def_timer > (SPECIAL_DEF_CD * 1000))
+		if (GetTickCount() - special_def_timer > (special_def_cd * 1000))
 		{
 			if (ExtraDef == false)
 			{
@@ -298,12 +298,12 @@ void Player::ReceiveCombatCommand(Vector<String> &tokens)
 		}
 		else
 		{
-			printf("Your protect ability is in cooldown. Time remaining to use it again: %d seconds\n\n", SPECIAL_DEF_CD - ((GetTickCount() - special_def_timer) / 1000));
+			printf("Your protect ability is in cooldown. Time remaining to use it again: %d seconds\n\n", special_def_cd - ((GetTickCount() - special_def_timer) / 1000));
 		}
 	}
 	else if (tokens[0] == "special")
 	{
-		if (GetTickCount() - special_att_timer > (SPECIAL_ATT_CD * 1000))
+		if (GetTickCount() - special_att_timer > (special_att_cd * 1000))
 		{
 			int damage = Wor->player->attack - enemy->defense;
 			int extra_damage = rand() % Wor->player->attack;
@@ -314,7 +314,7 @@ void Player::ReceiveCombatCommand(Vector<String> &tokens)
 		}
 		else
 		{
-			printf("Your special attack is in cooldown. Time remaining to use it again: %d seconds\n\n", SPECIAL_ATT_CD - ((GetTickCount() - special_att_timer) / 1000));
+			printf("Your special attack is in cooldown. Time remaining to use it again: %d seconds\n\n", special_att_cd - ((GetTickCount() - special_att_timer) / 1000));
 		}
 	}
 	else if (tokens[0] == "check")
@@ -337,6 +337,7 @@ void Player::ReceiveCombatCommand(Vector<String> &tokens)
 	{
 		ExtraDef = false;
 		enemy->type = CORPSE;
+		Wor->player->defense -= random_protection;
 		CombatMode = false;
 		printf("%s died, you received %i souls.\n\n", enemy->name.c_str(), enemy->souls);
 		Wor->player->souls += enemy->souls;

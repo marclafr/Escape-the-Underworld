@@ -568,6 +568,15 @@ bool Item::ActivateStatue(Vector<String> &tokens, int &ActiveStatues, int &Inven
 						ActiveStatues++;
 						return true;
 					}
+					else if (statue->name == "chronos statue")
+					{
+						statue->state = ACTIVATED;
+						printf("Chronos statue activated.\n\n");
+						Wor->player->special_att_cd -= statue->value;
+						Wor->player->special_def_cd -= statue->value2;
+						ActiveStatues++;
+						return true;
+					}
 				}
 				else if (statue->state == ACTIVATED){ printf("%s is already activated.\n\n", statue->name.c_str()); return true; }
 				else if (statue->state == DESTROYED){ printf("%s had been destroyed.\n\n", statue->name.c_str()); return true; }
@@ -639,6 +648,15 @@ bool Item::DesactivateStatue(Vector<String> &tokens, int &ActiveStatues)
 				{
 					statue->state = DESACTIVATED;
 					printf("Aphrodite statue desactivated.\n\n");
+					ActiveStatues--;
+					return true;
+				}
+				else if (statue->name == "chronos statue")
+				{
+					statue->state = DESACTIVATED;
+					printf("Chronos statue desactivated.\n\n");
+					Wor->player->special_att_cd += statue->value;
+					Wor->player->special_def_cd += statue->value2;
 					ActiveStatues--;
 					return true;
 				}

@@ -53,15 +53,8 @@ void Monster::LookStore()
 				printf("Hello there stranger, would you like any of this?\n");
 				for (; npc_node != nullptr; npc_node = npc_node->next)
 				{
-					for (int j = 0; j <= NUM_ENTITIES; j++)
-					{
-						if (npc_node->data->name == Wor->entities[j]->name)
-						{
-							Item* item = (Item*)Wor->entities[j];
-							printf(" - %s: %sPrice: %i souls.\n\n\n", npc_node->data->name.c_str(), npc_node->data->description.c_str(), item->price);
-							NoItems = false;
-						}
-					}
+					printf(" - %s: %s", npc_node->data->name.c_str(), npc_node->data->description.c_str());
+					NoItems = false;
 				}
 			}
 			else{ printf("%s is not here...\n\n", monster->name.c_str()); NoItems = false; }

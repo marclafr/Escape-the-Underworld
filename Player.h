@@ -7,9 +7,6 @@
 #ifndef __PLAYER__
 #define __PLAYER__
 
-#define SPECIAL_ATT_CD 20
-#define SPECIAL_DEF_CD 120
-
 class Player :public Creature{
 public:
 	Room* position = nullptr;
@@ -24,6 +21,8 @@ public:
 	uint special_def_timer = GetTickCount();
 	Monster* enemy = nullptr;
 	bool CombatMode = false;
+	int special_att_cd = 20;
+	int special_def_cd = 120;
 	uint random_protection;
 	bool ExtraDef = false;
 };
