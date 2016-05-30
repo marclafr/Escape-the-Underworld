@@ -6,6 +6,12 @@
 void Monster::UpdateCombat(String &command, Monster* enemy)
 {
 	int random = rand() % 100;
+	if (enemy->name == "cerberus" && enemy->hp <= 1500 && enemy->CerberusEnraged == false)
+	{
+		printf("Cerberus eyes had turned red!! that's not good... ");
+		enemy->attack += 100;
+		enemy->CerberusEnraged = true;
+	}
 	if (random <= Wor->player->block_chance){ printf("You dodged %s's attack!!\n\n", enemy->name); }
 	else
 	{
@@ -182,7 +188,7 @@ void Monster::Update()
 			bool RoomCorrect = false;
 			for (int i = 0; i <= NUM_ENTITIES; i++)
 			{
-				if (Wor->entities[i]->type == ROOM)	//TODO change elm for look 4 room
+				if (Wor->entities[i]->type == ROOM)
 				{
 					if (RoomCorrect == true){ RoomCorrect = false; break; }
 					room = (Room*)Wor->entities[i];			//harpy actual room

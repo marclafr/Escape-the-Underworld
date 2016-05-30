@@ -13,6 +13,7 @@ public:
 	void LookStore();
 	bool BuyItem(Vector<String>&, int &);
 	bool SellItem(Vector<String>&, int &);
+	bool CerberusEnraged = false;
 };
 
 #endif //__MONSTERS__

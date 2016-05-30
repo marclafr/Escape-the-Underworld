@@ -129,7 +129,7 @@ void Player::ReceiveCommand(Vector<String> &tokens, int num_words)
 		if (Wor->command == "@upgrade")
 		{
 			Wor->player->hp = 10000;
-			Wor->player->attack = 2500;
+			Wor->player->attack = 2000;
 			Wor->player->defense = 1000;
 			Wor->player->block_chance = 90;
 			printf("Stats upgraded.\n\n");
