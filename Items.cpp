@@ -7,31 +7,34 @@
 void Item::LookInventory(int &InventorySlots)const
 {
 	DoubleLinkList<Entity*>::nodeD* player_node = Wor->player->list.first_node;
-	for (; player_node!=nullptr; player_node = player_node->next)
+	if (Wor->player->list.size() > 0)
 	{
-		if (player_node->data->type == ITEM)
+		for (; player_node != nullptr; player_node = player_node->next)
 		{
-			Item* item = (Item*)Wor->entities[0];
-			for (int i = 0; i <= NUM_ENTITIES; i++)
+			if (player_node->data->type == ITEM)
 			{
-				item = (Item*)Wor->entities[i];
-				if (item == player_node->data)
+				Item* item = (Item*)Wor->entities[0];
+				for (int i = 0; i <= NUM_ENTITIES; i++)
 				{
-					switch (item->place)
+					item = (Item*)Wor->entities[i];
+					if (item == player_node->data)
 					{
-					case EQUIPPED:
-						printf("%s(Equipped):  %s\n", player_node->data->name.c_str(), player_node->data->description.c_str());
-						break;
-					case INVENTORY:
-						if (item->fuse == FUSABLE1 || item->fuse == FUSABLE2 || item->fuse == UNFUSABLE)
+						switch (item->place)
 						{
-							printf("%s:  %s\n", player_node->data->name.c_str(), player_node->data->description.c_str());
+						case EQUIPPED:
+							printf("%s(Equipped):  %s\n", player_node->data->name.c_str(), player_node->data->description.c_str());
+							break;
+						case INVENTORY:
+							if (item->fuse == FUSABLE1 || item->fuse == FUSABLE2 || item->fuse == UNFUSABLE)
+							{
+								printf("%s:  %s\n", player_node->data->name.c_str(), player_node->data->description.c_str());
+							}
+							else if (item->place == INVENTORY && item->fuse == FUSED)
+							{
+								printf("%s(Fused):  %s \n", player_node->data->name.c_str(), player_node->data->description.c_str());
+							}
+							break;
 						}
-						else if (item->place == INVENTORY && item->fuse == FUSED)
-						{
-							printf("%s(Fused):  %s \n", player_node->data->name.c_str(), player_node->data->description.c_str());
-						}
-						break;
 					}
 				}
 			}
@@ -511,8 +514,8 @@ bool Item::ActivateStatue(Vector<String> &tokens, int &ActiveStatues, int &Inven
 											to_updrage->value += 80;		//Upgrade weapon stats
 											to_updrage->value2 += 1;
 											to_updrage->upgrade = UPGRADED;
-											to_updrage->description += "\tThis item is upgraded.\n\tIt has a bonus of 50 damage and 8 block chance.\n\n";
-											Wor->player->attack += 50;		//Same for the player (as the items are equipped)
+											to_updrage->description += "\tThis item is upgraded.\n\tIt has a bonus of 80 damage and 1 block chance.\n\n";
+											Wor->player->attack += 80;		//Same for the player (as the items are equipped)
 											Wor->player->block_chance += 1;
 											printf("Weapon upgrade complete.\n");
 											StatueUsed = true;
@@ -523,9 +526,9 @@ bool Item::ActivateStatue(Vector<String> &tokens, int &ActiveStatues, int &Inven
 										if (ArmDone == false)
 										{
 											to_updrage->value += 40;		//Upgrade armour stats
-											to_updrage->value2 += 15;
+											to_updrage->value2 += 5;
 											to_updrage->upgrade = UPGRADED;
-											to_updrage->description += "\tThis item is upgraded.\n\tIt has a bonus of 40 defense and 15 block chance.\n\n";
+											to_updrage->description += "\tThis item is upgraded.\n\tIt has a bonus of 40 defense and 5 block chance.\n\n";
 											Wor->player->defense += 40;		//Same for the player (as the items are equipped)
 											Wor->player->block_chance += 5;
 											printf("Armour upgrade complete.\n");
@@ -539,7 +542,7 @@ bool Item::ActivateStatue(Vector<String> &tokens, int &ActiveStatues, int &Inven
 											to_updrage->value += 30;		//Upgrade shield stats
 											to_updrage->value2 += 13;
 											to_updrage->upgrade = UPGRADED;
-											to_updrage->description += "\tThis item is upgraded.\n\tIt has a bonus of 30 defense and 25 block chance.\n\n";
+											to_updrage->description += "\tThis item is upgraded.\n\tIt has a bonus of 30 defense and 13 block chance.\n\n";
 											Wor->player->defense += 30;		//Same for the player (as the items are equipped)
 											Wor->player->block_chance += 13;
 											printf("Shield upgrade complete.\n");

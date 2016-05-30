@@ -167,7 +167,11 @@ public:
 
 	void erase(nodeD* del)
 	{
-		if (size() == 1){ delete del; }
+		if (size() == 1)
+		{
+			delete del;
+			first_node = nullptr;
+		}
 		else
 		{
 			nodeD* temp = first_node;

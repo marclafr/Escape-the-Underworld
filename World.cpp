@@ -119,7 +119,7 @@ void World::CreateWorld()
 	entities.PushBack(Armour = new Item("armour", "A regular armour. Looks resistant and\nDefense: 55.\nBlock chance: 5.\nPrice: 1000 Souls.\n\n", 55, 5, 1000, ARMOUR, STORE, UNFUSABLE, UNACTIVABLE, REGULAR));
 	entities.PushBack(DestroyedShield = new Item("destroyed shield", "This shield isn't a shield anymore...\nDefense: 1.\nBlock chance: 0.\nPrice: 15 Souls.\n\n", 1, 0, 15, SHIELD, EQUIPPED, UNFUSABLE, UNACTIVABLE, REGULAR));
 	player->list.push_back(DestroyedShield);
-	entities.PushBack(UnknownShield = new Item("unknown shield", "You have never seen a shield like this one, its colours change...\nDefense: 90.\nBlock chance: 50.\nPrice: 5000 Souls.\n\n", 90, 50, 5000, SHIELD, STORE, UNFUSABLE, UNACTIVABLE, REGULAR));
+	entities.PushBack(UnknownShield = new Item("unknown shield", "You have never seen a shield like this one, its colours change...\nDefense: 90.\nBlock chance: 40.\nPrice: 5000 Souls.\n\n", 90, 40, 5000, SHIELD, STORE, UNFUSABLE, UNACTIVABLE, REGULAR));
 	entities.PushBack(StrangeArtifact = new Item("strange artifact", "You had never seen something like this, maybe it is the artifact you were looking for?\nPrice: 5900 Souls.\n\n", 0, 0, 5900, OTHER, STORE, UNFUSABLE, UNACTIVABLE, REGULAR));
 	entities.PushBack(HadesStatue = new Item("hades statue", "A shiny statue of the god Hades.\nIt may be useful in his world.\nPrice: 750 Souls.\n\n", 0, 0, 750, STATUE, STORE, UNFUSABLE, DESACTIVATED, REGULAR));
 	entities.PushBack(HephaestusStatue = new Item("hephaestus statue", "A shiny statue of the god Hephaestus.\nIt may be useful in his world.\nPrice: 2000 Souls.\n\n", 0, 0, 2000, STATUE, FLOOR, UNFUSABLE, DESACTIVATED, REGULAR));

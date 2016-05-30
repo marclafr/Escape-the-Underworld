@@ -106,6 +106,7 @@ void Player::ReceiveCommand(Vector<String> &tokens, int num_words)const
 						printf("I haven't this.\n\n");
 					}
 				}
+				else{ printf("Buy what?\n"); }
 			}
 			else{ printf("Buy what?\n"); }
 		}
@@ -117,6 +118,7 @@ void Player::ReceiveCommand(Vector<String> &tokens, int num_words)const
 				{
 					Wor->monster->SellItem(tokens, Wor->Counters[0]);
 				}
+				else{ printf("Sell what?\n"); }
 			}
 			else{ printf("Sell what?\n"); }
 		}
@@ -166,7 +168,9 @@ void Player::ReceiveCommand(Vector<String> &tokens, int num_words)const
 			}	//help menu will be more readable if you start the game and introduce "help" :)
 			else if (Wor->command == "inventory" || Wor->command == "inv" || Wor->command == "i"){ Wor->items->LookInventory(Wor->Counters[0]); }
 			else if (Wor->command == "stats"){ Wor->player->Stats(); }
-			else if (Wor->command == "quit"){ printf("Goodbye! :)\n"); getchar(); }
+			else if (Wor->command == "quit"){ 
+				printf("Goodbye! :)\n");
+				getchar(); }
 			else
 			{
 				printf("I can't understand that.\n\n");
@@ -335,6 +339,10 @@ void Player::ReceiveCombatCommand(Vector<String> &tokens)
 		printf("Defense: %i.\n", enemy->defense);
 		printf("Block chance: %i.\n", enemy->block_chance);
 		printf("Souls: %i.\n\n", enemy->souls);
+	}
+	else if (tokens[0] == "stats")
+	{
+		Wor->player->Stats();
 	}
 	//God Mode
 	else if (tokens[0] == "@kill")

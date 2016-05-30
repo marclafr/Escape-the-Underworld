@@ -115,8 +115,7 @@ int main()
 				break;
 			}
 		}
-	}
-	
+	}	
 	Wor->DeleteWorld();
 	delete Wor;
 	return 0;
