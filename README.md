@@ -79,7 +79,7 @@ GOD MODE implemented:
 		Kills the enemy you were against immediately.
 
 
-	COMMANDS UPDATES FROM LAST VERSION:
+COMMANDS UPDATES FROM LAST VERSION:
 
 	- "look around" now also gives the monsters that are in the room.
 
