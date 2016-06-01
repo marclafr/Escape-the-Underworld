@@ -32,6 +32,7 @@ VERSION 1.0
 ____________
 
 New commands:
+
 	BUY *MONSTER*:
 		In the entrance there is a shop (the monster is called "friendly shadow"). In order to look what he can sell you type 'buy "friendly shadow"'. You will need souls (earned by defeating enemies) to buy those items.
 
@@ -78,7 +79,7 @@ GOD MODE implemented:
 
 COMMANDS UPDATES FROM LAST VERSION:
 
-	- "look around" now also gives the monsters that are in the room.
+	- "look around" now also gives the monsters that are in the room (or the corpse if you killed him).
 
 ____________
 VERSION 0.5
