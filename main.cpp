@@ -25,7 +25,7 @@ int main()
 	}
 	while (1)
 	{
-		if (GetTickCount() - start_time_combat > 2250 && Wor->player->CombatMode == true)
+		if (GetTickCount() - start_time_combat > 1750 && Wor->player->CombatMode == true)
 		{
 			start_time_combat = GetTickCount();
 			Wor->monster->UpdateCombat(Wor->command, Wor->player->enemy);
@@ -94,26 +94,25 @@ int main()
 			else if (key == '\b' && num > 1) //backspace
 			{
 				num -= 2;
-			}
-			
-			if (Wor->player->hp <= 0)
-			{
-				printf("Our hero %s died in this adventure...\n\n", Wor->player->name.c_str());
-				printf("Thanks for playing Escape the Underworld!\n\n\t- Created by Marc Latorre");
-				getchar();
-				break;
-			}
-			if (cerberus->hp <= 0)
-			{
-				Wor->Victory();
-				break;
-			}
-			
+			}			
 
 			if (Wor->command == "quit")
 			{
 				break;
 			}
+		}
+
+		if (Wor->player->hp <= 0)
+		{
+			printf("Our hero %s died in this adventure...\n\n", Wor->player->name.c_str());
+			printf("Thanks for playing Escape the Underworld!\n\n\t- Created by Marc Latorre");
+			getchar();
+			break;
+		}
+		if (cerberus->hp <= 0)
+		{
+			Wor->Victory();
+			break;
 		}
 	}	
 	Wor->DeleteWorld();

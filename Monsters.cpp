@@ -13,6 +13,22 @@ void Monster::UpdateCombat(String &command, Monster* enemy)
 		Wor->player->block_chance -= 10;
 		enemy->CerberusEnraged = true;
 	}
+	int random2 = rand() % 100;
+	if (random2 <= enemy->block_chance)
+	{
+		printf("%s dodged your attack!!\n\n", enemy->name);
+	}
+	else
+	{
+		int damage = Wor->player->attack - enemy->defense;
+		if (damage > 0)
+		{
+			printf("You hit %s for %i damage.\n\n", enemy->name.c_str(), damage);
+			enemy->hp -= damage;
+		}
+		else { printf("Your attacks seem to do nothing...\n\n"); }
+	}
+
 	if (random <= Wor->player->block_chance){ printf("You dodged %s's attack!!\n\n", enemy->name); }
 	else
 	{
@@ -25,10 +41,19 @@ void Monster::UpdateCombat(String &command, Monster* enemy)
 		}
 		else{ printf("no damage, you have a nice defense. :)\n\n"); }
 	}
-
+	
 	if (Wor->player->hp <= 0)
 	{
 		Wor->player->CombatMode = false;
+	}
+	if (enemy->hp <= 0)
+	{
+		Wor->player->ExtraDef = false;
+		enemy->type = CORPSE;
+		Wor->player->defense -= Wor->player->random_protection;
+		Wor->player->CombatMode = false;
+		printf("%s died, you received %i souls.\n\n", enemy->name.c_str(), enemy->souls);
+		Wor->player->souls += enemy->souls;
 	}
 }
 //--

@@ -46,10 +46,7 @@ New commands:
 		There is only one creature that will attack you if he reaches the same room that you (the harpy, she is moving around the map so be prepared).
 
 		DURING COMBAT:
-		New commands that can only be used while in combat:
-
-			ATTACK:
-				A regular attack. Could be dodged by monsters.
+			The basic combat is automatic, but you can use this commands (only while in combat):
 
 			PROTECT:
 				One of your 2 special abilities. Raises your defense for this combat. Only one time for combat and has a cooldown of 2 minutes.

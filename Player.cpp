@@ -164,7 +164,7 @@ void Player::ReceiveCommand(Vector<String> &tokens, int num_words)const
 		{
 			if (Wor->command == "help")
 			{
-				printf("Help menu: \nTo move north, introduce north, n or go north.\nTo move south, introduce south, s or go south.\nTo move east, introduce east, e or go east.\nTo move west, introduce west, w or go west.\n\n The command 'look around' descrives the place you are in, the items and the monsters that are in the room.\n\nlook + (direction): describe the path you want to take, but you can't see the items there are if you are not in the same room.\n\nThere are some locked doors, to open or close them use the commands 'open'/'close': Opens or closes a door if it is possible, then the game will ask you the direction the door is.\nNOTICE: if you type, for example, open north directly it won't work!\n\nThe command 'inventory', 'inv', or 'i' allows you to look the items there are in your inventory and the ones that are equipped (if you have any).\nIt also tells you its free space.\n\nIn order to equip or unequip an item, introduce 'equip / unequip <item>'\nThere is a limit of items that could be equipped (1 armour, 1 weapon and 1 shield).\n\nBefore being able to equip an item it must be in the inventory, with the command 'pick <item>' you will get the item you introduce if it is in the same room as you are, and if you need space in your inventory you can drop an item with 'drop <item>'.\n\nIn order to save inventory space you can put items into anothers and get them after(only a few) with the commands 'put <item> into <item>' and 'get <item> from <item>'\n\nThe statues can be used with the command 'activate <name> statue', but you can only have 2 of them activated at the same time, so you can also desactivate them with 'desactivate <name> statue'\n\nYour player have stats, that can be changed deppending on the items you have equipped, to check them introduce the command 'stats'.\n\nRelated to buy and sell items commands:\n -buy <monster>: List of items the monster sells.\n -buy <item> from <monster>: buy an item from the monster.\n -sell <item> to <monster>: sells an item to the monster.\n\nRelated to the combat:\n -Attack <monster>: Enters in combat mode.\n\tONLY while in combat mode you have this commands:\n -attack: a regular attack.\n -check: checks enemy stats.\n -protect:special defensive ability: raise your defense for this combat (2 minutes cooldown).\n -special: special aggresive ability: does an attack with extra damage that can't be dodged (20 seconds cooldown).\n\nquit: quits the game.\n");
+				printf("Help menu: \nTo move north, introduce north, n or go north.\nTo move south, introduce south, s or go south.\nTo move east, introduce east, e or go east.\nTo move west, introduce west, w or go west.\n\n The command 'look around' descrives the place you are in, the items and the monsters that are in the room.\n\nlook + (direction): describe the path you want to take, but you can't see the items there are if you are not in the same room.\n\nThere are some locked doors, to open or close them use the commands 'open'/'close': Opens or closes a door if it is possible, then the game will ask you the direction the door is.\nNOTICE: if you type, for example, open north directly it won't work!\n\nThe command 'inventory', 'inv', or 'i' allows you to look the items there are in your inventory and the ones that are equipped (if you have any).\nIt also tells you its free space.\n\nIn order to equip or unequip an item, introduce 'equip / unequip <item>'\nThere is a limit of items that could be equipped (1 armour, 1 weapon and 1 shield).\n\nBefore being able to equip an item it must be in the inventory, with the command 'pick <item>' you will get the item you introduce if it is in the same room as you are, and if you need space in your inventory you can drop an item with 'drop <item>'.\n\nIn order to save inventory space you can put items into anothers and get them after(only a few) with the commands 'put <item> into <item>' and 'get <item> from <item>'\n\nThe statues can be used with the command 'activate <name> statue', but you can only have 2 of them activated at the same time, so you can also desactivate them with 'desactivate <name> statue'\n\nYour player have stats, that can be changed deppending on the items you have equipped, to check them introduce the command 'stats'.\n\nRelated to buy and sell items commands:\n -buy <monster>: List of items the monster sells.\n -buy <item> from <monster>: buy an item from the monster.\n -sell <item> to <monster>: sells an item to the monster.\n\nRelated to the combat:\n -Attack <monster>: Enters in combat mode (basic attacks and monsters attacks are automatic.\n\tONLY while in combat mode you have this commands:\n -stats: checks your stats (same that when out of combat)\n -check: checks enemy stats.\n -protect:special defensive ability: raise your defense for this combat (2 minutes cooldown).\n -special: special aggresive ability: does an attack with extra damage that can't be dodged (20 seconds cooldown).\n\nquit: quits the game.\n");
 			}	//help menu will be more readable if you start the game and introduce "help" :)
 			else if (Wor->command == "inventory" || Wor->command == "inv" || Wor->command == "i"){ Wor->items->LookInventory(Wor->Counters[0]); }
 			else if (Wor->command == "stats"){ Wor->player->Stats(); }
@@ -278,25 +278,7 @@ bool Player::Move(int direction)const
 //Combat commands
 void Player::ReceiveCombatCommand(Vector<String> &tokens)
 {
-	if (tokens[0] == "attack")
-	{
-		int random = rand() % 100;
-		if (random <= enemy->block_chance)
-		{
-			printf("%s dodged your attack!!\n\n", enemy->name);
-		}
-		else
-		{
-			int damage = Wor->player->attack - enemy->defense;
-			if (damage > 0)
-			{
-				printf("You hit %s for %i damage.\n\n", enemy->name.c_str(), damage);
-				enemy->hp -= damage;
-			}
-			else { printf("Your attacks seem to do nothing...\n\n"); }
-		}
-	}
-	else if (tokens[0] == "protect")
+	if (tokens[0] == "protect")
 	{
 		if (GetTickCount() - special_def_timer > (special_def_cd * 1000))
 		{
@@ -382,13 +364,6 @@ bool Player::EnterCombat(Vector<String> &tokens)
 						{
 							enemy = (Monster*)Wor->entities[i];
 							CombatMode = true;
-							int damage = Wor->player->attack - enemy->defense;
-							if (damage > 0)
-							{
-								printf("You hit %s for %i damage.\n\n", enemy->name.c_str(), damage);
-								enemy->hp -= damage;
-							}
-							else { printf("Your attacks seem to do nothing...\n\n"); }
 							return true;
 						}
 						else if (Wor->entities[i]->name == tokens[1] && Wor->entities[i]->type == MONSTER_NON_AGG)
